@@ -1,0 +1,29 @@
+# IA Framework .gitignore
+
+# Credentials - NEVER COMMIT
+.env
+.env.*
+!.env.example
+.credentials.json
+
+# User data
+.claude/sessions/
+!.claude/sessions/README.md
+.claude/plans/
+!.claude/plans/README.md
+.claude/output/
+!.claude/output/README.md
+
+# Runtime
+__pycache__/
+*.pyc
+.cache/
+*.cache
+
+# IDE
+.vscode/
+.idea/
+
+# System
+.DS_Store
+Thumbs.db

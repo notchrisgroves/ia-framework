@@ -1,0 +1,67 @@
+type: tool
+name: openrouter
+description: "OpenRouter API client for multi-model AI access (Grok, Perplexity, etc.)"
+category: research
+subcategory: ai_models
+version: 1.0.0
+
+executable: fetch_models.py
+language: python
+
+dependencies:
+  - requests
+  - python-dotenv
+
+capabilities:
+  - ai_model_discovery
+  - multi_model_access
+  - dynamic_model_selection
+
+keywords:
+  - openrouter
+  - grok
+  - perplexity
+  - ai models
+  - llm
+
+usage: |
+  python fetch_models.py --provider x-ai --output models.json
+
+inputs:
+  - name: provider
+    type: string
+    required: false
+    description: "Filter models by provider (e.g., x-ai, perplexity)"
+
+  - name: output
+    type: filepath
+    required: true
+    description: "Output JSON file for model list"
+
+output_format: json
+output_schema: |
+  {
+    "models": [
+      {
+        "id": "x-ai/grok-2-vision-1212",
+        "name": "Grok 2 Vision",
+        "provider": "x-ai"
+      }
+    ]
+  }
+
+vps_required: false
+estimated_runtime: "1-2 seconds"
+
+examples:
+  - command: "python fetch_models.py --provider x-ai --output grok-models.json"
+    description: "Fetch all x-ai (Grok) models"
+
+  - command: "python fetch_models.py --output all-models.json"
+    description: "Fetch all available models"
+
+related_tools:
+  - tools/research/perplexity-search
+
+author: "IA Framework"
+last_updated: "2025-12-12"

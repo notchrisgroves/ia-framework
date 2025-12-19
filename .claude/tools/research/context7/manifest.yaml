@@ -1,0 +1,67 @@
+type: tool
+name: context7
+description: "Context7 library documentation API wrapper for token-efficient docs access"
+category: research
+subcategory: documentation
+version: 1.0.0
+
+executable: docs.py
+language: python
+
+dependencies:
+  - requests
+  - python-dotenv
+
+capabilities:
+  - library_documentation
+  - api_documentation_search
+  - smart_caching
+
+keywords:
+  - documentation
+  - library docs
+  - context7
+  - api reference
+
+usage: |
+  python docs.py --library "react" --topic "hooks" --output docs.json
+
+inputs:
+  - name: library
+    type: string
+    required: true
+    description: "Library name to search (e.g., react, next.js)"
+
+  - name: topic
+    type: string
+    required: false
+    description: "Specific topic within library (e.g., hooks, ssr)"
+
+  - name: output
+    type: filepath
+    required: true
+    description: "Output JSON file for documentation"
+
+output_format: json
+output_schema: |
+  {
+    "library": "react",
+    "topic": "hooks",
+    "documentation": "..."
+  }
+
+vps_required: false
+estimated_runtime: "1-3 seconds"
+
+examples:
+  - command: "python docs.py --library react --topic hooks --output react-hooks.json"
+    description: "Fetch React hooks documentation"
+
+  - command: "python docs.py --library next.js --output nextjs-docs.json"
+    description: "Fetch all Next.js documentation"
+
+related_tools:
+  - tools/research/openrouter
+
+author: "IA Framework"
+last_updated: "2025-12-12"
