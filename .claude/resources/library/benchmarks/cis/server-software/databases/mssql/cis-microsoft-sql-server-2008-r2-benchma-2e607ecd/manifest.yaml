@@ -1,0 +1,9 @@
+name: CIS Microsoft SQL Server 2008 R2 Benchmark v1.7.0 ARCHIVE
+version: 1.7.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 96
+published: '2025-12-12'

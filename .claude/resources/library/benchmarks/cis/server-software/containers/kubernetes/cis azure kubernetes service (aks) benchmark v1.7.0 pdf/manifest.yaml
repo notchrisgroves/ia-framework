@@ -1,0 +1,9 @@
+name: CIS Azure Kubernetes Service (AKS) Benchmark v1.7.0 PDF
+type: benchmark
+provider: cis
+platform: azure
+skills:
+- secure-config
+- benchmark-generation
+pages: 161
+published: '2025-12-12'

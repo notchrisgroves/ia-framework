@@ -83,6 +83,7 @@ See `docs/CREDENTIAL-HANDLING-ENFORCEMENT.md`
 ```
 ia-framework/
 ├── CLAUDE.md                     (This file - navigation)
+├── BACKLOG.md                    (Task tracking - check before starting work)
 ├── .env                          (API keys - gitignored)
 ├── settings.json                 (Framework config)
 ├── agents/                       (Specialized agents)
@@ -100,6 +101,8 @@ ia-framework/
 ```
 
 **Output Directory:** All engagement deliverables and blog content go in `output/` (see `docs/FILE-LOCATION-STANDARDS.md`)
+
+**Task Tracking:** Check `BACKLOG.md` for ongoing work before starting new tasks
 
 ---
 
@@ -156,6 +159,6 @@ See `docs/README-MAINTENANCE-DESIGN.md`
 
 ---
 
-**Version:** 4.0 (Universal design)
-**Last Updated:** 2025-12-17
+**Version:** 1.0.0
+**Last Updated:** 2025-12-19
 **Framework:** Intelligence Adjacent (IA)

@@ -1,0 +1,10 @@
+name: CIS Aliyun Linux 2 Benchmark v1.0.0 ARCHIVE
+version: 1.0.0
+type: benchmark
+provider: cis
+platform: linux
+skills:
+- secure-config
+- benchmark-generation
+pages: 358
+published: '2025-12-12'

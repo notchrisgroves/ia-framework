@@ -1,0 +1,10 @@
+name: CIS Ubuntu Linux 16.04 LTS Benchmark v2.0.0 ARCHIVE
+version: 2.0.0
+type: benchmark
+provider: cis
+platform: linux
+skills:
+- secure-config
+- benchmark-generation
+pages: 542
+published: '2025-12-12'

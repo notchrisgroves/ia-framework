@@ -1,0 +1,9 @@
+name: CIS Microsoft SharePoint 2019 Benchmark v1.0.0 ARCHIVE
+version: 1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 85
+published: '2025-12-12'

@@ -1,0 +1,67 @@
+name: diagram-generation
+version: "1.0"
+description: Generate and export diagrams from text definitions (Mermaid, PlantUML, etc.)
+
+category: tooling
+tags:
+  - diagrams
+  - mermaid
+  - documentation
+  - blog
+  - visualization
+
+dependencies:
+  required:
+    - name: "@mermaid-js/mermaid-cli"
+      type: npm
+      install: "npm install -g @mermaid-js/mermaid-cli"
+      verify: "mmdc --version"
+  optional:
+    - name: kroki
+      type: docker
+      install: "docker run -d -p 8000:8000 yuzutech/kroki"
+      description: "Extended diagram format support"
+
+scripts:
+  - name: export-diagram
+    path: scripts/export-diagram.py
+    description: Export Mermaid/Kroki diagrams to PNG/SVG
+    usage: "python scripts/export-diagram.py input.mmd -o output.png"
+
+  - name: setup-tools
+    path: scripts/setup-tools.sh
+    description: Install diagram generation dependencies
+    usage: "./scripts/setup-tools.sh"
+
+workflows:
+  - name: github-diagram
+    path: workflows/github-diagram.md
+    description: Inline Mermaid for GitHub documentation
+
+  - name: blog-export
+    path: workflows/blog-export.md
+    description: Export diagrams for Ghost blog posts
+
+supported_formats:
+  mermaid:
+    - flowchart
+    - sequenceDiagram
+    - classDiagram
+    - stateDiagram-v2
+    - erDiagram
+    - gantt
+    - pie
+    - gitGraph
+    - mindmap
+  kroki:
+    - plantuml
+    - d2
+    - excalidraw
+    - graphviz
+    - c4plantuml
+    - structurizr
+
+output_formats:
+  - png
+  - svg
+  - pdf

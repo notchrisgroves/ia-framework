@@ -136,5 +136,5 @@ rm -rf ~/.claude
 
 ---
 
-**Version:** 4.0
+**Version:** 1.0.0
 **Last Updated:** 2025-12-17

@@ -1,0 +1,10 @@
+name: CIS Microsoft Windows 10 Enterprise RTM Release 1507 Benchmark v1.0.0
+version: 1.0.0
+type: benchmark
+provider: cis
+platform: windows
+skills:
+- secure-config
+- benchmark-generation
+pages: 902
+published: '2025-12-12'

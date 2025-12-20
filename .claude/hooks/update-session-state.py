@@ -5,10 +5,16 @@ Stop Hook: Auto-update SESSION-STATE.md on session end
 Trigger: Stop (session end, user closes conversation)
 Purpose: Automatically append session summary to SESSION-STATE.md
 Output: Confirmation message wrapped in <system-reminder>
+
+Enhanced with automatic capture:
+- Git commit messages from today
+- Modified files summary
+- Uncommitted changes summary
 """
 import json
 import sys
 import io
+import subprocess
 from pathlib import Path
 from datetime import datetime
 
@@ -69,7 +75,6 @@ def get_modified_files():
         List of modified file paths, or None if git unavailable
     """
     try:
-        import subprocess
         result = subprocess.run(
             ["git", "status", "--short"],
             capture_output=True,
@@ -78,15 +83,67 @@ def get_modified_files():
         )
         if result.returncode == 0:
             lines = result.stdout.strip().split("\n")
-            files = [line[3:] for line in lines if line]  # Remove status prefix
-            return files if files != [''] else []
+            # Git short status format: "XY filename" where XY is 2-char status + space
+            files = [line[3:].strip() for line in lines if len(line) > 3]
+            return files if files else []
     except Exception:
         return None
 
 
+def get_todays_commits():
+    """
+    Get commit messages from today.
+
+    Returns:
+        List of commit message strings, or empty list if unavailable
+    """
+    try:
+        today = datetime.now().strftime("%Y-%m-%d")
+        result = subprocess.run(
+            ["git", "log", "--oneline", f"--since={today} 00:00:00", "--format=%s"],
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        if result.returncode == 0:
+            commits = result.stdout.strip().split("\n")
+            return [c for c in commits if c and not c.startswith("Merge")]
+    except Exception:
+        pass
+    return []
+
+
+def get_files_changed_today():
+    """
+    Get summary of files changed in today's commits.
+
+    Returns:
+        Dict with counts by directory, or None if unavailable
+    """
+    try:
+        today = datetime.now().strftime("%Y-%m-%d")
+        result = subprocess.run(
+            ["git", "log", "--name-only", "--pretty=format:", f"--since={today} 00:00:00"],
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        if result.returncode == 0:
+            files = [f for f in result.stdout.strip().split("\n") if f]
+            # Group by top-level directory
+            dirs = {}
+            for f in files:
+                top_dir = f.split("/")[0] if "/" in f else "(root)"
+                dirs[top_dir] = dirs.get(top_dir, 0) + 1
+            return dirs
+    except Exception:
+        pass
+    return None
+
+
 def create_session_entry(session_number, data):
     """
-    Create session entry markdown.
+    Create session entry markdown with automatic capture.
 
     Args:
         session_number: Session number (int)
@@ -99,36 +156,53 @@ def create_session_entry(session_number, data):
     timestamp = now.strftime("%H:%M")
     date = now.strftime("%Y-%m-%d")
 
-    # Get modified files
+    # Gather automatic data
     modified_files = get_modified_files()
+    todays_commits = get_todays_commits()
+    files_by_dir = get_files_changed_today()
 
     # Build session entry
     entry_lines = [
         f"### Session {session_number} - {date} {timestamp}",
         "",
-        "**Context:**",
-        "- [Session work summary - to be filled in manually]",
-        "",
     ]
 
-    # Add modified files if available
+    # Add commits as work summary (automatic)
+    if todays_commits:
+        entry_lines.append("**Work Completed:**")
+        for commit in todays_commits[:8]:  # Limit to 8 commits
+            # Clean up commit message for display
+            clean_msg = commit.replace("Feature: ", "").replace("Fix: ", "").replace("Cleanup: ", "")
+            entry_lines.append(f"- {clean_msg}")
+        if len(todays_commits) > 8:
+            entry_lines.append(f"- ... and {len(todays_commits) - 8} more commits")
+        entry_lines.append("")
+    else:
+        entry_lines.extend([
+            "**Work Completed:**",
+            "- [No commits - fill in manually]",
+            ""
+        ])
+
+    # Add files changed by directory (automatic)
+    if files_by_dir:
+        entry_lines.append("**Areas Modified:**")
+        for dir_name, count in sorted(files_by_dir.items(), key=lambda x: -x[1])[:5]:
+            entry_lines.append(f"- {dir_name}/ ({count} files)")
+        entry_lines.append("")
+
+    # Add uncommitted changes if any
     if modified_files:
-        entry_lines.append("**Files Modified:**")
-        for file in modified_files[:10]:  # Limit to 10 files
+        entry_lines.append("**Uncommitted Changes:**")
+        for file in modified_files[:5]:  # Limit to 5 files
             entry_lines.append(f"- {file}")
-        if len(modified_files) > 10:
-            entry_lines.append(f"- ... and {len(modified_files) - 10} more files")
+        if len(modified_files) > 5:
+            entry_lines.append(f"- ... and {len(modified_files) - 5} more files")
         entry_lines.append("")
 
     entry_lines.extend([
-        "**Key Decisions:**",
-        "- [To be filled in]",
-        "",
-        "**Blockers:**",
-        "- None",
-        "",
         "**Next Actions:**",
-        "- [ ] [To be filled in]",
+        "- [ ] [To be filled in if needed]",
         "",
         "---",
         ""

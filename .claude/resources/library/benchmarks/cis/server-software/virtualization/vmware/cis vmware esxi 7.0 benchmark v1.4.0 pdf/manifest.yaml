@@ -1,0 +1,8 @@
+name: CIS VMWare ESXi 7.0 Benchmark V1.4.0 PDF
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 253
+published: '2025-12-12'

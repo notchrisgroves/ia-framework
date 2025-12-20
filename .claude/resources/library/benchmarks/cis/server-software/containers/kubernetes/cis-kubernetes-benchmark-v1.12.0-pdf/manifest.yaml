@@ -1,0 +1,8 @@
+name: CIS Kubernetes Benchmark V1.12.0 PDF
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 342
+published: '2025-12-12'

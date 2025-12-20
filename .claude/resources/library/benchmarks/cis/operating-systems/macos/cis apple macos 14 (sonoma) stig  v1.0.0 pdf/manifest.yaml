@@ -1,0 +1,9 @@
+name: CIS Apple macOS 14 (Sonoma) STIG  V1.0.0 PDF
+type: benchmark
+provider: cis
+platform: macos
+skills:
+- secure-config
+- benchmark-generation
+pages: 294
+published: '2025-12-12'

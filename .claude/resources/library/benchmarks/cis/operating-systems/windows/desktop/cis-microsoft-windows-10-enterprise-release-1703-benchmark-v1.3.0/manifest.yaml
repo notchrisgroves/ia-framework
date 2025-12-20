@@ -1,0 +1,10 @@
+name: CIS Microsoft Windows 10 Enterprise Release 1703 Benchmark v1.3.0
+version: 1.3.0
+type: benchmark
+provider: cis
+platform: windows
+skills:
+- secure-config
+- benchmark-generation
+pages: 1090
+published: '2025-12-12'

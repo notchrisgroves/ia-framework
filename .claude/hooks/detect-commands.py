@@ -147,11 +147,13 @@ To use: Type the command name to begin guided workflow
         sys.exit(0)
 
     except json.JSONDecodeError as e:
-        print(f"ERROR: Invalid JSON from stdin: {e}", file=sys.stderr)
-        sys.exit(1)
+        # Fail gracefully - don't block user prompt
+        print(f"WARNING: Hook JSON parse error: {e}", file=sys.stderr)
+        sys.exit(0)
     except Exception as e:
-        print(f"ERROR in detect-commands: {e}", file=sys.stderr)
-        sys.exit(1)
+        # Fail gracefully - don't block user prompt
+        print(f"WARNING: Hook error in detect-commands: {e}", file=sys.stderr)
+        sys.exit(0)
 
 
 if __name__ == "__main__":

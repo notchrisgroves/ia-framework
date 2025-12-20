@@ -1,0 +1,9 @@
+name: CIS VMWare ESXi 8 Benchmark v1.2.0 PDF
+version: 1.2.0 PDF
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 301
+published: '2025-12-12'

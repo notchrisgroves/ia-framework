@@ -1,0 +1,725 @@
+#!/usr/bin/env bun
+/**
+ * Blog Workflow Tool - Intelligence Adjacent
+ *
+ * Unified tool for managing blog post lifecycle with enforced structure.
+ * Local-first approach: files never move, status tracked in metadata.
+ *
+ * Commands:
+ *   init <slug>          Create new post with correct structure
+ *   publish <slug>       Publish post to Ghost
+ *   tweet <slug>         Generate social summary
+ *   image-prompt <slug>  Generate content-aware Grok prompt
+ *   validate <slug>      Check voice and structure
+ *   refresh              Update STATUS.md from all metadata
+ *
+ * Usage:
+ *   bun run skills/writer/scripts/blog-workflow.ts init 2025-12-19-post-title
+ *   bun run skills/writer/scripts/blog-workflow.ts publish 2025-12-19-post-title
+ */
+
+import { promises as fs } from 'fs';
+import { join, resolve } from 'path';
+import { existsSync } from 'fs';
+import { createPost, updatePost } from './ghost-admin';
+import { config } from 'dotenv';
+
+// Load environment
+const envPath = resolve(process.cwd(), '.env');
+config({ path: envPath });
+
+// Constants
+const BLOG_ROOT = resolve(process.cwd(), 'blog');
+const STATUS_FILE = join(BLOG_ROOT, 'STATUS.md');
+
+// Types
+type PostStatus = 'draft' | 'published' | 'archived';
+type PostVisibility = 'public' | 'members' | 'paid';
+
+interface Metadata {
+  slug: string;
+  title: string;
+  status: PostStatus;
+  visibility: PostVisibility;
+  category?: string;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
+  published_at?: string;
+  ghost?: {
+    id: string;
+    status: string;
+    url: string;
+    editor_url: string;
+  };
+  hero?: {
+    local_path: string;
+    alt_text: string;
+    uploaded_to_ghost: boolean;
+  };
+  tweet?: {
+    generated: boolean;
+    posted: boolean;
+    posted_at?: string;
+  };
+}
+
+interface Frontmatter {
+  title: string;
+  excerpt: string;
+  tags: string[];
+  visibility: PostVisibility;
+  category?: string;
+}
+
+// ============================================================================
+// VALIDATION
+// ============================================================================
+
+/**
+ * Validate slug format: YYYY-MM-DD-title
+ */
+function validateSlug(slug: string): void {
+  const pattern = /^\d{4}-\d{2}-\d{2}-.+$/;
+  if (!slug.match(pattern)) {
+    throw new Error(
+      `Invalid slug format: ${slug}\n` +
+      `Required: YYYY-MM-DD-title\n` +
+      `Example: 2025-12-17-security-testing-automation`
+    );
+  }
+}
+
+/**
+ * Validate post directory structure
+ */
+async function validatePostStructure(slug: string): Promise<void> {
+  validateSlug(slug);
+
+  const postDir = join(BLOG_ROOT, slug);
+  if (!existsSync(postDir)) {
+    throw new Error(`Post directory not found: ${postDir}`);
+  }
+
+  const draftPath = join(postDir, 'draft.md');
+  if (!existsSync(draftPath)) {
+    throw new Error(`draft.md not found in ${slug}/`);
+  }
+}
+
+/**
+ * Parse markdown frontmatter and body
+ */
+function parseMarkdown(content: string): {
+  frontmatter: Frontmatter;
+  body: string;
+} {
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+  if (!match) {
+    throw new Error('Invalid frontmatter format. Must start with --- and end with ---');
+  }
+
+  const [, frontmatterText, body] = match;
+  const frontmatter: any = {};
+
+  // Parse YAML-like frontmatter
+  const lines = frontmatterText.split('\n');
+  for (const line of lines) {
+    const colonIndex = line.indexOf(':');
+    if (colonIndex === -1) continue;
+
+    const key = line.substring(0, colonIndex).trim();
+    let value = line.substring(colonIndex + 1).trim();
+
+    // Remove quotes
+    if ((value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1);
+    }
+
+    // Parse arrays
+    if (value.startsWith('[') && value.endsWith(']')) {
+      const arrayContent = value.slice(1, -1);
+      frontmatter[key] = arrayContent
+        .split(',')
+        .map(item => item.trim().replace(/["']/g, ''));
+    } else {
+      frontmatter[key] = value;
+    }
+  }
+
+  // Validate required fields
+  if (!frontmatter.title) throw new Error('title required in frontmatter');
+  if (!frontmatter.excerpt) throw new Error('excerpt required in frontmatter');
+  if (!frontmatter.tags) throw new Error('tags required in frontmatter');
+  if (!frontmatter.visibility) throw new Error('visibility required in frontmatter');
+
+  return { frontmatter: frontmatter as Frontmatter, body };
+}
+
+// ============================================================================
+// METADATA MANAGEMENT
+// ============================================================================
+
+/**
+ * Read metadata.json
+ */
+async function readMetadata(slug: string): Promise<Metadata> {
+  const metadataPath = join(BLOG_ROOT, slug, 'metadata.json');
+  if (!existsSync(metadataPath)) {
+    throw new Error(`metadata.json not found for ${slug}. Run 'init' first.`);
+  }
+  const content = await fs.readFile(metadataPath, 'utf-8');
+  return JSON.parse(content);
+}
+
+/**
+ * Write metadata.json
+ */
+async function writeMetadata(slug: string, metadata: Metadata): Promise<void> {
+  const metadataPath = join(BLOG_ROOT, slug, 'metadata.json');
+  metadata.updated_at = new Date().toISOString();
+  await fs.writeFile(metadataPath, JSON.stringify(metadata, null, 2), 'utf-8');
+}
+
+/**
+ * Update STATUS.md from all metadata files
+ */
+async function updateStatusTable(): Promise<void> {
+  console.log('\n📊 Updating STATUS.md...');
+
+  // Ensure blog directory exists
+  if (!existsSync(BLOG_ROOT)) {
+    await fs.mkdir(BLOG_ROOT, { recursive: true });
+  }
+
+  // Scan all post directories
+  const entries = await fs.readdir(BLOG_ROOT, { withFileTypes: true });
+  const posts: Metadata[] = [];
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    if (entry.name === '.git') continue;
+
+    const metadataPath = join(BLOG_ROOT, entry.name, 'metadata.json');
+    if (existsSync(metadataPath)) {
+      try {
+        const content = await fs.readFile(metadataPath, 'utf-8');
+        posts.push(JSON.parse(content));
+      } catch (err) {
+        console.warn(`⚠️  Failed to read ${entry.name}/metadata.json:`, err);
+      }
+    }
+  }
+
+  // Sort by date (newest first)
+  posts.sort((a, b) => b.slug.localeCompare(a.slug));
+
+  // Calculate statistics
+  const stats = {
+    total: posts.length,
+    published: posts.filter(p => p.status === 'published').length,
+    drafts: posts.filter(p => p.status === 'draft').length,
+    archived: posts.filter(p => p.status === 'archived').length,
+  };
+
+  // Build markdown table
+  let content = `# Blog Post Status\n\n`;
+  content += `**Last Updated:** ${new Date().toISOString().replace('T', ' ').substring(0, 19)}\n\n`;
+  content += `**Summary:**\n`;
+  content += `- Total Posts: ${stats.total}\n`;
+  content += `- Published: ${stats.published}\n`;
+  content += `- Drafts: ${stats.drafts}\n`;
+  content += `- Archived: ${stats.archived}\n\n`;
+  content += `---\n\n`;
+
+  // All posts table
+  content += `## All Posts (Chronological - Newest First)\n\n`;
+  content += `| Date | Title | Status | Visibility | Category | Ghost | Updated |\n`;
+  content += `|------|-------|--------|------------|----------|-------|---------|\n`;
+
+  for (const post of posts) {
+    const date = post.slug.substring(0, 10);
+    const title = post.title || post.slug;
+    const ghostLink = post.ghost?.url ? `[View](${post.ghost.url})` : '-';
+    const updated = post.updated_at.substring(0, 16).replace('T', ' ');
+    const category = post.category || '-';
+
+    content += `| ${date} | ${title} | ${post.status} | ${post.visibility} | ${category} | ${ghostLink} | ${updated} |\n`;
+  }
+
+  content += `\n---\n\n`;
+
+  // By status
+  content += `## By Status\n\n`;
+
+  // Published
+  const published = posts.filter(p => p.status === 'published');
+  content += `### Published (${published.length})\n\n`;
+  if (published.length > 0) {
+    content += `| Date | Title | Visibility | Ghost URL | Published |\n`;
+    content += `|------|-------|------------|-----------|-----------|---|\n`;
+    for (const post of published) {
+      const date = post.slug.substring(0, 10);
+      const url = post.ghost?.url || '-';
+      const pubDate = post.published_at?.substring(0, 16).replace('T', ' ') || '-';
+      content += `| ${date} | ${post.title} | ${post.visibility} | [View](${url}) | ${pubDate} |\n`;
+    }
+  } else {
+    content += `None.\n`;
+  }
+  content += `\n`;
+
+  // Drafts
+  const drafts = posts.filter(p => p.status === 'draft');
+  content += `### Drafts (${drafts.length})\n\n`;
+  if (drafts.length > 0) {
+    content += `| Date | Title | Visibility | Last Updated |\n`;
+    content += `|------|-------|------------|--------------|--|\n`;
+    for (const post of drafts) {
+      const date = post.slug.substring(0, 10);
+      const updated = post.updated_at.substring(0, 16).replace('T', ' ');
+      content += `| ${date} | ${post.title} | ${post.visibility} | ${updated} |\n`;
+    }
+  } else {
+    content += `None.\n`;
+  }
+  content += `\n`;
+
+  // Archived
+  const archived = posts.filter(p => p.status === 'archived');
+  content += `### Archived (${archived.length})\n\n`;
+  if (archived.length > 0) {
+    content += `| Date | Title | Archived |\n`;
+    content += `|------|-------|----------|\n`;
+    for (const post of archived) {
+      const date = post.slug.substring(0, 10);
+      content += `| ${date} | ${post.title} | ${post.updated_at.substring(0, 10)} |\n`;
+    }
+  } else {
+    content += `None.\n`;
+  }
+  content += `\n---\n\n`;
+
+  // By category
+  const categories = new Map<string, Metadata[]>();
+  for (const post of posts) {
+    const cat = post.category || 'Uncategorized';
+    if (!categories.has(cat)) categories.set(cat, []);
+    categories.get(cat)!.push(post);
+  }
+
+  content += `## By Category\n\n`;
+  for (const [category, categoryPosts] of categories) {
+    content += `### ${category} (${categoryPosts.length})\n`;
+    for (const post of categoryPosts) {
+      const date = post.slug.substring(0, 10);
+      content += `- [${date}] ${post.title} (${post.status})\n`;
+    }
+    content += `\n`;
+  }
+
+  content += `---\n\n`;
+  content += `*Auto-generated by blog-workflow.ts*\n`;
+  content += `*Do not edit manually - changes will be overwritten*\n`;
+
+  await fs.writeFile(STATUS_FILE, content, 'utf-8');
+  console.log('✅ STATUS.md updated\n');
+}
+
+// ============================================================================
+// COMMANDS
+// ============================================================================
+
+/**
+ * Command: init
+ * Create new post with correct structure
+ */
+async function cmdInit(slug: string): Promise<void> {
+  console.log(`\n📝 Initializing new post: ${slug}\n`);
+
+  // Validate slug format
+  validateSlug(slug);
+
+  const postDir = join(BLOG_ROOT, slug);
+
+  // Check if already exists
+  if (existsSync(postDir)) {
+    throw new Error(`Post already exists: ${slug}`);
+  }
+
+  // Create directory
+  await fs.mkdir(postDir, { recursive: true });
+  console.log(`✅ Created directory: blog/${slug}/`);
+
+  // Create draft.md template
+  const draftTemplate = `---
+title: "Your Post Title Here"
+excerpt: "150-160 character SEO description goes here"
+tags: ["Tag1", "Tag2", "Tag3"]
+visibility: "members"
+category: "framework"
+---
+
+# Your Post Title Here
+
+## Introduction
+
+[Your content here...]
+
+## Problem
+
+[What problem are you solving?]
+
+## Solution
+
+[How did you solve it?]
+
+## Implementation
+
+[Practical details and code examples]
+
+## Conclusion
+
+[Key takeaways]
+
+## Sources
+
+- [Source 1](URL)
+- [Source 2](URL)
+`;
+
+  const draftPath = join(postDir, 'draft.md');
+  await fs.writeFile(draftPath, draftTemplate, 'utf-8');
+  console.log(`✅ Created draft.md`);
+
+  // Create metadata.json
+  const metadata: Metadata = {
+    slug,
+    title: 'Your Post Title Here',
+    status: 'draft',
+    visibility: 'members',
+    category: 'framework',
+    tags: ['Tag1', 'Tag2', 'Tag3'],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+
+  await writeMetadata(slug, metadata);
+  console.log(`✅ Created metadata.json`);
+
+  // Update STATUS.md
+  await updateStatusTable();
+
+  console.log(`\n✅ Post initialized successfully!`);
+  console.log(`\nNext steps:`);
+  console.log(`1. Edit blog/${slug}/draft.md`);
+  console.log(`2. Generate image prompt: blog-workflow.ts image-prompt ${slug}`);
+  console.log(`3. Publish: blog-workflow.ts publish ${slug}`);
+}
+
+/**
+ * Command: publish
+ * Publish post to Ghost
+ */
+async function cmdPublish(slug: string): Promise<void> {
+  console.log(`\n🚀 Publishing post: ${slug}\n`);
+
+  // Validate structure
+  await validatePostStructure(slug);
+
+  // Read draft and metadata
+  const postDir = join(BLOG_ROOT, slug);
+  const draftPath = join(postDir, 'draft.md');
+  const draftContent = await fs.readFile(draftPath, 'utf-8');
+  const { frontmatter, body } = parseMarkdown(draftContent);
+  let metadata = await readMetadata(slug);
+
+  console.log(`📄 Title: ${frontmatter.title}`);
+  console.log(`👁️  Visibility: ${frontmatter.visibility}`);
+  console.log(`🏷️  Tags: ${frontmatter.tags.join(', ')}\n`);
+
+  // Create or update Ghost post
+  if (!metadata.ghost) {
+    // Create new Ghost post (draft status)
+    console.log('Creating Ghost draft post...');
+
+    const result = await createPost({
+      title: frontmatter.title,
+      content: body,
+      contentType: 'markdown',
+      status: 'draft',
+      visibility: frontmatter.visibility,
+      tags: frontmatter.tags,
+      excerpt: frontmatter.excerpt,
+      slug: slug.replace(/^\d{4}-\d{2}-\d{2}-/, ''), // Remove date prefix for Ghost
+    });
+
+    if (!result.success || !result.post) {
+      throw new Error(`Failed to create Ghost post: ${result.error}`);
+    }
+
+    // Update metadata with Ghost info
+    metadata.ghost = {
+      id: result.post.id,
+      status: 'draft',
+      url: result.post.url,
+      editor_url: result.post.editorUrl,
+    };
+
+    await writeMetadata(slug, metadata);
+
+    console.log(`✅ Ghost draft created`);
+    console.log(`📝 Ghost Editor: ${result.post.editorUrl}\n`);
+    console.log(`⚠️  NEXT STEPS:`);
+    console.log(`1. Open Ghost editor (URL above)`);
+    console.log(`2. Upload hero image (blog/${slug}/hero.png)`);
+    console.log(`3. Add alt-text from hero-prompt.txt`);
+    console.log(`4. Review content`);
+    console.log(`5. Come back here and press Enter when ready to publish`);
+
+    // Wait for user confirmation
+    const answer = await new Promise<string>((resolve) => {
+      process.stdin.once('data', (data) => resolve(data.toString().trim()));
+    });
+
+    if (answer.toLowerCase() !== '') {
+      console.log('Publishing to Ghost...');
+    }
+  }
+
+  // Update to published
+  console.log('Publishing post...');
+
+  const publishResult = await updatePost(metadata.ghost!.id, {
+    status: 'published',
+    publishedAt: new Date().toISOString(),
+  });
+
+  if (!publishResult.success || !publishResult.post) {
+    throw new Error(`Failed to publish: ${publishResult.error}`);
+  }
+
+  // Update metadata
+  metadata.status = 'published';
+  metadata.published_at = new Date().toISOString();
+  metadata.ghost.status = 'published';
+  metadata.ghost.url = publishResult.post.url;
+
+  await writeMetadata(slug, metadata);
+  await updateStatusTable();
+
+  console.log(`\n✅ Post published successfully!`);
+  console.log(`🔗 URL: ${publishResult.post.url}\n`);
+}
+
+/**
+ * Command: tweet
+ * Generate social summary template
+ */
+async function cmdTweet(slug: string): Promise<void> {
+  console.log(`\n🐦 Generating social summary template: ${slug}\n`);
+
+  await validatePostStructure(slug);
+
+  const postDir = join(BLOG_ROOT, slug);
+  const draftPath = join(postDir, 'draft.md');
+  const draftContent = await fs.readFile(draftPath, 'utf-8');
+  const { frontmatter, body } = parseMarkdown(draftContent);
+  const metadata = await readMetadata(slug);
+
+  // Extract first paragraph as potential hook
+  const firstParagraph = body.split('\n\n').find(p => p.trim() && !p.startsWith('#'));
+  const excerpt = frontmatter.excerpt || firstParagraph?.substring(0, 200) || '';
+
+  // Generate template for user to fill in
+  const template = `Social Media Summary - ${frontmatter.title}
+
+[HOOK - What you built/discovered]
+${excerpt}
+
+[KEY INSIGHT - Why it matters]
+[Fill in: What problem does this solve? Why should readers care?]
+
+[OUTCOME - What it enables]
+[Fill in: What can readers do with this? What does it unlock?]
+
+[URL]
+${metadata.ghost?.url || 'https://notchrisgroves.com/[post-slug]/'}
+
+[OPTIONAL: Thread potential]
+- Thread topic 1: [e.g., Deep dive into implementation]
+- Thread topic 2: [e.g., Common pitfalls to avoid]
+- Thread topic 3: [e.g., Future enhancements]
+
+---
+NOTE: No character limit - write full compelling summary.
+Truncate for X/Twitter as needed.
+`;
+
+  // Save to tweet.txt
+  const tweetPath = join(postDir, 'tweet.txt');
+  await fs.writeFile(tweetPath, template, 'utf-8');
+
+  // Update metadata
+  if (!metadata.tweet) metadata.tweet = { generated: false, posted: false };
+  metadata.tweet.generated = true;
+  await writeMetadata(slug, metadata);
+  await updateStatusTable();
+
+  console.log(`\n✅ Social summary template generated!`);
+  console.log(`📄 Saved to: blog/${slug}/tweet.txt\n`);
+  console.log(`Edit the template to fill in your hook, insights, and outcomes.\n`);
+}
+
+/**
+ * Command: image-prompt
+ * Generate content-aware Grok image prompt based on keywords
+ */
+async function cmdImagePrompt(slug: string): Promise<void> {
+  console.log(`\n🎨 Generating image prompt: ${slug}\n`);
+
+  await validatePostStructure(slug);
+
+  const postDir = join(BLOG_ROOT, slug);
+  const draftPath = join(postDir, 'draft.md');
+  const draftContent = await fs.readFile(draftPath, 'utf-8');
+  const { frontmatter, body } = parseMarkdown(draftContent);
+
+  // Analyze content for themes using keyword matching
+  const contentLower = (frontmatter.title + ' ' + body).toLowerCase();
+  const themes: string[] = [];
+
+  // Security themes
+  if (contentLower.match(/security|pentest|vulnerability|exploit|threat|attack|defend/)) {
+    themes.push('security testing with shields, locks, and network diagrams');
+  }
+
+  // Framework/Architecture themes
+  if (contentLower.match(/framework|architecture|system|structure|design|pattern/)) {
+    themes.push('modular architecture with interconnected nodes and data flows');
+  }
+
+  // Automation/Tools themes
+  if (contentLower.match(/automation|tool|script|workflow|pipeline|ci\/cd/)) {
+    themes.push('automated systems with terminals, code, and deployment pipelines');
+  }
+
+  // VPS/Infrastructure themes
+  if (contentLower.match(/vps|server|docker|container|deploy|infrastructure/)) {
+    themes.push('cloud infrastructure with servers, containers, and network connections');
+  }
+
+  // Research/Analysis themes
+  if (contentLower.match(/research|analysis|data|osint|intelligence|investigate/)) {
+    themes.push('data visualization with connections, graphs, and information flows');
+  }
+
+  // Default if no themes detected
+  if (themes.length === 0) {
+    themes.push('technical environment with code, terminals, and digital interfaces');
+  }
+
+  const themeDescription = themes[0]; // Use primary theme
+
+  // Generate prompt template
+  const fullPrompt = `90s anime style illustration: ${themeDescription}. Cyberpunk aesthetic with neon accents (purple/blue/cyan), moody technical environment. Dark tones with strategic highlights. Professional security researcher or developer at work. Matrix-style data streams in background.`;
+
+  const altText = `Cyberpunk anime: ${frontmatter.title.substring(0, 150)}`;
+
+  const promptText = `FULL PROMPT (for Grok x.ai image generation):
+${fullPrompt}
+
+ALT TEXT (for Ghost, max 191 chars):
+${altText}
+
+---
+INSTRUCTIONS:
+1. Go to x.ai image generation
+2. Paste the FULL PROMPT above
+3. Download generated image
+4. Save as: blog/${slug}/hero.png
+5. Use ALT TEXT when uploading to Ghost
+`;
+
+  // Save to hero-prompt.txt
+  const promptPath = join(postDir, 'hero-prompt.txt');
+  await fs.writeFile(promptPath, promptText, 'utf-8');
+
+  console.log(`\n✅ Image prompt generated!`);
+  console.log(`📄 Saved to: blog/${slug}/hero-prompt.txt\n`);
+  console.log(`Detected themes: ${themes.join(', ')}\n`);
+  console.log(`Next steps:`);
+  console.log(`1. Go to x.ai image generation`);
+  console.log(`2. Paste the FULL PROMPT from hero-prompt.txt`);
+  console.log(`3. Download image as blog/${slug}/hero.png\n`);
+}
+
+/**
+ * Command: refresh
+ * Regenerate STATUS.md from all metadata
+ */
+async function cmdRefresh(): Promise<void> {
+  console.log(`\n🔄 Refreshing STATUS.md...\n`);
+  await updateStatusTable();
+  console.log(`✅ STATUS.md refreshed\n`);
+}
+
+// ============================================================================
+// MAIN
+// ============================================================================
+
+async function main() {
+  const args = process.argv.slice(2);
+  const command = args[0];
+  const slug = args[1];
+
+  if (!command) {
+    console.error('❌ Error: Command required\n');
+    console.error('Usage:');
+    console.error('  blog-workflow.ts init <slug>');
+    console.error('  blog-workflow.ts publish <slug>');
+    console.error('  blog-workflow.ts tweet <slug>');
+    console.error('  blog-workflow.ts image-prompt <slug>');
+    console.error('  blog-workflow.ts refresh\n');
+    console.error('Example:');
+    console.error('  blog-workflow.ts init 2025-12-19-post-title\n');
+    process.exit(1);
+  }
+
+  try {
+    switch (command) {
+      case 'init':
+        if (!slug) throw new Error('Slug required for init command');
+        await cmdInit(slug);
+        break;
+
+      case 'publish':
+        if (!slug) throw new Error('Slug required for publish command');
+        await cmdPublish(slug);
+        break;
+
+      case 'tweet':
+        if (!slug) throw new Error('Slug required for tweet command');
+        await cmdTweet(slug);
+        break;
+
+      case 'image-prompt':
+        if (!slug) throw new Error('Slug required for image-prompt command');
+        await cmdImagePrompt(slug);
+        break;
+
+      case 'refresh':
+        await cmdRefresh();
+        break;
+
+      default:
+        throw new Error(`Unknown command: ${command}`);
+    }
+  } catch (error: any) {
+    console.error(`\n❌ Error: ${error.message}\n`);
+    process.exit(1);
+  }
+}
+
+main();

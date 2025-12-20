@@ -1,0 +1,9 @@
+name: CIS IBM AIX 7.1 Benchmark v2.0.0 ARCHIVE
+version: 2.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 516
+published: '2025-12-12'

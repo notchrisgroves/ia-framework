@@ -1,0 +1,7 @@
+name: OWASP Application Security Verification Standard 5.0.0 en
+type: framework
+provider: owasp
+skills:
+- cybersecurity-advisory
+pages: 123
+published: '2025-12-12'

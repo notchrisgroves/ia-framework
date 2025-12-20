@@ -1,0 +1,9 @@
+name: CIS IBM Db2 13 for z OS Benchmark v1.0.0
+version: 1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 178
+published: '2025-12-12'

@@ -1,0 +1,9 @@
+name: CIS MongoDB 3.4 Benchmark v1.0.0 ARCHVE
+version: 1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 54
+published: '2025-12-12'

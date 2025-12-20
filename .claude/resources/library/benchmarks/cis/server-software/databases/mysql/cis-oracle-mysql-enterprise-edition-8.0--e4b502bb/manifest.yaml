@@ -1,0 +1,9 @@
+name: CIS Oracle MySQL Enterprise Edition 8.0 Benchmark v1.5.0 FINAL UPDATE
+version: 1.5.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 226
+published: '2025-12-12'

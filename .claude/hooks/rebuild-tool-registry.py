@@ -191,8 +191,9 @@ def main():
         rebuild_registry()
         sys.exit(0)
     except Exception as e:
-        print(f"ERROR rebuilding registry: {e}", file=sys.stderr)
-        sys.exit(1)
+        # Fail gracefully - registry rebuild is non-critical
+        print(f"WARNING: Registry rebuild failed: {e}", file=sys.stderr)
+        sys.exit(0)
 
 
 if __name__ == "__main__":

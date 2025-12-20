@@ -200,12 +200,16 @@ python tools/evals/test-workflow.py security-testing/pentest-init
 
 ## Resources Location
 
-**Shared resources:** `resources/library/`
-- CIS Benchmarks: `resources/library/benchmarks/cis/`
-- Frameworks: `resources/library/frameworks/` (NIST, OWASP, ISO)
-- Methodologies: `resources/library/methodologies/`
+**Shared resources:** `resources/library/` - Discover dynamically with Glob
+- Benchmarks: `resources/library/benchmarks/` (CIS controls, hardening)
+- Frameworks: `resources/library/frameworks/` (NIST, OWASP, PCI-DSS, HIPAA, GDPR, MITRE)
+- Repositories: `resources/library/repositories/` (OWASP cheatsheets, ASVS, WSTG)
+- Books: `resources/library/books/` (security methodology references)
+- Threat Intel: `resources/library/threat-intelligence/`
 
-**Resource registry:** `library/catalogs/RESOURCE-REGISTRY.yaml`
+**Skill-specific methodologies:** `skills/*/methodologies/` (NOT in resources/library)
+
+**Dynamic discovery:** Use `Glob: resources/library/**/*{keyword}*` - never hardcode paths
 
 ---
 
@@ -227,4 +231,4 @@ python tools/evals/test-workflow.py security-testing/pentest-init
 
 **Skills:** See `ls skills/` for complete list
 **Max SKILL.md Lines:** 500 (recommended <400)
-**Framework:** Intelligence Adjacent (IA) v4.0
+**Framework:** Intelligence Adjacent (IA) v1.0.0

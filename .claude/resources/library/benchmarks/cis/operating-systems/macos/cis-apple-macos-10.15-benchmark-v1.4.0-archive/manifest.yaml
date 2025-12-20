@@ -1,0 +1,10 @@
+name: CIS Apple macOS 10.15 Benchmark v1.4.0 Archive
+version: 1.4.0
+type: benchmark
+provider: cis
+platform: macos
+skills:
+- secure-config
+- benchmark-generation
+pages: 324
+published: '2025-12-12'

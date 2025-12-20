@@ -1,0 +1,9 @@
+name: CIS Apache HTTP Server 2.2 Benchmark v3.6.0 ARCHIVE
+version: 3.6.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 215
+published: '2025-12-12'

@@ -1,0 +1,8 @@
+name: CIS Microsoft Office 365 ProPlus STIG Benchmark V1.0.0 PDF
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 276
+published: '2025-12-12'

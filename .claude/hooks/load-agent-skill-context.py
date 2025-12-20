@@ -255,7 +255,8 @@ def main():
         agent_content, agent_error = load_agent_context(subagent_type)
         if agent_error:
             print(agent_error, file=sys.stderr)
-            sys.exit(1)
+            # Continue without agent context (degraded mode)
+            agent_content = f"[Agent {subagent_type} not loaded - using default behavior]"
 
         # Detect primary skill (for multi-skill agents like advisor)
         primary_skill = detect_primary_skill(subagent_type, prompt_text)
@@ -313,11 +314,13 @@ def main():
         sys.exit(0)
 
     except json.JSONDecodeError as e:
-        print(f"ERROR: Invalid JSON from stdin: {e}", file=sys.stderr)
-        sys.exit(1)
+        # Fail gracefully - don't block Task tool
+        print(f"WARNING: Hook JSON parse error: {e}", file=sys.stderr)
+        sys.exit(0)
     except Exception as e:
-        print(f"ERROR in load-agent-skill-context: {e}", file=sys.stderr)
-        sys.exit(1)
+        # Fail gracefully - don't block Task tool
+        print(f"WARNING: Hook error in load-agent-skill-context: {e}", file=sys.stderr)
+        sys.exit(0)
 
 
 if __name__ == "__main__":

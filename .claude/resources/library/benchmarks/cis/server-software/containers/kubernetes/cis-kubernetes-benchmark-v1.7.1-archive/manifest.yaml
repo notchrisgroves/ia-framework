@@ -1,0 +1,9 @@
+name: CIS Kubernetes Benchmark v1.7.1 ARCHIVE
+version: 1.7.1-ARCHIVE
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 331
+published: '2025-12-12'

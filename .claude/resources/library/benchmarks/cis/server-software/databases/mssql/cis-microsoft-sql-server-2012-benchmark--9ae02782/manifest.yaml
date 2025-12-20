@@ -1,0 +1,9 @@
+name: CIS Microsoft SQL Server 2012 Benchmark v1.6.0 ARCHIVE
+version: 1.6.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 104
+published: '2025-12-12'

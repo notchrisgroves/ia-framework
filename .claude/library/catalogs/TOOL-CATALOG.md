@@ -66,7 +66,32 @@ These scripts are colocated with their respective skills in `skills/{skill}/scri
 
 ---
 
-## 3. Tool Organization Standard
+## 3. VPS Servers (Remote Security Tools via Docker)
+
+These servers are deployed on VPS infrastructure and accessed via SSH + Docker exec. They follow the on-demand container model.
+
+### Playwright Server
+
+**Description:** Headless browser automation for security assessments - screenshot capture, PDF generation, HAR recording, and authenticated browsing
+
+- **playwright.py**: `servers/playwright/wrappers/playwright.py`
+  - `screenshot()` - Capture screenshot (full page, element, or viewport)
+  - `pdf()` - Generate PDF of page (Chromium only)
+  - `har()` - Record HAR (HTTP Archive) for traffic analysis
+  - `batch_screenshot()` - Batch capture from URL list
+
+**Use Cases:**
+- Evidence collection during penetration tests
+- Document vulnerable configurations
+- Capture before/after exploitation states
+- HAR recording for API discovery
+- Authenticated browsing with cookies/basic auth
+
+**Deployment Status:** Ready for deployment (infrastructure-ops agent will deploy)
+
+---
+
+## 4. Tool Organization Standard
 
 **Framework-core tools:** `tools/` (general utilities for ALL agents)
 **Skill-specific scripts:** `skills/{skill}/scripts/` (colocated with skills)
@@ -80,7 +105,7 @@ These scripts are colocated with their respective skills in `skills/{skill}/scri
 
 ---
 
-## 4. Tool Discovery Protocol
+## 5. Tool Discovery Protocol
 
 **BEFORE delegating to ANY agent OR creating ANY new tool:**
 
@@ -99,7 +124,7 @@ These scripts are colocated with their respective skills in `skills/{skill}/scri
 
 ---
 
-## 5. Templates
+## 6. Templates
 
 **Tool creation templates available:**
 - `library/templates/TOOL-TEMPLATE-PYTHON.py` - Python tool template

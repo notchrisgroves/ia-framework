@@ -1,0 +1,8 @@
+name: CIS Apache Casandra 4.0 Benchmarkv1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 68
+published: '2025-12-12'

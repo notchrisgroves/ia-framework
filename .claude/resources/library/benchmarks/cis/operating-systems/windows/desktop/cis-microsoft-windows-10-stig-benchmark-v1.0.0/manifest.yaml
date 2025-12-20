@@ -1,0 +1,10 @@
+name: CIS Microsoft Windows 10 STIG Benchmark v1.0.0
+version: 1.0.0
+type: benchmark
+provider: cis
+platform: windows
+skills:
+- secure-config
+- benchmark-generation
+pages: 450
+published: '2025-12-12'

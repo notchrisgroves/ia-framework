@@ -1,0 +1,10 @@
+name: CIS AKS Optimized Azure Linux 3 Benchmark v1.0.0
+version: 1.0.0
+type: benchmark
+provider: cis
+platform: azure
+skills:
+- secure-config
+- benchmark-generation
+pages: 456
+published: '2025-12-12'

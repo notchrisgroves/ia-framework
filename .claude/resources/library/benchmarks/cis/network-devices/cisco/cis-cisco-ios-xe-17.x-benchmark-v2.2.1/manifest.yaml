@@ -1,0 +1,9 @@
+name: CIS Cisco IOS XE 17.x Benchmark v2.2.1
+version: 2.2.1
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 224
+published: '2025-12-12'

@@ -1,0 +1,10 @@
+name: CIS Red Hat Enterprise Linux 7 Benchmark v1.1.0
+version: 1.1.0
+type: benchmark
+provider: cis
+platform: linux
+skills:
+- secure-config
+- benchmark-generation
+pages: 173
+published: '2025-12-12'

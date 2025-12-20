@@ -1,0 +1,46 @@
+# Credentials Template
+# Last Updated: [DATE]
+
+## Account Access
+Username/Email:
+Password:
+
+## API Access (if applicable)
+API Key:
+API Token:
+Personal Access Token (PAT):
+OAuth Token:
+
+## Additional Authentication
+2FA/MFA Codes:
+SSH Keys:
+Bearer Tokens:
+
+## Platform-Specific
+[Platform] Username:
+[Platform] API Key:
+
+## Desktop Apps (if in scope)
+Windows Binary Location:
+macOS Binary Location:
+Linux Binary Location:
+App Version:
+
+## Mobile Apps (if in scope)
+iOS App Location:
+Android App Location:
+iOS Version:
+Android Version:
+Download Date:
+⚠️ Environment Verified (staging/test): [ ] Yes [ ] No
+
+## Notes for iOS Downloads
+# ipatool authentication requires Apple ID + 2FA (interactive)
+# Credentials stored securely in VPS keyring after first auth
+# Do NOT store Apple ID credentials in this file
+
+## Notes
+- Keep this file git-ignored
+- Update immediately when credentials change
+- Document token scopes/permissions
+- Note expiration dates if applicable

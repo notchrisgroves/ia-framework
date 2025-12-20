@@ -1,0 +1,9 @@
+name: CIS Sophos Firewall v21 Benchmark v1.0.0
+version: '21'
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 142
+published: '2025-12-12'

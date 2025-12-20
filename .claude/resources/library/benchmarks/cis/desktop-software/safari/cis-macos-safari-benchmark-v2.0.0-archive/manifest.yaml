@@ -1,0 +1,10 @@
+name: CIS macOS Safari Benchmark v2.0.0 Archive
+version: 2.0.0
+type: benchmark
+provider: cis
+platform: macos
+skills:
+- secure-config
+- benchmark-generation
+pages: 36
+published: '2025-12-12'

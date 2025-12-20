@@ -347,4 +347,4 @@ output/blog/research/post-title/research-notes.md  (DEPRECATED)
 **Problem:** Documentation drift (FILE-LOCATION-STANDARDS.md was wrong)
 **Solution:** Automated enforcement via pre-commit hooks
 **Status:** ✅ Fully enforced
-**Framework:** Intelligence Adjacent (IA) v4.0
+**Framework:** Intelligence Adjacent (IA) v1.0.0

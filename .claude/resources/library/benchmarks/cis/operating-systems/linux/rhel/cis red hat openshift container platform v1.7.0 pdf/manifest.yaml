@@ -1,0 +1,8 @@
+name: CIS Red Hat Openshift Container Platform V1.7.0 PDF
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 355
+published: '2025-12-12'

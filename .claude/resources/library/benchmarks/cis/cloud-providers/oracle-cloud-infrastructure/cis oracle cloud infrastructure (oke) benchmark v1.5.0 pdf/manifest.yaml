@@ -1,0 +1,8 @@
+name: CIS Oracle Cloud Infrastructure (OKE) Benchmark v1.5.0 PDF
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 164
+published: '2025-12-12'

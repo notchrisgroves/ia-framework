@@ -1,0 +1,9 @@
+name: CIS Red Hat Openshift Container Platform Benchmark v1.8.0 PDF
+version: 1.8.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 349
+published: '2025-12-12'

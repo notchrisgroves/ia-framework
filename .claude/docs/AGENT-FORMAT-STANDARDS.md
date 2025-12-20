@@ -378,4 +378,4 @@ cp library/templates/AGENT-TEMPLATE.md agents/new-agent.md
 **Version:** 1.0
 **Last Updated:** 2025-12-17
 **Enforcement:** MANDATORY
-**Framework:** Intelligence Adjacent (IA) v4.0
+**Framework:** Intelligence Adjacent (IA) v1.0.0

@@ -335,5 +335,5 @@ fi
 ---
 
 **Last Updated:** 2025-12-17
-**Framework:** Intelligence Adjacent (IA) v4.0
+**Framework:** Intelligence Adjacent (IA) v1.0.0
 **Status:** Active enforcement + roadmap for complete coverage

@@ -1,0 +1,9 @@
+name: CIS ExtremeNetworks SLX OS 20.X.X Benchmark v1.0.1
+version: 1.0.1
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 74
+published: '2025-12-12'

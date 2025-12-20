@@ -1,0 +1,10 @@
+name: CIS Ubuntu Linux 18.04 LXD Host Benchmark v1.0.0 ARCHIVE
+version: 1.0.0
+type: benchmark
+provider: cis
+platform: linux
+skills:
+- secure-config
+- benchmark-generation
+pages: 510
+published: '2025-12-12'

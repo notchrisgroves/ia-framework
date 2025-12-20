@@ -1,0 +1,9 @@
+name: CIS VMware vSphere 7.0 vCenter Appliance Perfcharts STIG Benchmark v1.0.0
+version: 1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 80
+published: '2025-12-12'

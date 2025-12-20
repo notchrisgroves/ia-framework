@@ -1,0 +1,9 @@
+name: CIS Google Kubernetes Engine (GKE) Benchmark v1.8.0 PDF
+version: 1.8.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 222
+published: '2025-12-12'

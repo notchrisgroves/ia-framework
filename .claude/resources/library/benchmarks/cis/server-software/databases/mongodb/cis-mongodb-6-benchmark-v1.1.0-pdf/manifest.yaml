@@ -1,0 +1,9 @@
+name: CIS Mongodb 6 Benchmark v1.1.0 PDF
+version: 1.1.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 81
+published: '2025-12-12'

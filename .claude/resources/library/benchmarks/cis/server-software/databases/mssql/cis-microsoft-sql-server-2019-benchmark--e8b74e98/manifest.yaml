@@ -1,0 +1,9 @@
+name: CIS Microsoft SQL Server 2019 Benchmark v1.5.1 FINAL UPDATE
+version: 1.5.1
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 132
+published: '2025-12-12'

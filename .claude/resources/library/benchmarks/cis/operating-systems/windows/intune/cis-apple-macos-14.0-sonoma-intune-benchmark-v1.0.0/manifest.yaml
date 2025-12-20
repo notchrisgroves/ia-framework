@@ -1,0 +1,10 @@
+name: CIS Apple MacOS 14.0 Sonoma Intune Benchmark v1.0.0
+version: 1.0.0
+type: benchmark
+provider: cis
+platform: macos
+skills:
+- secure-config
+- benchmark-generation
+pages: 283
+published: '2025-12-12'

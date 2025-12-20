@@ -1,0 +1,9 @@
+name: CIS Oracle Database 12c Benchmark v3.0.0 ARCHIVE
+version: 3.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 263
+published: '2025-12-12'

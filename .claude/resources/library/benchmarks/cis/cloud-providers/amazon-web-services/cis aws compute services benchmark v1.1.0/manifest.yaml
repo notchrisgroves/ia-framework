@@ -1,0 +1,9 @@
+name: CIS AWS Compute Services Benchmark v1.1.0
+type: benchmark
+provider: cis
+platform: aws
+skills:
+- secure-config
+- benchmark-generation
+pages: 237
+published: '2025-12-12'

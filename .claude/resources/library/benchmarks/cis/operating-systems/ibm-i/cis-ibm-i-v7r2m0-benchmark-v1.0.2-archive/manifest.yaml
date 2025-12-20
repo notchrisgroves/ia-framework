@@ -1,0 +1,9 @@
+name: CIS IBM i V7R2M0 Benchmark v1.0.2 Archive
+version: 1.0.2
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 162
+published: '2025-12-12'

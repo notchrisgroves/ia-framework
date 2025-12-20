@@ -1,0 +1,8 @@
+name: CIS VMware ESXi 8.0 benchmark v1.1.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 289
+published: '2025-12-12'

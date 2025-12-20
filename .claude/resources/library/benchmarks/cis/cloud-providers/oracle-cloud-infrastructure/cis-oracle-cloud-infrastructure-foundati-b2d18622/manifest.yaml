@@ -1,0 +1,9 @@
+name: CIS Oracle Cloud Infrastructure Foundations Benchmark v3.0.0
+version: 3.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 215
+published: '2025-12-12'

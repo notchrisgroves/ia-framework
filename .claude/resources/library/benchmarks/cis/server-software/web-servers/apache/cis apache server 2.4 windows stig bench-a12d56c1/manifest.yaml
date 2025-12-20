@@ -1,0 +1,9 @@
+name: CIS Apache Server 2.4 Windows STIG Benchmark V1.0.0 PDF
+type: benchmark
+provider: cis
+platform: windows
+skills:
+- secure-config
+- benchmark-generation
+pages: 102
+published: '2025-12-12'

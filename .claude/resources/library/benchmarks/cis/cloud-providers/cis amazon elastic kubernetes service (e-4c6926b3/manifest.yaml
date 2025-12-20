@@ -1,0 +1,9 @@
+name: CIS Amazon Elastic Kubernetes Service (EKS) Benchmark v1.6.0
+type: benchmark
+provider: cis
+platform: aws
+skills:
+- secure-config
+- benchmark-generation
+pages: 170
+published: '2025-12-12'

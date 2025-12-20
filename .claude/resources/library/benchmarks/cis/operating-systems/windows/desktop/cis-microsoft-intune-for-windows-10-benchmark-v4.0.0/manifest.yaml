@@ -1,0 +1,10 @@
+name: CIS Microsoft Intune for Windows 10 Benchmark v4.0.0
+version: 4.0.0
+type: benchmark
+provider: cis
+platform: windows
+skills:
+- secure-config
+- benchmark-generation
+pages: 1072
+published: '2025-12-12'

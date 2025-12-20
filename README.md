@@ -1,8 +1,8 @@
 # Intelligence Adjacent (IA) Framework
 
-**Building systems that augment human intelligence, not replace it.**
+**Intelligence Adjacent (IA)** is a framework for building AI systems that work alongside human intelligence rather than attempting to replace it.
 
-A modular framework for Claude Code that provides structured workflows, specialized agents, and progressive context loading for AI-assisted development.
+We believe that orchestration and scaffolding are more important than model intelligence. The goal is upgrading human capabilities, not automation.
 
 ---
 

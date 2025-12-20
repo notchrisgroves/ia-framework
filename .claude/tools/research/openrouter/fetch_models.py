@@ -34,9 +34,9 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime, timedelta
 
 # =============================================================================
-# UTF-8 Encoding for Windows
+# UTF-8 Encoding for Windows - only set if not already wrapped
 # =============================================================================
-if sys.platform == 'win32':
+if sys.platform == 'win32' and not isinstance(sys.stdout, io.TextIOWrapper):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
@@ -59,29 +59,37 @@ except ImportError:
 # =============================================================================
 def load_api_key() -> str:
     """Load OpenRouter API key from .env file"""
+    # Find .env file - try multiple levels up from script location
+    # Script is at: tools/research/openrouter/fetch_models.py
+    # .env is at: .claude/.env (parents[3] from script)
+    possible_env_paths = [
+        Path(__file__).parents[3] / '.env',  # .claude/.env
+        Path(__file__).parents[2] / '.env',  # tools/.env (legacy)
+        Path.cwd() / '.env',                  # Current directory
+    ]
+
     # Try dotenv first
     try:
         from dotenv import load_dotenv
-        env_path = Path(__file__).parents[2] / '.env'
-        load_dotenv(env_path)
-        api_key = os.getenv("OPENROUTER_API_KEY")
-        if api_key:
-            return api_key
+        for env_path in possible_env_paths:
+            if env_path.exists():
+                load_dotenv(env_path)
+                api_key = os.getenv("OPENROUTER_API_KEY")
+                if api_key:
+                    return api_key
     except ImportError:
         pass
 
     # Fallback to manual parsing
-    env_file = Path(__file__).parents[2] / '.env'
-    if not env_file.exists():
-        raise FileNotFoundError(f".env file not found at {env_file}")
+    for env_file in possible_env_paths:
+        if env_file.exists():
+            with open(env_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith('OPENROUTER_API_KEY='):
+                        return line.split('=', 1)[1].strip()
 
-    with open(env_file, 'r', encoding='utf-8') as f:
-        for line in f:
-            line = line.strip()
-            if line.startswith('OPENROUTER_API_KEY='):
-                return line.split('=', 1)[1].strip()
-
-    raise ValueError("OPENROUTER_API_KEY not found in .env file")
+    raise FileNotFoundError(f".env file not found. Searched: {[str(p) for p in possible_env_paths]}")
 
 OPENROUTER_API_KEY = load_api_key()
 
@@ -89,7 +97,8 @@ OPENROUTER_API_KEY = load_api_key()
 # Configuration
 # =============================================================================
 MODELS_API_URL = "https://openrouter.ai/api/v1/models"
-CACHE_DIR = Path(__file__).parents[2] / '.cache' / 'openrouter'
+# Cache at .claude/.cache/openrouter/ (framework root)
+CACHE_DIR = Path(__file__).parents[3] / '.cache' / 'openrouter'
 CACHE_FILE = CACHE_DIR / 'models.json'
 CACHE_TTL_HOURS = 24  # Refresh every 24 hours
 

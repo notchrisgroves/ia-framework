@@ -1,0 +1,12 @@
+# =============================================================================
+# LICENSED MATERIALS - PRIVATE BACKUP ONLY
+# =============================================================================
+# Books, proprietary content - never commit to public repos
+
+/licensed/
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp

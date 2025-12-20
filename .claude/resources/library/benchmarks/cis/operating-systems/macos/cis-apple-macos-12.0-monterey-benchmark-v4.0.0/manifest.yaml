@@ -1,0 +1,10 @@
+name: CIS Apple macOS 12.0 Monterey Benchmark v4.0.0
+version: 4.0.0
+type: benchmark
+provider: cis
+platform: macos
+skills:
+- secure-config
+- benchmark-generation
+pages: 425
+published: '2025-12-12'

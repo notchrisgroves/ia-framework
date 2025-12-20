@@ -1,0 +1,8 @@
+name: CIS Redhat OpenShift Virtual Machine Extension Benchmark V1.0.0 PDF
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 90
+published: '2025-12-12'

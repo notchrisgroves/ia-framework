@@ -1,0 +1,9 @@
+name: CIS Microsoft SQL Server 2016 Benchmark v1.4.0 Archive
+version: 1.4.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 121
+published: '2025-12-12'

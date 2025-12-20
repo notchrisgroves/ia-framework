@@ -77,28 +77,42 @@ description: Brief description of what command does
 
 ## Available Commands
 
-**Security Testing (6):**
+**Security Testing:**
 - `/pentest` - Penetration testing with Director/Mentor/Demo modes
 - `/vuln-scan` - Automated vulnerability scanning
 - `/segmentation-test` - Network segmentation validation
+
+**Security Analysis:**
 - `/code-review` - Security-focused code review
 - `/arch-review` - Architecture security with threat modeling
-- `/risk-assessment` - Formal cybersecurity risk assessment
-
-**Security Engineering (4):**
-- `/secure-config` - Infrastructure hardening validation (CIS/STIG)
-- `/dependency-audit` - Supply chain security analysis
-- `/benchmark-gen` - Generate CIS/STIG compliance scripts
 - `/threat-intel` - Threat intelligence with CVE research
+- `/dependency-audit` - Supply chain security analysis
+- `/secure-config` - Infrastructure hardening validation (CIS/STIG)
+- `/benchmark-gen` - Generate CIS/STIG compliance scripts
+- `/risk-assessment` - Formal cybersecurity risk assessment
+- `/security-advice` - Ad-hoc security guidance
+- `/compliance` - Legal compliance review (HIPAA, PCI DSS, GDPR)
+- `/policy` - Multi-framework policy generation
 
-**Career (1):**
+**Career & Development:**
 - `/job-analysis` - Job posting analysis, resume optimization, interview prep
+- `/mentorship` - Skill building and learning roadmaps
+- `/clifton` - CliftonStrengths coaching
 
-**Content (2):**
-- `/blog-post` - Blog content creation for Intelligence Adjacent
+**Content:**
+- `/blog-post` - Blog content creation
 - `/newsletter` - Weekly newsletter digest generation
+- `/generate-image` - FLUX hero image generation
+- `/diagram` - Diagram generation and export
 
-**Git/Sync (2):**
+**Health & Wellness:**
+- `/training` - Fitness program design
+- `/wellness` - Alternative health reference
+
+**Utility:**
+- `/ingest-repo` - GitHub repository ingestion
+
+**Git/Sync (Private):**
 - `/git-sync` - Git workflow automation (stage, commit, push)
 - `/public-sync` - Publish framework to public GitHub
 
@@ -255,4 +269,4 @@ commands/
 
 **Command Count:** Multiple specialized commands (see list above)
 **Format:** Markdown with YAML frontmatter
-**Framework:** Intelligence Adjacent (IA) v4.0
+**Framework:** Intelligence Adjacent (IA) v1.0.0

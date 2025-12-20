@@ -1,0 +1,10 @@
+name: CIS Apple macOS 11.0 Big Sur Benchmark v2.1.0 ARCHIVE
+version: 2.1.0
+type: benchmark
+provider: cis
+platform: macos
+skills:
+- secure-config
+- benchmark-generation
+pages: 365
+published: '2025-12-12'

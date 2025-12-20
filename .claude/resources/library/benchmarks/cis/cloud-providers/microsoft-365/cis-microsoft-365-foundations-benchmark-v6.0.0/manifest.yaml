@@ -1,0 +1,9 @@
+name: CIS Microsoft 365 Foundations Benchmark v6.0.0
+version: 6.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 535
+published: '2025-12-12'

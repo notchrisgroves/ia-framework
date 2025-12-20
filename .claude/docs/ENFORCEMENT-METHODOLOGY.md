@@ -261,5 +261,5 @@ Based on research of official 2025 features:
 ---
 
 **Last Updated:** 2025-12-14
-**Framework:** Intelligence Adjacent (IA) v4.0
+**Framework:** Intelligence Adjacent (IA) v1.0.0
 **Status:** Baseline standard for all future enforcement

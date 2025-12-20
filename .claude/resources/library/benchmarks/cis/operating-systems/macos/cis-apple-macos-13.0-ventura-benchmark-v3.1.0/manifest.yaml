@@ -1,0 +1,10 @@
+name: CIS Apple macOS 13.0 Ventura Benchmark v3.1.0
+version: 3.1.0
+type: benchmark
+provider: cis
+platform: macos
+skills:
+- secure-config
+- benchmark-generation
+pages: 422
+published: '2025-12-12'

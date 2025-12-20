@@ -68,7 +68,7 @@ last_updated: 2025-12-14
 **ALLOWED:**
 ```markdown
 ✅ **Status:** Active Development
-✅ **Version:** 4.0.0
+✅ **Version:** 1.0.0
 ```
 
 Simple badge/tag only, no detailed progress tracking.
@@ -343,7 +343,7 @@ python tools/validation/validate-readme.py --strict
 **Right:**
 ```markdown
 **Status:** Active Development
-**Version:** 4.0.0
+**Version:** 1.0.0
 ```
 
 **Move detailed progress to:** `sessions/2025-12-14-framework-rebuild.md`

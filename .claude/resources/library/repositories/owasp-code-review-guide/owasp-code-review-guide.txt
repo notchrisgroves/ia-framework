@@ -1,0 +1,1034 @@
+Directory structure:
+└── owasp-www-project-code-review-guide/
+    ├── README.md
+    ├── 404.html
+    ├── _config.yml
+    ├── Gemfile
+    ├── index.md
+    ├── info.md
+    ├── leaders.md
+    ├── LICENSE
+    ├── migrated_content.md
+    ├── tab_example.md
+    ├── _data/
+    │   └── document.yml
+    ├── _sass/
+    │   ├── _codereviewdoc.scss
+    │   └── _main.scss
+    ├── assets/
+    │   ├── css/
+    │   │   └── styles.scss
+    │   └── images/
+    │       └── README.md
+    ├── current/
+    │   ├── acknowledgements.md
+    │   ├── index.md
+    │   ├── chapter_001/
+    │   │   ├── how-to.md
+    │   │   └── introduction.md
+    │   └── chapter_002/
+    │       ├── methodology.md
+    │       ├── methodology2.1.md
+    │       ├── methodology2.2.md
+    │       ├── methodology2.3.md
+    │       ├── methodology2.4.md
+    │       ├── methodology2.5.md
+    │       └── secure-code-review.md
+    ├── discussion/
+    │   ├── content_planning.md
+    │   ├── vision-and-roadmap.md
+    │   ├── sections/
+    │   │   ├── methodology.md
+    │   │   ├── whatisscr.md
+    │   │   └── whoshoulduse.md
+    │   └── version_2_0/
+    │       └── Issues_Remarks.md
+    ├── draft/
+    │   ├── index.md
+    │   ├── chapter_001/
+    │   │   ├── how-to.md
+    │   │   └── introduction.md
+    │   └── chapter_002/
+    │       ├── methodology.md
+    │       └── secure-code-review.md
+    └── pages/
+        └── reviewing-code-for-cross-site-request-forgery-issues.md
+
+================================================
+FILE: README.md
+================================================
+# OWASP Secure Code Review Guide
+
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/OWASP/wstg/issues)
+
+[![Creative Commons License](https://licensebuttons.net/l/by-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0")
+
+Welcome to the official repository for the Secure Code Review Guide. The Secure Code Review Guide is a comprehensive guide that aids software developers in reviewing code for security vulnerabilities and security bugs. 
+
+We are currently working on a new release (3.0), and our project is open for contributions. Have a look at the [discussion folder](https://github.com/OWASP/www-project-code-review-guide/blob/master/discussion/vision-and-roadmap.md) to see how the project is shaping up and read about the roadmap and vision.
+
+To find the previous [code review guide 2.0 here](https://owasp.org/www-project-code-review-guide/assets/OWASP_Code_Review_Guide_v2.pdf).
+
+- [How to contribute](#how-to-contribute)
+- [Get in touch](#get-in-touch)
+
+
+
+## How to contribute
+
+The new release of the secure code review guide has just started, and as such, it's a fantastic time to join us and help shape the latest version. We welcome your contributions, whether you have a lot or just minimal experience in software engineering, security, or IT. We are happy to help you get started. Similarly, if you have a lot or just a little time at your hand, there are plenty of opportunities to help with this project. 
+
+Here are a few ways you can help:
+
+- Please help us fix any spelling mistakes or grammatical errors in the current draft.
+- The code review guide is only available in English, but it would be great if you could help translate it to another language.
+- We have a list of open issues from which you can pick one to work on and submit a pull request. If you need help with getting started, please [get in touch](#get-in-touch).
+- Finally, if you have an excellent idea for improving the code review guide, you can also open a new issue yourself.
+
+
+
+## Get in touch
+
+You can find us on Slack:
+
+1. Join the OWASP Group Slack with this [invitation link](https://owasp.org/slack/invite).
+2. Join this project's channel #project-secure-code-review-guide
+
+Feel free to ask questions, suggest ideas, or share your best recipes.
+
+
+
+================================================
+FILE: 404.html
+================================================
+---
+
+title: 404 - Not Found
+layout: col-generic
+
+---
+
+<div class="container">
+  <p><img src="/assets/images/web/404-old-owasp.png"></p>
+  <h2>WHOA THAT PAGE CANNOT BE FOUND</h2>
+  <p>Try the <strong>SEARCH</strong> function in the main navigation to find something. If you are looking for chapter information, please see <a href="/chapters/">Chapters</a> for the correct chapter. For information about OWASP projects see <a href="/projects/">Projects</a>. For common attacks, vulnerabilities, or information about other community-led contributions see <a href="/www-community/">Contributed Content</a>.</p>
+  
+  <hr>
+  <p><strong>If all else fails you can search our <a href="https://wiki.owasp.org/">historical site</a>.</strong></p>
+</div>
+
+
+
+================================================
+FILE: _config.yml
+================================================
+remote_theme: "owasp/www--site-theme@main"
+plugins:
+ - jekyll-include-cache-0.2.0
+ 
+# core files/folders to exclude
+exclude:
+ - README.md
+ - discussion/*
+
+
+================================================
+FILE: Gemfile
+================================================
+source 'https://rubygems.org'
+group :jekyll_plugins do
+    gem 'github-pages'
+end
+
+
+
+================================================
+FILE: index.md
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x9d in position 1565: character maps to <undefined>
+
+
+================================================
+FILE: info.md
+================================================
+### Project Information
+* <i class="fas fa-flask" style="font-size: 1.2em; color:#E8C306;"></i><span style="font-size:1.0em;padding-left:12px;">Lab Project</span>
+* <i class="fas fa-book" style="font-size: 1.2em; color:#233e81;"></i><span style="font-size:1.0em;padding-left:12px;">Documentation</span>
+* <i class="fas fa-shield-alt" style="font-size: 1.2em; color:#233e81;"></i><span style="font-size:1.0em;padding-left:12px;">Defender</span>
+* <i class="fas fa-toolbox" style="font-size: 1.2em; color:#233e81;"></i><span style="font-size:1.0em;padding-left:12px;">Builder</span>
+
+### Downloads
+* [Current PDF Version (July 2017) - 2.0](assets/OWASP_Code_Review_Guide_v2.pdf)
+
+### GitHub
+* [GitHub Repo](https://github.com/OWASP/www-project-code-review-guide)
+
+
+
+================================================
+FILE: leaders.md
+================================================
+### Leaders
+
+* Cole Cornford
+* Michaela Greiler
+
+
+
+
+================================================
+FILE: LICENSE
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x9d in position 19693: character maps to <undefined>
+
+
+================================================
+FILE: migrated_content.md
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x9d in position 2691: character maps to <undefined>
+
+
+================================================
+FILE: tab_example.md
+================================================
+---
+title: Example
+layout:  null
+tab: true
+order: 1
+tags: example-tag
+---
+
+## Example
+
+Put whatever you like here: news, screenshots, features, supporters, or remove this file and don't use tabs at all.
+
+
+================================================
+FILE: _data/document.yml
+================================================
+- title: OWASP Code Review Guide
+  tags: Code Review Guide
+  author:
+  contributors:
+  url: current/
+  chapters:
+    - title: Foreword
+      pages:
+        - title: Foreword
+          url: current/
+        - title: Acknowledgements
+          url: current/acknowledgements/
+    - title: Chapter 1
+      pages:
+        - title: Introduction
+          url: chapter_001/introduction/
+        - title: How To Use the Code Review Guide
+          url: chapter_001/how-to/
+    - title: Chapter 2
+      pages:
+        - title: Secure Code Review
+          url: chapter_001/secure-code-review/
+        - title: Methodology
+          url: chapter_001/methodology/
+- title: Code Review Guide 3.0
+  tags: Code Review Guide 3.0 Draft
+  author: 
+  contributors:
+  url: draft/
+  chapters:
+    - title: Foreword
+      pages:
+        - title: Foreward & Acknowledgements
+          url: draft/
+    - title: Chapter 1
+      pages:
+        - title: Introduction
+          url: chapter_001/introduction/
+        - title: How To Use the Code Review Guide
+          url: chapter_001/how-to/
+    - title: Chapter 2
+      pages:
+        - title: Secure Code Review
+          url: chapter_001/secure-code-review/
+        - title: Methodology
+          url: chapter_001/methodology/
+
+
+================================================
+FILE: _sass/_codereviewdoc.scss
+================================================
+.leader-header {
+    display:table;
+    width:100%;
+}
+
+.leader-pic {
+    float:left;
+    text-align:center;
+    height:300px;
+}
+
+.ack-div {
+    display:block;
+    width:100%;
+}
+
+.contributors {
+    display:grid; 
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    font-size:smaller;
+}
+
+
+
+@media screen and (max-width: 400px) {
+    .contributors {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+================================================
+FILE: _sass/_main.scss
+================================================
+@import "codereviewdoc";
+
+
+================================================
+FILE: assets/css/styles.scss
+================================================
+---
+---
+
+@import "main";
+
+
+================================================
+FILE: assets/images/README.md
+================================================
+# placeholder
+
+Put images you wish to link to in this folder
+
+link would be in form /assets/images/<filename.ext>
+
+
+
+================================================
+FILE: current/acknowledgements.md
+================================================
+---
+
+title: Acknowledgements
+layout: col-document-adv
+tags: Code Review Guide
+document: OWASP Code Review Guide
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+<link href="{{ '/assets/css/styles.css' }}" rel="stylesheet">
+
+<div class='leader-header'>
+  <h3>Project Leaders</h3>
+    <div class='leader-pic'><img src="/assets/images/lconklin.png">
+        <br>Larry Conklin
+    </div>
+    <div class='leader-pic'><img src="/assets/images/grobinson.png">
+        <br>Gary Robinson
+    </div>
+</div>
+<div class='ack-div'>
+<h3>Version 2.0, 2017</h3>
+<div class='contributors'>
+<div>
+<strong>Content Contributors</strong><br>
+Larry Conklin<br>
+Gary Robinson<br>
+Johanna Curiel<br>
+Eoin Keary<br>
+Islam Azeddine Mennouchi<br>
+Abbas Naderi<br>
+Carlos Pantelides<br>
+Michael Hidalgo
+</div>
+<div>
+<strong>Reviewers</strong><br>
+Alison Shubert<br>
+Fernando Galves<br>
+Sytze van Koningsveld<br>
+Carolyn Cohen<br>
+Helen Gao<br>
+Jan Masztal<br>
+David Li<br>
+Lawrence J Timmins<br>
+Kwok Cheng<br>
+Ken Prole<br>
+David Dâ€™Amico<br>
+Robert Ferris<br>
+Lenny Halseth<br>
+Kenneth F. Belva
+</div>
+</div>
+</div>
+<hr>
+<div class='ack-div'>
+<h3>Version 1.0, 2007</h3>
+<div class='contributors'>
+<div>
+<strong>Project Leader</strong><br>
+Eoin Keary<br>
+</div>
+<div>
+<strong>Content Contributors</strong><br>
+Jenelle Chapman<br>
+Andrew van der Stock<br>
+Paolo Perego<br>
+David Lowry<br>
+David Rook<br>
+Dinis Cruz<br>
+Jeff Williams
+</div>
+<div>
+<strong>Reviewers</strong><br>
+Jeff Williams<br>
+Rahin Jina
+</div>
+</div>
+</div>
+
+
+================================================
+FILE: current/index.md
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x9d in position 1525: character maps to <undefined>
+
+
+================================================
+FILE: current/chapter_001/how-to.md
+================================================
+---
+
+title: How to Use the Code Review Guide
+layout: col-document-adv
+tags: Code Review Guide
+document: OWASP Code Review Guide
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+The contents and the structure of the book have been carefully designed. Further, all the contributed chapters have been judiciously edited and integrated into a unifying framework that provides uniformity in structure and style.
+
+**This book is written to satisfy three diferent perspectives.**
+1. Management teams who wish to understand the reasons of why code reviews are needed and why they are included in best
+practices in developing secure enterprise software for todays organizations. Senior management should thoroughly read sections one and two of this book. Management needs to consider the following items if doing secure coding is going to be part of
+the organizations software development lifecycle:
+    * Does organization project estimation allot time for code reviews?
+    * Does management have the capability to track the relevant metrics of code review and static analysis for each project and
+    programmer?
+    * Management needs to decide when in the project life cycle will that code reviews should be done in the project lifecycle and
+    what changes to existing projects require review of previously completed code reviews.
+
+2. Software leads who want to give manfully feedback to peers in code review with ample empirical artifacts as what to look for
+in helping create secure enterprise software for their organizations. They should consider:
+    * As a peer code reviewer, to use this book you frst decided on the type of code review do you want to accomplish. Lets spend a
+few minutes going over each type of code review to help in deciding how this book can be assistance to you.
+    * API/design code reviews. Use this book to understand how architecture designs can lead to security vulnerabilities. Also if the
+API is a third party API what security controls are in place in the code to prevent security vulnerabilities.
+    * Maintainability code reviews. These types of code reviews are more towards the organizations internal best coding practices.
+This book does cover code metrics, which can help the code reviewer, better understand what code to look at for security vulnerabilities if a section of code is overly complex.
+    * Integration code reviews. Again these types of code reviews are more towards the organizations internal coding policies. Is
+the code being integrated into the project fully vetted by IT management and approved? Many security vulnerabilities are now
+being implemented by using open source libraries whichh may bring in dependencies that are not secure.
+    * Testing code reviews. Agile and Test Driven design where programmer creates unit tests to prove code methods works as the
+programmer intended. This code is not a guide for testing software. The code reviewer may want to pay attention to unit test
+cases to make sure all methods have appropriate exceptions; code fails in a safe way. If possible each security control in code has
+the appropriate unit test cases.
+
+3. Secure code reviewer who wants an updated guide on how secure code reviews are integrated in to the organizations secure
+software development lifecycle. This book will also work as a reference guide for the code review as code is in the review process.
+This book provides a complete source of information needed by the code reviewer. It should be read frst as a story about code
+reviews and seconds as a desktop reference guide.
+
+
+================================================
+FILE: current/chapter_001/introduction.md
+================================================
+---
+
+title: Introduction
+layout: col-document-adv
+tags: Code Review Guide
+document: OWASP Code Review Guide
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+Welcome to the second edition of the OWASP Code Review Guide Project. The second edition brings the
+successful OWASP Code Review Guide up to date with current threats and countermeasures. This version also includes new content reflecting the OWASP communitiesâ€™ experiences of secure code review best practices.
+
+## Contents
+The Second Edition of the Code Review Guide has been developed to advise software developers and
+management on the best practices in secure code review, and how it can be used within a secure software development life-cycle (S-SDLC). The guide begins with sections that introduce the reader to secure code review and how it can be introduced into a companyâ€™s S-SDLC. It then concentrates on
+specifc technical subjects and provides examples of what a reviewer should look for when reviewing technical code. Specifcally the guide covers:
+
+**Overview**
+This section introduces the reader to secure code review and the advantages it can bring to a development organization. It gives an overview of secure code review techniques and describes how code
+review compares other techniques for analyzing secure code.
+
+**Methodology**
+The methodology section goes into more detail on how to integrate secure review techniques into development organizations S-SDLC and how the personnel reviewing the code can ensure they have the
+correct context to conduct an efective review. Topics include applying risk based intelligence to security code reviews, using threat modelling to understand the application being review
+
+
+================================================
+FILE: current/chapter_002/methodology.md
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x9d in position 1471: character maps to <undefined>
+
+
+================================================
+FILE: current/chapter_002/methodology2.1.md
+================================================
+---
+
+title: Methodology (cont.)
+layout: col-document-adv
+tags: Code Review Guide
+document: OWASP Code Review Guide
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+### 2.1 Why Does Code Have Vulnerabilities?
+
+MITRE has catalogued circa 1000 diferent kinds of software weaknesses in the CWE project. These are all
+diferent ways that software developers can make mistakes that lead to insecurity. Every one of these weaknesses is subtle and many are seriously tricky. Software developers are not taught about these weaknesses in
+school and most do not receive any on the job training about these problems.
+These problems have become so important in recent years because we continue to increase connectivity
+and add technologies and protocols at an extremely fast rate. The ability to invent technology has seriously
+outstripped the ability to secure it. Many of the technologies in use today simply have not received enough
+(or any) security scrutiny.
+There are many reasons why businesses are not spending the appropriate amount of time on security. Ultimately, these reasons stem from an underlying problem in the software market. Because software is essentially a black box, it is extremely difcult for a customer to tell the diference between good code and insecure
+code. Without this visibility vendors are not encouraged to spend extra efort to produce secure code. Nevertheless, information security experts frequently get pushback when they advocate for security code review,
+with the following (unjustifed) excuses for not putting more efort into security:
+> We never get hacked (that I know of), we donâ€™t need security.
+
+> We have a firewall that protects our applications.
+
+> We trust our employees not to attack our applications.
+
+Over the last 10 years, the team involved with the OWASP Code Review Project has performed thousands of
+application reviews, and found that every non-trivial application has had security vulnerabilities. If code has
+not been reviewed for security holes, the likelihood that the application has problems is virtually 100%.
+Still, there are many organizations that choose not to know about the security of their code. To them, consider
+Rumsfeldâ€™s cryptic explanation of what we actually know:
+
+> ...we know, there are known knowns; there are things we know we know. We also know there are known unknowns; that is to say we know there are some things we do not know. But there are also unknown unknowns-- the ones we donâ€™t know we donâ€™t know.
+> - Donald Rumsfeld
+
+If informed decisions are being made based on a measurement of risk in the enterprise, which will be fully
+supported. However, if risks are not being understood, the company is not being duly diligent, and is being
+irresponsible both to shareholders and customers
+
+
+
+================================================
+FILE: current/chapter_002/methodology2.2.md
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x9d in position 1146: character maps to <undefined>
+
+
+================================================
+FILE: current/chapter_002/methodology2.3.md
+================================================
+---
+
+title: Methodology (cont.)
+layout: col-document-adv
+tags: Code Review Guide
+document: OWASP Code Review Guide
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+### 2.3 What is the diference between Code Review and Secure Code Review?
+
+The Capability Maturity Model (CMM) is a widely recognized process model for measuring the development
+processes of a software development organization. It ranges from â€˜level 1â€™ where development processes are
+ad hoc, unstable and not repeatable, to â€˜level 5â€™ where the development processes are well organized, documented and continuously improving. It is assumed that a companyâ€™s development processes would start out at level 1 when starting out (a.k.a start-up mode) and will become more defined, repeatable and generally
+professional as the organization matures and improves. Introducing the ability to perform code reviews (note
+this is not dealing with secure code review yet) comes in when an organization has reached level 2 (Repeatable) or level 3 (Defined).
+
+Secure Code Review is an enhancement to the standard code review practice where the structure of the review process places security considerations, such as company security standards, at the forefront of the decision-making. Many of these decisions will be explained in this document and attempt to ensure that the
+review process can adequately cover security risks in the code base, for example ensuring high risk code is
+reviewed in more depth, ensuring reviewers have the correct security context when reviewing the code, ensuring reviewers have the necessary skills and secure coding knowledge to effectively evaluate the code.
+
+
+
+================================================
+FILE: current/chapter_002/methodology2.4.md
+================================================
+---
+
+title: Methodology (cont.)
+layout: col-document-adv
+tags: Code Review Guide
+document: OWASP Code Review Guide
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+### 2.4 Determining the Scale of a Secure Source Code Review
+
+The level of secure source code review will vary depending on the business or regulatory needs of the software, the
+size of the software development organization writing the applications and the skills of the personnel. Similar to
+other aspects of software development such as performance, scalability and maintainability, security is a measure of
+maturity in an application. Security is one of the non-functional requirements that should be built into every serious
+application or tool that is used for commercial or governmental purposes.
+
+If the development environment consists of one person programming as a hobby and writing a program to track
+their weekly shopping in visual basic (CMM level 1), it is unlikely that that programmer will use all of the advice
+within this document to perform extensive levels of secure code review. On the other extreme, a large organization
+with thousands of developers writing hundreds of applications will (if they wish to be successful) take security very
+seriously, just like they would take performance and scalability seriously.
+Not every development organization has the necessity, or resources, to follow and implement all of the topics in
+this document, but all organizations should be able to begin to write their development processes in a way that
+can accommodate the processes and technical advice most important to them. Those processes should then
+be extensible to accommodate more of the secure code review considerations as the organization develops and
+matures.
+
+In a start-up consisting of 3 people in a darkened room, there will not be a â€˜code review teamâ€™ to send the code to,
+instead itâ€™ll be the bloke in the corner who read a secure coding book once and now uses it to prop up his monitor.
+In a medium sized company there might be 400 developers, some with security as an interest or specialty, however
+the organizations processes might give the same amount of time to review a 3 line CSS change as it gives to a
+redesign of the flagship products authentication code. Here the challenge is to increase the workforceâ€™s secure
+coding knowledge (in general) and improve the processes through things like threat modelling and secure code
+review.
+
+For some larger companies with many thousands of developers, the need for security in the S-SDLC is at its greatest,
+but process efficiency has an impact on the bottom line. Take an example of a large company with 5,000 developers.
+If a change is introduced to the process that results in each developer taking an extra 15 minutes a week to perform
+a task, suddenly thatâ€™s 1,250 hours extra each week for the company as a whole This results in a need for an extra 30
+full time developers each year just to stay on track (assuming a 40 hour week). The challenge here is to ensure the
+security changes to the lifecycle are efficient and do not impede the developers from performing their task.
+
+<section class='callout-mono left small'>
+<h3>Skilling a Workforce for Secure Code Review</h3>
+<p>
+There seems to be a catch-22 with the following sentiment; as many code developers are not aware or skilled in
+security, a company should implement peer secure code reviews amongst developers.
+How does a workforce introduce the security skills to implement a secure code review methodology? Many
+security maturity models (e.g. BSIMM or OpenSAMM) discuss the concept of a core security team, who are skilled
+developers and skill security subject matter experts (SMEs). In the early days of a company rolling out a secure code review process, the security SMEs will be central in the higher risk reviews, using their experience and
+knowledge to point out aspects of the code that could introduce risk.
+</p>
+<p>
+As well as the core security team a further group of developers with an interest in security can act as team local
+security SMEs, taking part in many secure code reviews. These satellites (as BSIMM calls them) will be guided by
+the core security team on technical issues, and will help encourage secure coding.
+</p>
+<p>
+Over time, an organization builds security knowledge within its core, and satellite teams, which in turns spreads
+the security knowledge across all developers since most code reviews will have a security SME taking part.
+</p>
+<p>
+The â€˜on-the-jobâ€™ training this gives to all developers is very important. Whereas an organization can send their developers on training courses (classroom or CBT) which will introduce them to common security topics and create
+awareness, no training course can be 100% relevant to a developerâ€™s job. In the secure code review process, each
+developer who submits their code will receive security related feedback that is entirely relevant to them, since
+the review is of the code they produced.
+</p>
+</section>
+
+It must be remembered though, no matter what size the organization, the reason to perform secure code review is to catch more bugs and catch them earlier in the S-SDLC. It is quicker to conduct a secure code review and find bugs that way, compared to finding the bugs in testing or in production. For the 5,000-person organization, how long will it take to find a bug in testing, investigate, re-code, re-review, re-release and re-test? What if the code goes to production where project management and support will get involved in tracking the issue and communicating with customers? Maybe 15 minutes a week will seem like a bargain.
+
+
+================================================
+FILE: current/chapter_002/methodology2.5.md
+================================================
+---
+
+title: Methodology (cont.)
+layout: col-document-adv
+tags: Code Review Guide
+document: OWASP Code Review Guide
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+### 2.4 Determining the Scale of a Secure Source Code Review
+
+The level of secure source code review will vary depending on the business or regulatory needs of the software, the
+size of the software development organization writing the applications and the skills of the personnel. Similar to
+other aspects of software development such as performance, scalability and maintainability, security is a measure of
+maturity in an application. Security is one of the non-functional requirements that should be built into every serious
+application or tool that is used for commercial or governmental purposes.
+
+If the development environment consists of one person programming as a hobby and writing a program to track
+their weekly shopping in visual basic (CMM level 1), it is unlikely that that programmer will use all of the advice
+within this document to perform extensive levels of secure code review. On the other extreme, a large organization
+with thousands of developers writing hundreds of applications will (if they wish to be successful) take security very
+seriously, just like they would take performance and scalability seriously.
+Not every development organization has the necessity, or resources, to follow and implement all of the topics in
+this document, but all organizations should be able to begin to write their development processes in a way that
+can accommodate the processes and technical advice most important to them. Those processes should then
+be extensible to accommodate more of the secure code review considerations as the organization develops and
+matures.
+
+In a start-up consisting of 3 people in a darkened room, there will not be a â€˜code review teamâ€™ to send the code to,
+instead itâ€™ll be the bloke in the corner who read a secure coding book once and now uses it to prop up his monitor.
+In a medium sized company there might be 400 developers, some with security as an interest or specialty, however
+the organizations processes might give the same amount of time to review a 3 line CSS change as it gives to a
+redesign of the flagship products authentication code. Here the challenge is to increase the workforceâ€™s secure
+coding knowledge (in general) and improve the processes through things like threat modelling and secure code
+review.
+
+For some larger companies with many thousands of developers, the need for security in the S-SDLC is at its greatest,
+but process efficiency has an impact on the bottom line. Take an example of a large company with 5,000 developers.
+If a change is introduced to the process that results in each developer taking an extra 15 minutes a week to perform
+a task, suddenly thatâ€™s 1,250 hours extra each week for the company as a whole This results in a need for an extra 30
+full time developers each year just to stay on track (assuming a 40 hour week). The challenge here is to ensure the
+security changes to the lifecycle are efficient and do not impede the developers from performing their task.
+
+<section class='callout-mono left small'>
+<h3>Skilling a Workforce for Secure Code Review</h3>
+<p>
+There seems to be a catch-22 with the following sentiment; as many code developers are not aware or skilled in
+security, a company should implement peer secure code reviews amongst developers.
+How does a workforce introduce the security skills to implement a secure code review methodology? Many
+security maturity models (e.g. BSIMM or OpenSAMM) discuss the concept of a core security team, who are skilled
+developers and skill security subject matter experts (SMEs). In the early days of a company rolling out a secure code review process, the security SMEs will be central in the higher risk reviews, using their experience and
+knowledge to point out aspects of the code that could introduce risk.
+</p>
+<p>
+As well as the core security team a further group of developers with an interest in security can act as team local
+security SMEs, taking part in many secure code reviews. These satellites (as BSIMM calls them) will be guided by
+the core security team on technical issues, and will help encourage secure coding.
+</p>
+<p>
+Over time, an organization builds security knowledge within its core, and satellite teams, which in turns spreads
+the security knowledge across all developers since most code reviews will have a security SME taking part.
+</p>
+<p>
+The â€˜on-the-jobâ€™ training this gives to all developers is very important. Whereas an organization can send their developers on training courses (classroom or CBT) which will introduce them to common security topics and create
+awareness, no training course can be 100% relevant to a developerâ€™s job. In the secure code review process, each
+developer who submits their code will receive security related feedback that is entirely relevant to them, since
+the review is of the code they produced.
+</p>
+</section>
+
+It must be remembered though, no matter what size the organization, the reason to perform secure code review is to catch more bugs and catch them earlier in the S-SDLC. It is quicker to conduct a secure code review and find bugs that way, compared to finding the bugs in testing or in production. For the 5,000-person organization, how long will it take to find a bug in testing, investigate, re-code, re-review, re-release and re-test? What if the code goes to production where project management and support will get involved in tracking the issue and communicating with customers? Maybe 15 minutes a week will seem like a bargain.
+
+
+================================================
+FILE: current/chapter_002/secure-code-review.md
+================================================
+---
+
+title: Secure Code Review
+layout: col-document-adv
+tags: Code Review Guide
+document: OWASP Code Review Guide
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+
+================================================
+FILE: discussion/content_planning.md
+================================================
+# Secure Code Review Guide for Developer
+## Content Planning
+| Chapters/Sections  | Assigned to @handle| Review Date  |  Status | Comment |
+|---|---|---|---|---|
+| [Who should read this guide?](sections/whoshoulduse.md)   |   |   |   |   |
+| How to use this guide?  |   |   |   |   |
+| [What is secure code reviewing?](sections/whatisscr.md)  |   |   |   |
+| What's the difference between code reviews and secure code reviews.  |   |   |   |   |
+| METHODOLOGY: [How can secure code review look like in your organization?](sections/methodology.md)   |   |   |   |   |
+| METHODOLOGY: Different size, different methodologies... Best practices.  |   |   |   |   |
+| METHODOLOGY: How rigorous should secure code review be and what are different levels of rigor (maturity)?   |   |   |   |   |
+| [METHODOLOGY: Threat Modeling](https://github.com/OWASP/www-project-code-review-guide/issues/9) |     |   | |  |
+| METHODOLOGY: When should a code review take place  |   |   |   |   |
+| Doing a secure code review  |   |   |   |   |
+| CHECKLIST: Business Logic & Design |     |  |  |   |
+| CHECKLIST: Authorization  |    |    |   |   |
+| CHECKLIST:Authentication  |  |   |   |   |
+| CHECKLIST: Session Management  |   |   |   |   |
+| CHECKLIST: Auditing (Logging, Error Handling & Monitoring)  |     |    |   |   |
+| CHECKLIST: Injection   |     |    |   |   |
+| CHECKLIST: Cryptography  |  |   |   |   |
+| CHECKLIST: Configuration  |     |  |   |   |
+| CHECKLIST: Data Management  |     |  |   |   |
+| CHECKLIST: Web Services   |    |   |   |   |
+| Application threat modeling (assessing risk) on a developer level  |     |    |  |   |
+| How can automated secure code review complement manual review?  |   |   |  |   |
+|   |   |   |   |   |
+
+
+
+================================================
+FILE: discussion/vision-and-roadmap.md
+================================================
+# Vision and Roadmap of The OWASP Code Review Guide
+
+
+
+[TOC]
+
+## Who is this Code Review Guide For
+
+The code review guide is directed at software developers and development teams that want to strengthen their ability to detect security vulnerabilities and security bugs right during continuous software development. The code review guide plays a crucial part in an organization's desire and effort to shift security left. Instead of waiting for dedicated security professionals to inspect the software periodically, this guide helps software developers integrate security-focused thinking and secure code reviews into their daily work. 
+
+## How to work with the Code Review Guide
+
+The secure code review guide comes in the form of a PDF-booklet and can also be viewed online as a webpage. It is lightweight (e.g., shorter than 30 pages), covers the essential aspects of the code review process, and comprises a code review checklist that highlights which aspects developers should consider during code review. The guide also references other necessary resources to help the developers deepen their understanding, but it does not repeat them. 
+
+## Outline of the Guide
+
+### Part 1: Secure Code Review Process
+
+This part of the guide highlights how code reviews, especially reviews focusing on security aspects of the software, can be integrated into a continuous software development process. 
+
+Part 1 of the guideline is relevant for teams or organizations that do not have secure code reviews as part of their development or code review process or want to re-evaluate and optimize their operations.
+
+We envision that part 1 of this guideline is initially consulted by developers and teams but becomes less relevant as their processes mature and settle.
+
+### Part 2: Secure Code Review Checklist
+
+Part 2 of the secure code review guide comprises an actionable checklist, which should become the go-to reference for software developers while reviewing code for security aspects. We envision teams using this part as a reference or handbook during daily code reviews and for training and education purposes. 
+
+
+
+## Changes with regard to version 2.0
+
+- Reduce the lengths drastically (from 218 to less than 30 pages)
+
+- Reduce duplications (such as repeating content that is better covered by other OWASP projects)
+
+- Make sure all sources of information or trustworthy and mentioned in the guide.
+
+  
+
+
+================================================
+FILE: discussion/sections/methodology.md
+================================================
+# Methodology
+
+## How can secure code review look like in your organization?
+
+There is no one size fits all strategy for code reviews, neither is there a fool-proof recipe on how to handle and address security aspects during code reviews.  Instead, we have to take several considerations into account when designing an appropriate code review process for your organizations.
+
+The most influential factors that define your process needs are:
+
+- the size and maturity of the company
+- the technology stack that is being used
+- the type of product and it's associated risk levels
+
+Still, there are a couple of best practices that evolved over the recent years. First of all, code reviews have evolve from an inspection-like activity that was performed only periodically, to a continuous way to collaborate and co-create software.  Similarly, security related considerations and investigations shifted from a periodical activity, to a more continuous effort that now encompasses also development teams. This development is also know as "Shift left". Shift left refers to the fact that security plays now a role sooner in the development process than ever before. This also means that software developers need to know about security. Code reviews are a perfect place to anker this new and added responsibility into the development life cycle. Still, developers need training and guidance on how to fulfill their new responsibility.   
+
+Another aspect of this is that subject matter experts (SME) in the security field should be more tightly integrated. Also here, code reviews present an amazing opportunity. 
+
+Have secure code reviews as part of the development process. Integrate SME with development teams. Have developers trained in secure coding principles.
+
+## How rigorous should secure code review be and what are different levels of rigor (maturity)?
+
+- Focusing on what matters by taking a risk based approach   
+
+- Regulations and requirements for code review
+
+  - Find out if compliance standards changed and if they now mention or require code review. If so, this information should be part of the code review guide. 
+
+- Kind or of application, languages, frameworks, risk associated (customer? medical sector?)
+
+- Technology Stack
+  	- Framework & Language
+   	- 3rd Party Components
+   	- Datastore
+
+- Information Gathering
+
+  - Behavior Profiling
+
+
+    -  Business Purpose
+
+
+    -  Users (internal/external/roles)
+
+
+    -  Information Sensitivity
+
+
+    -  Documentation
+
+
+    -  Mapping 
+
+
+    -  Identify endpoints
+
+
+
+  -  Risk assessment
+
+- Info from 6.5. But updated/ changed. But nice to see methods of establishing/ assessing risks. This is more on a management/organization level
+
+## When should a code review take place
+A code review can take place at different point in time. Nowadays, most code reviews happen before the code is integrated in the main codebase (branch). This is often referred to "pre-checking"\footnote{For people familiar with the git versioning system that can be confusing.  Pre-checking code reviews, mean code reviews that happen before the code is merged into the main branch. Not that the code review happens before the code is committed to the branch.}
+
+Another possibility is to do "post-checking" code reviews. In this case, the code reviews happen after the code is integrated with the main codebase. This can be handy if the changes are of low risk, and the development speed should be less impacted. 
+Finally, code reviews can happen periodically and more in an audit style. This means that software developer develop larger pieces of work (or complete features) and the code is checked as a whole, instead of continuously. For security related code reviews this audit style is still widely used. 
+
+
+
+================================================
+FILE: discussion/sections/whatisscr.md
+================================================
+## What is Secure Code Reviewing?
+ 
+Code review is a standard practice in all software development live cycles. A typical code review verifies that an application works as expected and that all requirements are met and implemented correctly. A secure code review, however, focuses on the manual and automated verification of security requirements.
+ 
+This specialized task is composed of both manual and automated review of source code in order to identify vulnerabilities that could compromose the confidentiality, integrity, and availability of an application.
+
+
+
+================================================
+FILE: discussion/sections/whoshoulduse.md
+================================================
+## Who Should Use This Guide?
+The primary audience for this guide is software developers who understand that to produce secure code, quality and safety responsibilities have to be part of their daily work.
+
+Instead of transferring these responsibilities and relying on security professionals who do not have intimate knowledge of their work, security-conscious developers have to independently find and fix problems in the code they produce.
+
+Whether the reader is just starting to learn about security or a security expert, we hope this guide will help decide :
+- the most appropriate type of code review for an organization,
+- where to look for code with security implications, 
+- and what to look for to find security vulnerabilities.
+
+This guide is not meant to be read from cover to cover. Instead, it was conceived with the idea that it would live at arm's length from the developer's desk as a helpful reference guide.
+
+
+
+================================================
+FILE: discussion/version_2_0/Issues_Remarks.md
+================================================
+# Issues and Remarks with the Code Review Guide 2.0
+In this file, we keep track of issues and remarks from the community about the code review guide 2.0. If you find a typo or grammatical error, please add the exact page and sentence the needs correction to this documents.
+
+If you have remarks about the content, please add a new issue and label it with "version 2.0".
+Thank you!
+
+## Typos and Grammar issues:
+
+| # | Page Number | Sentence Needs Correction | Comments | 
+| :-: | :-------: | ------------------------- | -------- |
+| 1 | 71 | XSS enables attackers to inject malicious **scripts** into web pages viewed by other users. | The word "scripts" is missing |
+
+
+
+================================================
+FILE: draft/index.md
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x9d in position 1466: character maps to <undefined>
+
+
+================================================
+FILE: draft/chapter_001/how-to.md
+================================================
+---
+
+title: How to Use the Code Review Guide
+layout: col-document-adv
+tags: Code Review Guide draft
+document: Code Review Guide 3.0
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+
+================================================
+FILE: draft/chapter_001/introduction.md
+================================================
+---
+
+title: Introduction
+layout: col-document-adv
+tags: Code Review Guide draft
+document: Code Review Guide 3.0
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+
+================================================
+FILE: draft/chapter_002/methodology.md
+================================================
+---
+
+title: Methodology
+layout: col-document-adv
+tags: Code Review Guide draft
+document: Code Review Guide 3.0
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+
+================================================
+FILE: draft/chapter_002/secure-code-review.md
+================================================
+---
+
+title: Secure Code Review
+layout: col-document-adv
+tags: Code Review Guide draft
+document: Code Review Guide 3.0
+author:
+contributors:
+order: 
+altfooter: true
+
+---
+
+
+================================================
+FILE: pages/reviewing-code-for-cross-site-request-forgery-issues.md
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x9d in position 2099: character maps to <undefined>
+

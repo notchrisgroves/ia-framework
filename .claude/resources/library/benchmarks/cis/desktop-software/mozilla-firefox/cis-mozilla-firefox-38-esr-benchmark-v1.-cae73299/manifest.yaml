@@ -1,0 +1,9 @@
+name: CIS Mozilla Firefox 38 ESR Benchmark v1.0.0 ARCHIVE
+version: 1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 72
+published: '2025-12-12'

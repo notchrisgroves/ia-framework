@@ -1,0 +1,9 @@
+name: CIS YugabyteDB 2.x v1.0.0
+version: 1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 195
+published: '2025-12-12'

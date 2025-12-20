@@ -1,0 +1,9 @@
+name: CIS Microsoft Office Excel 2016 Benchmark v1.0.1
+version: 1.0.1
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 75
+published: '2025-12-12'

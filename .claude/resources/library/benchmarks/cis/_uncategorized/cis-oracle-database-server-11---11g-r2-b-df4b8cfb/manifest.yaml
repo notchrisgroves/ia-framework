@@ -1,0 +1,9 @@
+name: CIS Oracle Database Server 11   11g R2 Benchmark v1.0.0 ARCHIVE
+version: 1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 158
+published: '2025-12-12'

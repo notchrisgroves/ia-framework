@@ -1,0 +1,10 @@
+name: CIS Debian Linux 8 Benchmark v2.0.1 ARCHIVE
+version: 2.0.1
+type: benchmark
+provider: cis
+platform: linux
+skills:
+- secure-config
+- benchmark-generation
+pages: 507
+published: '2025-12-12'

@@ -1,0 +1,10 @@
+name: CIS AlmaLinux OS 8 Benchmark v4.0.0
+version: 4.0.0
+type: benchmark
+provider: cis
+platform: linux
+skills:
+- secure-config
+- benchmark-generation
+pages: 1181
+published: '2025-12-12'

@@ -1,0 +1,10 @@
+name: CIS Microsoft Windows Server 2012 (non R2) Benchmark v2.4.0 ARCHIVE
+version: 2.4.0
+type: benchmark
+provider: cis
+platform: windows
+skills:
+- secure-config
+- benchmark-generation
+pages: 916
+published: '2025-12-12'

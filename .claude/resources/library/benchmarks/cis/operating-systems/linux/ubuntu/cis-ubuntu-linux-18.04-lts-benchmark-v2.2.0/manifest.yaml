@@ -1,0 +1,10 @@
+name: CIS Ubuntu Linux 18.04 LTS Benchmark v2.2.0
+version: 2.2.0
+type: benchmark
+provider: cis
+platform: linux
+skills:
+- secure-config
+- benchmark-generation
+pages: 948
+published: '2025-12-12'

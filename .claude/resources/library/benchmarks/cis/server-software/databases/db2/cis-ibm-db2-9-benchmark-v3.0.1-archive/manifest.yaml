@@ -1,0 +1,9 @@
+name: CIS IBM DB2 9 Benchmark v3.0.1 ARCHIVE
+version: 3.0.1
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 206
+published: '2025-12-12'

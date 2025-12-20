@@ -1,0 +1,9 @@
+name: CIS Apple iPadOS 17 Benchmark v1.1.0 Final Update
+version: 1.1.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 272
+published: '2025-12-12'

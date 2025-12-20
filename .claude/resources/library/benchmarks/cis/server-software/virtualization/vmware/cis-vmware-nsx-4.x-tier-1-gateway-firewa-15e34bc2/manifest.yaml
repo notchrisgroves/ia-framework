@@ -1,0 +1,9 @@
+name: CIS VMware NSX 4.x Tier 1 Gateway Firewall STIG Benchmark v1.0.0
+version: 1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 23
+published: '2025-12-12'

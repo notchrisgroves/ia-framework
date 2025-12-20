@@ -9,10 +9,15 @@
 ## Agent Architecture
 
 **Available agents:**
-- `security.md` - Security operations (testing, advisory, engineering)
-- `writer.md` - Content creation (blog, docs, reports)
-- `advisor.md` - Personal development + research + QA
-- `legal.md` - Legal compliance with citation verification
+
+| Agent | Domain | Status | Skills Routed |
+|-------|--------|--------|---------------|
+| security.md | Security operations | ✅ Public | security-testing, code-review, architecture-review, threat-intel, dependency-audit, secure-config, benchmark-generation |
+| advisor.md | Personal development + research | ✅ Public | career, osint-research, qa-review |
+| writer.md | Content creation | 🧪 Testing | writer, diagram-generation |
+| legal.md | Legal compliance | 🧪 Testing | legal |
+
+**Status Legend:** ✅ Public (in public repo) | 🧪 Testing (internal only)
 
 **Core principles:**
 - <150 lines per agent (enforced by pre-commit hook)
@@ -112,4 +117,4 @@ agents/
 
 **Agents:** security, writer, advisor, legal
 **Max Line Count:** <150 lines (enforced)
-**Framework:** Intelligence Adjacent (IA) v4.0
+**Framework:** Intelligence Adjacent (IA) v1.0.0

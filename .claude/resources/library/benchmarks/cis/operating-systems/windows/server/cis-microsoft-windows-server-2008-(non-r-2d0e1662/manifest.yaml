@@ -1,0 +1,10 @@
+name: CIS Microsoft Windows Server 2008 (non R2) Benchmark v3.3.0 ARCHIVE
+version: 3.3.0
+type: benchmark
+provider: cis
+platform: windows
+skills:
+- secure-config
+- benchmark-generation
+pages: 837
+published: '2025-12-12'

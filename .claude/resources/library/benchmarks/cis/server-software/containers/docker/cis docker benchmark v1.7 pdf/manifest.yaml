@@ -1,0 +1,8 @@
+name: CIS Docker Benchmark v1.7 PDF
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 293
+published: '2025-12-12'

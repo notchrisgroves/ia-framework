@@ -1,0 +1,10 @@
+name: CIS Microsoft Azure Foundations Benchmark v5.0.0
+version: 5.0.0
+type: benchmark
+provider: cis
+platform: azure
+skills:
+- secure-config
+- benchmark-generation
+pages: 629
+published: '2025-12-12'

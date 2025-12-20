@@ -1,0 +1,9 @@
+name: CIS Ubuntu 18.04 LXD Container Benchmark v1.0.0 ARCHIVE
+version: 1.0.0
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 352
+published: '2025-12-12'

@@ -1,0 +1,10 @@
+name: CIS Ubuntu Linux 22.04 LTS Benchmark v3.0.0
+version: 3.0.0
+type: benchmark
+provider: cis
+platform: linux
+skills:
+- secure-config
+- benchmark-generation
+pages: 985
+published: '2025-12-12'

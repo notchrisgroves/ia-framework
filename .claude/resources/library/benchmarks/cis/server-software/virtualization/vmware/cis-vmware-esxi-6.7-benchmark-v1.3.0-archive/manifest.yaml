@@ -1,0 +1,8 @@
+name: CIS VMware ESXi 6.7 Benchmark V1.3.0 ARCHIVE
+type: benchmark
+provider: cis
+skills:
+- secure-config
+- benchmark-generation
+pages: 256
+published: '2025-12-12'

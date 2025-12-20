@@ -1,0 +1,10 @@
+name: CIS RHEL8 on IBM Z Linux Benchmark v1.0.0
+version: 1.0.0
+type: benchmark
+provider: cis
+platform: linux
+skills:
+- secure-config
+- benchmark-generation
+pages: 545
+published: '2025-12-12'

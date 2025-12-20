@@ -25,17 +25,23 @@ echo ""
 VIOLATIONS=0
 
 # Extract unique blog post directories from changed files
-BLOG_DIRS=$(echo "$BLOG_FILES" | cut -d/ -f1-2 | sort -u)
+# New structure: blog/posts/YYYY-MM-DD-slug/ for posts, blog/pages/ for static pages
+BLOG_DIRS=$(echo "$BLOG_FILES" | cut -d/ -f1-3 | sort -u)
 
 for dir in $BLOG_DIRS; do
-    # Skip blog/ root directory and STATUS.md
-    if [ "$dir" = "blog" ] || [ "$dir" = "blog/STATUS.md" ]; then
+    # Skip blog/ root directory, STATUS.md, and pages/ directory (static pages, not blog posts)
+    if [ "$dir" = "blog" ] || [ "$dir" = "blog/STATUS.md" ] || [[ "$dir" == blog/pages* ]]; then
+        continue
+    fi
+
+    # Skip blog/posts root (only check actual post directories)
+    if [ "$dir" = "blog/posts" ]; then
         continue
     fi
 
     echo -e "${BLUE}Checking: $dir${NC}"
 
-    # Extract slug from directory path (blog/YYYY-MM-DD-title → YYYY-MM-DD-title)
+    # Extract slug from directory path (blog/posts/YYYY-MM-DD-title → YYYY-MM-DD-title)
     slug=$(basename "$dir")
 
     # Check 1: Slug format validation (YYYY-MM-DD-title pattern)
