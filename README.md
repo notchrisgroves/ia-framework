@@ -27,17 +27,24 @@ legal         architecture-review /risk-assessment
 
 ## Prerequisites
 
-- **Claude Code** - Anthropic's official CLI ([installation guide](https://docs.anthropic.com/en/docs/claude-code))
+- **Claude Code** - Anthropic's official CLI ([quickstart](https://code.claude.com/docs/en/quickstart))
 - **Git** - [git-scm.com/downloads](https://git-scm.com/downloads)
 - **Python 3.10+** - For validation tools
 
 ### Install Claude Code
 
+**macOS / Linux / WSL:**
 ```bash
-# Install via npm
-npm install -g @anthropic-ai/claude-code
+curl -fsSL https://claude.ai/install.sh | bash
+```
 
-# Verify
+**Windows (PowerShell):**
+```powershell
+irm https://claude.ai/install.ps1 | iex
+```
+
+**Verify:**
+```bash
 claude --version
 ```
 
@@ -75,10 +82,13 @@ The installer:
 Edit `~/.env` with your keys:
 
 ```bash
-# OpenRouter - Multi-model access (recommended)
+# OpenRouter - Multi-model access (required for framework features)
 OPENROUTER_API_KEY=sk-or-your-key
 
-# GitHub - For repository operations
+# Context7 - Library documentation lookup (recommended)
+CONTEXT7_API_KEY=ctx7sk-your-key
+
+# GitHub - For repository operations (optional)
 GITHUB_TOKEN=ghp_your-token
 ```
 
