@@ -76,6 +76,17 @@ Templates: `tools/_*-CREDENTIAL-TEMPLATE.*`
 
 See `docs/CREDENTIAL-HANDLING-ENFORCEMENT.md`
 
+### No Hardcoded Counts
+
+**NEVER hardcode counts in ANY content** - Creates maintenance debt, becomes stale immediately
+
+- ❌ "43 active tools" / "17 tools" / "18 skills"
+- ✅ "Multiple tools" / "Various security tools" / "Specialized skills"
+
+**Applies to:** Documentation, blog posts, README, agent files, skill files, ALL content
+
+**Enforcement:** Pre-commit hook blocks patterns like `\d+ (tools|skills|agents|commands)`
+
 ---
 
 ## Directory Structure
@@ -121,11 +132,9 @@ See `agents/*.md` and `skills/*/SKILL.md`
 
 ## Documentation Standards
 
-**NEVER hardcode counts** (e.g., "18 skills") - Creates maintenance debt
+**See "No Hardcoded Counts" in Critical Requirements above.**
 
-**Use:** Qualifiers ("Multiple skills"), descriptive ("Specialized agents"), categories only
-
-**Enforcement:** `python tools/validation/validate-readme.py`, `library/prompts/content-guardian.md`, pre-commit hook
+**Validation:** `python tools/validation/validate-readme.py`, `library/prompts/content-guardian.md`
 
 See `docs/README-MAINTENANCE-DESIGN.md`
 

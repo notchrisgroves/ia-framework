@@ -5,11 +5,37 @@ description: Security-focused code review for vulnerability detection
 
 # /code-review - Security Code Review
 
-Security-focused code analysis for vulnerability identification, secure coding standards validation, and threat modeling.
+Security-focused code analysis with prompt-chained workflow enforcement.
 
 **Agent:** security
 **Skill:** code-review
 **Output:** `output/engagements/code-reviews/{project}-{YYYY-MM}/`
+
+---
+
+## 🚨 WORKFLOW ENFORCEMENT
+
+**This command uses prompt chaining with mandatory gates.**
+
+**You MUST:**
+1. Load `commands/code-review/00-WORKFLOW.md` to determine current phase
+2. Execute ONLY the current phase prompt
+3. Verify gate before proceeding to next phase
+4. Use WHAT/WHY/HOW for EVERY finding
+
+**NEVER skip WHAT/WHY/HOW. NEVER omit CWE classification.**
+
+---
+
+## Phase Overview
+
+```
+Phase 1: ANALYZE → Gate: All code scanned, vulns identified
+Phase 2: DOCUMENT → Gate: ALL findings have WHAT/WHY/HOW + CWE
+Phase 3: DELIVER → Gate: Complete report with remediation guide
+```
+
+**Prompts:** `commands/code-review/prompts/01-03-*.md`
 
 ---
 
@@ -19,7 +45,11 @@ Security-focused code analysis for vulnerability identification, secure coding s
 /code-review
 ```
 
-Collects code location → Performs security analysis → Generates vulnerability findings with remediation
+**To start:**
+1. Read `00-WORKFLOW.md` for phase detection logic
+2. Identify code source and language
+3. Load appropriate phase prompt from `prompts/`
+4. Execute phase, verify gate, proceed
 
 ---
 

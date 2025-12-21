@@ -249,6 +249,9 @@ def build_hero_prompt(title: str, content: Optional[str] = None) -> str:
     """
     Build a hero image prompt from blog post title and content.
 
+    Creates stylized atmospheric visuals - NOT diagrams or charts.
+    Explicitly avoids text/words in the image.
+
     Args:
         title: Blog post title
         content: Optional draft content
@@ -258,14 +261,23 @@ def build_hero_prompt(title: str, content: Optional[str] = None) -> str:
     """
     topic = analyze_topic(title, content)
 
-    # Extract key concept from title
-    # Remove common prefixes/suffixes
-    concept = title
-    for prefix in ["How to ", "Why ", "What is ", "The ", "A ", "An "]:
-        if concept.startswith(prefix):
-            concept = concept[len(prefix):]
+    # Map topics to visual concepts (NOT the title text)
+    TOPIC_CONCEPTS = {
+        "security": "cybersecurity operations and digital defense systems",
+        "ai": "artificial intelligence and neural network visualization",
+        "infrastructure": "modern server infrastructure and cloud systems",
+        "framework": "modular software architecture with interconnected components",
+        "career": "professional achievement and career growth",
+        "general": "futuristic technology workspace"
+    }
 
-    return build_prompt(concept, topic=topic)
+    concept = TOPIC_CONCEPTS.get(topic, TOPIC_CONCEPTS["general"])
+
+    # Build prompt with explicit no-text instruction
+    base_prompt = build_prompt(concept, topic=topic)
+
+    # Add no-text constraint
+    return f"{base_prompt}\nNo text, no words, no letters, no labels. Pure visual art only."
 
 
 # =============================================================================

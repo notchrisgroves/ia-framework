@@ -226,7 +226,7 @@ Tools for documentation lookup and web research. Choose based on content type.
 ### Context7
 
 **Purpose:** Programming library/framework documentation
-**Wrapper:** `servers/context7/` (REST API)
+**Wrapper:** `tools/context7/` (REST API)
 **Functions:** `search_libraries()`, `get_library_docs()`
 
 **Best For:**

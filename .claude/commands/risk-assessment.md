@@ -5,11 +5,37 @@ description: Formal cybersecurity risk assessment with 22-question structured me
 
 # /risk-assessment - Cybersecurity Risk Assessment
 
-Formal cybersecurity risk assessment with 22-question structured analysis, compliance framework mapping, and deliverables.
+Formal cybersecurity risk assessment with 22-question structured analysis and prompt-chained workflow.
 
 **Agent:** security
 **Skill:** security-advisory
 **Output:** `output/engagements/risk-assessments/{client}-{YYYY-MM}/`
+
+---
+
+## 🚨 WORKFLOW ENFORCEMENT
+
+**This command uses prompt chaining with mandatory gates.**
+
+**You MUST:**
+1. Complete ALL 22 questions in the structured interview
+2. Document answers in `01-intake/interview-responses.md` (MANDATORY)
+3. Delegate OSINT research before analysis
+4. Generate ALL 3 deliverables (no shortcuts)
+
+**NEVER skip interview questions. NEVER skip deliverables.**
+
+---
+
+## Phase Overview
+
+```
+Phase 1: INTERVIEW → Gate: All 22 questions answered, documented
+Phase 2: RESEARCH → Gate: OSINT complete, frameworks loaded
+Phase 3: DELIVER → Gate: All 3 deliverables generated
+```
+
+**Workflow:** `skills/security-advisory/workflows/risk-assessment.md`
 
 ---
 
@@ -19,7 +45,7 @@ Formal cybersecurity risk assessment with 22-question structured analysis, compl
 /risk-assessment
 ```
 
-Collects organization context → Explores library for frameworks → Performs 22-question analysis → Generates deliverables
+Collects organization context → 22-question interview → OSINT research → Generates deliverables
 
 ---
 

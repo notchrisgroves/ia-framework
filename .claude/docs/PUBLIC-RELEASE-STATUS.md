@@ -96,8 +96,8 @@
 | servers/web3-security/ | ✅ Public | Smart contract security wrappers |
 | servers/mobile-security/ | ✅ Public | Mobile app analysis wrappers |
 | servers/metasploit/ | ✅ Public | Exploitation framework wrapper |
-| servers/openrouter/ | ✅ Public | Multi-model AI access |
-| servers/context7/ | ✅ Public | Documentation context tool |
+| tools/openrouter/ | ✅ Public | Multi-model AI access |
+| tools/context7/ | ✅ Public | Documentation context tool |
 | servers/ghost-blog/ | 🔒 Private | Blog-specific integration |
 | servers/n8n/ | 🔒 Private | Automation-specific |
 | servers/wazuh/ | 🔒 Private | Security monitoring |

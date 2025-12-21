@@ -280,8 +280,8 @@ class FluxImageGenerator:
 
             log_ok(f"Saved: {output_path} ({len(img_bytes):,} bytes)")
 
-            # Save prompt alongside image
-            prompt_file = output.with_suffix('.txt')
+            # Save prompt alongside image as hero.txt (not hero.png.txt)
+            prompt_file = output.parent / "hero.txt"
             prompt_file.write_text(f"PROMPT:\n{prompt}\n\nMODEL:\n{self.get_flux_model()}")
             log_ok(f"Saved prompt: {prompt_file}")
 

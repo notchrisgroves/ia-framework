@@ -5,7 +5,7 @@ description: Create blog post with flat structure, content-aware prompts, and Gh
 
 # /blog-post - Blog Content Creation
 
-Create Intelligence Adjacent blog posts with flat file structure, automated Ghost CMS publishing, and content-aware image generation.
+Create Intelligence Adjacent blog posts with prompt-chained workflow enforcement.
 
 **Agent:** writer
 **Skill:** writer
@@ -13,22 +13,45 @@ Create Intelligence Adjacent blog posts with flat file structure, automated Ghos
 
 ---
 
+## 🚨 WORKFLOW ENFORCEMENT
+
+**This command uses prompt chaining with mandatory gates.**
+
+**You MUST:**
+1. Load `commands/blog-post/00-WORKFLOW.md` to determine current phase
+2. Execute ONLY the current phase prompt
+3. Verify gate before proceeding to next phase
+4. Show checkpoint output to user after each phase
+
+**NEVER skip phases. NEVER proceed without gate verification.**
+
+---
+
+## Phase Overview
+
+```
+Phase 1: RESEARCH → Gate: sources.txt (10+ sources)
+Phase 2: DRAFT → Gate: draft.md (valid frontmatter)
+Phase 3: QA → Gate: rating = 5/5 (HARD GATE, may take multiple iterations)
+Phase 4: VISUALS → Gate: hero.png exists
+Phase 5: PUBLISH → Gate: Ghost URL + tweet.txt
+```
+
+**Prompts:** `commands/blog-post/prompts/01-05-*.md`
+
+---
+
 ## Quick Start
 
 ```
-/blog-post
+/blog-post [topic]
 ```
 
-Create post → Write draft → Generate visuals → Publish → Generate tweet
-
-**Workflow Features:**
-- Files NEVER move between folders
-- Status tracked in metadata.json
-- Automatic STATUS.md updates
-- **Automatic hero image generation** (FLUX via OpenRouter)
-- **Automatic diagram export** (Mermaid to PNG)
-- Topic-aware image styling (security, AI, infrastructure, etc.)
-- Voice-consistent social summaries
+**To start:**
+1. Read `00-WORKFLOW.md` for phase detection logic
+2. Check blog folder for existing files to determine phase
+3. Load appropriate phase prompt from `prompts/`
+4. Execute phase, verify gate, proceed
 
 ---
 
@@ -41,6 +64,18 @@ Create post → Write draft → Generate visuals → Publish → Generate tweet
 - Sharing practical implementation guides
 
 ❌ **Don't use if:** Writing technical documentation → use writer skill directly
+
+---
+
+## Prompt Files
+
+| Phase | Prompt | Gate |
+|-------|--------|------|
+| 1 | `prompts/01-RESEARCH.md` | sources.txt ≥10 |
+| 2 | `prompts/02-DRAFT.md` | draft.md valid |
+| 3 | `prompts/03-QA.md` | rating = 5/5 |
+| 4 | `prompts/04-VISUALS.md` | hero.png exists |
+| 5 | `prompts/05-PUBLISH.md` | Ghost URL + tweet |
 
 ---
 

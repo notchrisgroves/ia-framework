@@ -440,19 +440,19 @@ The remediation-engineer skill will:
 
 ## Tools
 
-**Security tools available via VPS Docker wrappers (`tools/` directory):**
+**Security tools available via VPS Docker wrappers (`servers/` directory):**
 
-| Server | Domain | Tool Count | Status |
-|--------|--------|------------|--------|
-| `kali-pentest` | Network, Web/API | 18 tools | ✅ Deployed |
-| `mobile-security` | Mobile | 8 tools | ✅ Deployed |
-| `web3-security` | Smart Contracts | 13 tools | ✅ Deployed |
-| `cloud-security` | Cloud | 3 tools | ✅ Deployed |
-| `ai-security` | AI/LLM | 2 tools | ✅ Deployed |
-| `ad-security` | Active Directory | 4 tools | ✅ Deployed |
-| `playwright` | Web/API, Mobile | 3 tools | ✅ Deployed |
+| Server | Domain | Status |
+|--------|--------|--------|
+| `kali-pentest` | Network, Web/API | ✅ Deployed |
+| `mobile-security` | Mobile apps | ✅ Deployed |
+| `web3-security` | Smart Contracts | ✅ Deployed |
+| `cloud-security` | Cloud (AWS/GCP/Azure) | ✅ Deployed |
+| `ai-security` | AI/LLM | ✅ Deployed |
+| `ad-security` | Active Directory | ✅ Deployed |
+| `playwright` | Web/API automation | ✅ Deployed |
 
-**Tool discovery:** Agent verifies availability during EXPLORE phase
+**Tool discovery:** Agent verifies availability during EXPLORE phase via `servers/*/wrappers/index.py`
 
 ---
 

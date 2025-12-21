@@ -19,8 +19,12 @@ Unified content creation with 3 content types and mandatory QA review. This skil
 
 **Before starting ANY content creation:**
 
-1. **QA Review Mandatory** - Rating ≥4 required before publishing blog posts
-2. **No Hardcoded Counts** - Load content-guardian.md, never write "18 skills", "28 commands"
+1. **QA Review Mandatory** - Rating = 5/5 required before publishing blog posts
+2. **NEVER Hardcode Counts** - This is a BLOCKING rule from CLAUDE.md Critical Requirements
+   - ❌ "43 tools", "17 skills", "8 agents", "15 commands"
+   - ✅ "Multiple tools", "Various skills", "Specialized agents"
+   - **Applies to ALL content:** Blog posts, docs, reports, README, everything
+   - **Check BEFORE QA review** - Hardcoded counts = automatic QA failure
 3. **Deep Insights Only** - Go deep or don't post (no surface-level aggregation)
 4. **Citations Required** - All claims backed by evidence (OSINT research)
 5. **Tool Discovery** - Check Context7 for code examples, never improvise Ghost publishing
@@ -215,14 +219,15 @@ Unified content creation with 3 content types and mandatory QA review. This skil
 
 ### Phase 3: QA_REVIEW (MANDATORY)
 
-**⛔ CANNOT SKIP - Rating ≥4 required**
+**⛔ CANNOT SKIP - Rating = 5/5 required**
 
 **Process:**
-1. Save draft: `blog/drafts/{slug}/draft.md`
-2. Delegate to qa-review skill (support skill) with caller context
-3. Check `qa-review.json` for rating
-4. If rating <4: Revise and re-review
-5. If rating ≥4: Proceed to publishing
+1. **Check for hardcoded counts FIRST** (blocking issue)
+2. Save draft: `blog/drafts/{slug}/draft.md`
+3. Delegate to qa-review skill (support skill) with caller context
+4. Check `qa-review.json` for rating
+5. If rating <5: Revise and re-review (may take multiple iterations)
+6. If rating = 5/5: Proceed to publishing
 
 **QA Review Delegation:**
 - Caller: writer
@@ -452,7 +457,7 @@ osint-research executes dual-source methodology (WebSearch + Grok) for backgroun
 
 **Tool:** OpenRouter with dynamic Grok model
 
-**Gate:** Rating <4 = Cannot proceed to publishing
+**Gate:** Rating <5 = Cannot proceed to publishing (5/5 required)
 
 ---
 
