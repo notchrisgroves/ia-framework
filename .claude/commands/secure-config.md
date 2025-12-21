@@ -190,6 +190,29 @@ output/engagements/secure-config/{system}-{YYYY-MM}/
 
 ---
 
+## Metadata Tracking
+
+**Create `metadata.json` at engagement start:**
+
+```json
+{
+  "system": "{system}",
+  "started_at": "YYYY-MM-DDTHH:MM:SS",
+  "system_type": "linux|windows|network|cloud|kubernetes|database|application",
+  "benchmark": "cis|stig|vendor|custom",
+  "benchmark_level": "level-1|level-2",
+  "phase": "context|review|assessment|remediation|complete",
+  "compliance": {
+    "pass": 0,
+    "fail": 0,
+    "na": 0,
+    "score_percent": 0
+  }
+}
+```
+
+---
+
 ## Examples
 
 ### CIS Level 1 - Ubuntu Server

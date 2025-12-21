@@ -219,6 +219,29 @@ output/engagements/segmentation-tests/{client}-{YYYY-MM}/
 
 ---
 
+## Metadata Tracking
+
+**Create `metadata.json` at engagement start:**
+
+```json
+{
+  "client": "{client}",
+  "started_at": "YYYY-MM-DDTHH:MM:SS",
+  "mode": "director|demo",
+  "topology_source": "diagram|manual|auto-discovery",
+  "methodology": "manual|automated|hybrid",
+  "zones_tested": [],
+  "phase": "context|validation|testing|reporting|complete",
+  "findings": {
+    "segmentation_bypasses": 0,
+    "rule_violations": 0,
+    "compliance_gaps": 0
+  }
+}
+```
+
+---
+
 ## Examples
 
 ### PCI DSS Compliance Test (Director)

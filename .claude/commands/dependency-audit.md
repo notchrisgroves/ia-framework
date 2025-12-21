@@ -192,6 +192,33 @@ output/engagements/dependency-audits/{project}-{YYYY-MM}/
 
 ---
 
+## Metadata Tracking
+
+**Create `metadata.json` at engagement start:**
+
+```json
+{
+  "project": "{project}",
+  "started_at": "YYYY-MM-DDTHH:MM:SS",
+  "project_type": "nodejs|python|java-maven|java-gradle|go|rust|ruby|multiple",
+  "audit_scope": "vulnerabilities|vulnerabilities-licenses|full-supply-chain",
+  "severity_threshold": "critical|high-above|medium-above|all",
+  "phase": "context|scanning|analysis|sbom|reporting|complete",
+  "dependencies": {
+    "direct": 0,
+    "transitive": 0
+  },
+  "vulnerabilities": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  }
+}
+```
+
+---
+
 ## Examples
 
 ### Node.js Vulnerability Audit

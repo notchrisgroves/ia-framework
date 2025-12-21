@@ -212,6 +212,29 @@ output/engagements/vuln-scans/{target}-{YYYY-MM}/
 
 ---
 
+## Metadata Tracking
+
+**Create `metadata.json` at engagement start:**
+
+```json
+{
+  "target": "{target}",
+  "started_at": "YYYY-MM-DDTHH:MM:SS",
+  "mode": "director|demo",
+  "target_type": "web|network|api|cloud",
+  "scan_depth": "quick|standard|thorough",
+  "phase": "context|validation|scanning|reporting|complete",
+  "findings": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  }
+}
+```
+
+---
+
 ## Examples
 
 ### Web Application (Director)

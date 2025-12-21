@@ -21,7 +21,7 @@
 import { promises as fs } from 'fs';
 import { join, resolve } from 'path';
 import { existsSync } from 'fs';
-import { createPost, updatePost } from './ghost-admin';
+import { createPost, updatePost, uploadImage } from './ghost-admin';
 import { config } from 'dotenv';
 
 // Load environment
@@ -33,7 +33,7 @@ const BLOG_ROOT = resolve(process.cwd(), 'blog');
 const STATUS_FILE = join(BLOG_ROOT, 'STATUS.md');
 
 // Types
-type PostStatus = 'draft' | 'published' | 'archived';
+type PostStatus = 'draft' | 'published' | 'scheduled' | 'archived';
 type PostVisibility = 'public' | 'members' | 'paid';
 
 interface Metadata {
@@ -46,6 +46,7 @@ interface Metadata {
   created_at: string;
   updated_at: string;
   published_at?: string;
+  scheduled_for?: string;  // ISO 8601 datetime for scheduled publishing
   ghost?: {
     id: string;
     status: string;
@@ -70,6 +71,7 @@ interface Frontmatter {
   tags: string[];
   visibility: PostVisibility;
   category?: string;
+  scheduled_for?: string;  // ISO 8601 datetime for scheduled publishing
 }
 
 // ============================================================================
@@ -420,7 +422,7 @@ category: "framework"
 
 /**
  * Command: publish
- * Publish post to Ghost
+ * Publish post to Ghost - fully automated with hero image upload
  */
 async function cmdPublish(slug: string): Promise<void> {
   console.log(`\n🚀 Publishing post: ${slug}\n`);
@@ -431,6 +433,8 @@ async function cmdPublish(slug: string): Promise<void> {
   // Read draft and metadata
   const postDir = join(BLOG_ROOT, slug);
   const draftPath = join(postDir, 'draft.md');
+  const heroPath = join(postDir, 'hero.png');
+  const promptPath = join(postDir, 'hero-prompt.txt');
   const draftContent = await fs.readFile(draftPath, 'utf-8');
   const { frontmatter, body } = parseMarkdown(draftContent);
   let metadata = await readMetadata(slug);
@@ -439,10 +443,40 @@ async function cmdPublish(slug: string): Promise<void> {
   console.log(`👁️  Visibility: ${frontmatter.visibility}`);
   console.log(`🏷️  Tags: ${frontmatter.tags.join(', ')}\n`);
 
+  // Upload hero image if exists
+  let featureImageUrl: string | undefined;
+  let featureImageAlt: string | undefined;
+
+  if (existsSync(heroPath)) {
+    console.log('🖼️  Uploading hero image...');
+
+    // Read alt text from hero-prompt.txt
+    if (existsSync(promptPath)) {
+      const promptContent = await fs.readFile(promptPath, 'utf-8');
+      const altTextMatch = promptContent.match(/ALT TEXT.*?:\s*(.+)/i);
+      featureImageAlt = altTextMatch ? altTextMatch[1].trim() : `Hero image for ${frontmatter.title}`;
+    } else {
+      featureImageAlt = `Hero image for ${frontmatter.title}`;
+    }
+
+    const uploadResult = await uploadImage(heroPath, featureImageAlt);
+
+    if (uploadResult.success && uploadResult.imageUrl) {
+      featureImageUrl = uploadResult.imageUrl;
+      console.log(`✅ Hero uploaded: ${featureImageUrl}`);
+    } else {
+      console.log(`⚠️  Hero upload failed: ${uploadResult.error}`);
+      console.log('   Continuing without hero image...');
+    }
+  } else {
+    console.log(`⚠️  No hero.png found in blog/${slug}/`);
+    console.log('   Continuing without hero image...');
+  }
+
   // Create or update Ghost post
   if (!metadata.ghost) {
-    // Create new Ghost post (draft status)
-    console.log('Creating Ghost draft post...');
+    // Create new Ghost post
+    console.log('Creating Ghost post...');
 
     const result = await createPost({
       title: frontmatter.title,
@@ -453,6 +487,8 @@ async function cmdPublish(slug: string): Promise<void> {
       tags: frontmatter.tags,
       excerpt: frontmatter.excerpt,
       slug: slug.replace(/^\d{4}-\d{2}-\d{2}-/, ''), // Remove date prefix for Ghost
+      featureImage: featureImageUrl,
+      featureImageAlt: featureImageAlt,
     });
 
     if (!result.success || !result.post) {
@@ -468,49 +504,85 @@ async function cmdPublish(slug: string): Promise<void> {
     };
 
     await writeMetadata(slug, metadata);
+    console.log(`✅ Ghost post created`);
+  } else {
+    // Update existing post with new content and hero
+    console.log('Updating existing Ghost post...');
 
-    console.log(`✅ Ghost draft created`);
-    console.log(`📝 Ghost Editor: ${result.post.editorUrl}\n`);
-    console.log(`⚠️  NEXT STEPS:`);
-    console.log(`1. Open Ghost editor (URL above)`);
-    console.log(`2. Upload hero image (blog/${slug}/hero.png)`);
-    console.log(`3. Add alt-text from hero-prompt.txt`);
-    console.log(`4. Review content`);
-    console.log(`5. Come back here and press Enter when ready to publish`);
+    const updateData: any = {
+      title: frontmatter.title,
+      html: body, // Will need markdown conversion
+      excerpt: frontmatter.excerpt,
+    };
 
-    // Wait for user confirmation
-    const answer = await new Promise<string>((resolve) => {
-      process.stdin.once('data', (data) => resolve(data.toString().trim()));
-    });
+    if (featureImageUrl) {
+      updateData.featureImage = featureImageUrl;
+      updateData.featureImageAlt = featureImageAlt;
+    }
 
-    if (answer.toLowerCase() !== '') {
-      console.log('Publishing to Ghost...');
+    const updateResult = await updatePost(metadata.ghost.id, updateData);
+    if (!updateResult.success) {
+      console.log(`⚠️  Content update failed: ${updateResult.error}`);
+    } else {
+      console.log(`✅ Ghost post updated`);
     }
   }
 
-  // Update to published
-  console.log('Publishing post...');
+  // Determine if scheduling or immediate publish
+  const scheduledFor = frontmatter.scheduled_for || metadata.scheduled_for;
+  const isScheduled = scheduledFor && new Date(scheduledFor) > new Date();
 
-  const publishResult = await updatePost(metadata.ghost!.id, {
-    status: 'published',
-    publishedAt: new Date().toISOString(),
-  });
+  if (isScheduled) {
+    // Schedule the post for future publication
+    console.log(`📅 Scheduling post for: ${scheduledFor}`);
 
-  if (!publishResult.success || !publishResult.post) {
-    throw new Error(`Failed to publish: ${publishResult.error}`);
+    const scheduleResult = await updatePost(metadata.ghost!.id, {
+      status: 'scheduled',
+      publishedAt: scheduledFor,
+    });
+
+    if (!scheduleResult.success || !scheduleResult.post) {
+      throw new Error(`Failed to schedule: ${scheduleResult.error}`);
+    }
+
+    // Update metadata
+    metadata.status = 'scheduled';
+    metadata.scheduled_for = scheduledFor;
+    metadata.ghost.status = 'scheduled';
+    metadata.ghost.url = scheduleResult.post.url;
+
+    await writeMetadata(slug, metadata);
+    await updateStatusTable();
+
+    console.log(`\n✅ Post scheduled successfully!`);
+    console.log(`📅 Scheduled for: ${new Date(scheduledFor).toLocaleString()}`);
+    console.log(`📝 Editor: ${metadata.ghost.editor_url}\n`);
+  } else {
+    // Publish immediately
+    console.log('Publishing post...');
+
+    const publishResult = await updatePost(metadata.ghost!.id, {
+      status: 'published',
+      publishedAt: new Date().toISOString(),
+    });
+
+    if (!publishResult.success || !publishResult.post) {
+      throw new Error(`Failed to publish: ${publishResult.error}`);
+    }
+
+    // Update metadata
+    metadata.status = 'published';
+    metadata.published_at = new Date().toISOString();
+    metadata.ghost.status = 'published';
+    metadata.ghost.url = publishResult.post.url;
+
+    await writeMetadata(slug, metadata);
+    await updateStatusTable();
+
+    console.log(`\n✅ Post published successfully!`);
+    console.log(`🔗 URL: ${publishResult.post.url}`);
+    console.log(`📝 Editor: ${metadata.ghost.editor_url}\n`);
   }
-
-  // Update metadata
-  metadata.status = 'published';
-  metadata.published_at = new Date().toISOString();
-  metadata.ghost.status = 'published';
-  metadata.ghost.url = publishResult.post.url;
-
-  await writeMetadata(slug, metadata);
-  await updateStatusTable();
-
-  console.log(`\n✅ Post published successfully!`);
-  console.log(`🔗 URL: ${publishResult.post.url}\n`);
 }
 
 /**

@@ -202,6 +202,29 @@ output/tools/compliance-scripts/{benchmark}-{system}-{YYYY-MM}/
 
 ---
 
+## Metadata Tracking
+
+**Create `metadata.json` at engagement start:**
+
+```json
+{
+  "benchmark": "{cis|stig|custom}",
+  "system": "{system}",
+  "started_at": "YYYY-MM-DDTHH:MM:SS",
+  "benchmark_level": "level-1|level-2|both",
+  "script_purpose": "validation|remediation|both",
+  "environment": "manual|automated|config-mgmt",
+  "phase": "context|generation|testing|packaging|complete",
+  "scripts_generated": {
+    "validation": 0,
+    "remediation": 0,
+    "rollback": 0
+  }
+}
+```
+
+---
+
 ## Examples
 
 ### CIS Ubuntu Automation

@@ -137,9 +137,27 @@ Output: output/career/learning-progress/{YYYY-MM-DD}/
 
 ```
 output/career/learning-progress/{YYYY-MM-DD}/
+├── metadata.json             # Learning progress tracking
 ├── LEARNING-ROADMAP.md       # Full 30/60/90 plan
 ├── RESOURCES.md              # Platforms, courses, certifications
 └── PROGRESS-TRACKER.md       # Milestones and tracking
+```
+
+---
+
+## Metadata Tracking
+
+**Create `metadata.json` at start:**
+```json
+{
+  "goal": "{learning goal}",
+  "started_at": "YYYY-MM-DDTHH:MM:SS",
+  "phase": "assessment|planning|resources|tracking|complete",
+  "timeline": "30|60|90",
+  "current_day": 0,
+  "milestones_completed": 0,
+  "milestones_total": 0
+}
 ```
 
 ---

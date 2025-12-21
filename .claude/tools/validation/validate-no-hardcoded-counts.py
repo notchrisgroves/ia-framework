@@ -154,6 +154,11 @@ def validate_file(file_path: Path) -> List[Violation]:
 
     return violations
 
+# Directories excluded from hardcoded count checks
+# - blog/: Content may legitimately discuss counts (e.g., "50 tools" in MCP analysis)
+# - sessions/: Personal notes tracking progress (e.g., "24 commands standardized")
+EXCLUDED_DIRECTORIES = ['blog/', 'sessions/']
+
 def get_staged_files() -> List[Path]:
     """Get list of staged markdown files."""
     try:
@@ -167,6 +172,7 @@ def get_staged_files() -> List[Path]:
             FRAMEWORK_ROOT / f.strip()
             for f in result.stdout.strip().split('\n')
             if f.strip().endswith('.md')
+            and not any(f.strip().startswith(ex) for ex in EXCLUDED_DIRECTORIES)
         ]
         return [f for f in files if f.exists()]
     except Exception:
@@ -174,7 +180,7 @@ def get_staged_files() -> List[Path]:
 
 def get_all_md_files() -> List[Path]:
     """Get all markdown files in framework."""
-    exclude_dirs = {'.git', 'node_modules', '__pycache__', '.venv', 'venv'}
+    exclude_dirs = {'.git', 'node_modules', '__pycache__', '.venv', 'venv', 'blog'}
     files = []
 
     for md_file in FRAMEWORK_ROOT.rglob('*.md'):

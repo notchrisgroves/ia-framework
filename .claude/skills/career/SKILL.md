@@ -396,6 +396,7 @@ osint-research executes dual-source methodology (WebSearch + Grok for culture/se
 **Career Advancement:**
 ```
 output/career/job-opportunities/{Company}-{Role}/
+   metadata.json             # Application tracking (phase, match_score, go_no_go)
    1-EXECUTIVE-SUMMARY.md    # GO/NO-GO + Intelligence + Priority Areas + Q&A
    2-RESUME.md               # Optimized resume
    3-COVER-LETTER.md         # 4-paragraph cover letter
@@ -404,6 +405,7 @@ output/career/job-opportunities/{Company}-{Role}/
 **Strengths Development:**
 ```
 output/career/strengths-analysis/{YYYY-MM-DD}/
+   metadata.json             # Session tracking
    strengths-analysis.md     # Complete theme breakdown
    blindspots-identified.md  # Brutally honest limitations
    development-plan.md       # Actionable recommendations
@@ -412,6 +414,7 @@ output/career/strengths-analysis/{YYYY-MM-DD}/
 **Skill Building:**
 ```
 output/career/learning-progress/{YYYY-MM-DD}/
+   metadata.json             # Learning progress tracking
    learning-roadmap.md       # 30/60/90-day action plan
    skills-assessment.md      # Current state and gaps
    progress-tracker.md       # Milestone tracking

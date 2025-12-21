@@ -208,12 +208,52 @@ Output: output/career/job-opportunities/{Company}-{Role}/
 
 ```
 output/career/job-opportunities/{Company}-{Role}/
+├── metadata.json             # Application tracking (phase, match_score, go_no_go)
 ├── 1-EXECUTIVE-SUMMARY.md    # GO/NO-GO + Intelligence + Priority Areas + Q&A (comprehensive)
 ├── 2-RESUME.md               # Optimized resume tailored to role
 └── 3-COVER-LETTER.md         # 4-paragraph cover letter with OSINT insights
 ```
 
 **Consolidated Output:** Executive Summary now contains all analysis (intelligence, priority areas, Q&A) in one comprehensive document with inline source citations per section.
+
+---
+
+## Metadata Tracking
+
+**Create `metadata.json` at start of each analysis:**
+```json
+{
+  "company": "{Company}",
+  "role": "{Role}",
+  "started_at": "YYYY-MM-DDTHH:MM:SS",
+  "phase": "go_no_go|osint|interview_prep|deliverables|complete",
+  "match_score": 0,
+  "go_no_go": "pending|go|conditional|stop",
+  "gates_passed": {
+    "go_no_go": false,
+    "osint": false,
+    "deliverables": false
+  },
+  "job_url": "https://...",
+  "application_status": "pending|applied|interviewing|rejected|offered"
+}
+```
+
+**Update after each phase completes.**
+
+---
+
+## GO/NO-GO Gate (MANDATORY)
+
+**This gate prevents wasted effort on poor-fit roles.**
+
+| Score | Decision | Action |
+|-------|----------|--------|
+| >= 75% | GO | Proceed to OSINT + deliverables |
+| 60-74% | CONDITIONAL | Explain gaps, user decides |
+| < 60% | STOP | Provide feedback, suggest better-fit roles |
+
+**STOP means STOP** - Do not proceed with OSINT or deliverables if score < 60%.
 
 ---
 

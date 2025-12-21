@@ -186,6 +186,26 @@ output/research/threat-intel/{topic}-{YYYY-MM}/
 
 ---
 
+## Metadata Tracking
+
+**Create `metadata.json` at engagement start:**
+
+```json
+{
+  "topic": "{topic}",
+  "started_at": "YYYY-MM-DDTHH:MM:SS",
+  "intel_type": "cve-research|threat-actor|attack-campaign|threat-landscape",
+  "scope": "{cve-ids|technology|industry|threat-actor}",
+  "depth": "quick|standard|deep",
+  "mitre_mapping": "full|summary|none",
+  "phase": "context|gathering|analysis|mapping|reporting|complete",
+  "cves_analyzed": 0,
+  "mitre_techniques": 0
+}
+```
+
+---
+
 ## Examples
 
 ### CVE Research

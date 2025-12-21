@@ -295,8 +295,9 @@ class FluxImageGenerator:
         """
         Generate hero image for a blog post.
 
-        Analyzes draft content for topic detection and generates
-        appropriately styled hero image.
+        Priority order for prompt:
+        1. Custom hero-prompt.txt in post directory (if exists)
+        2. Auto-generated from content analysis
 
         Args:
             slug: Blog post slug (e.g., "2025-12-19-post-title")
@@ -308,6 +309,7 @@ class FluxImageGenerator:
         post_dir = Path(blog_dir) / slug
         draft_file = post_dir / "draft.md"
         output_path = post_dir / "hero.png"
+        custom_prompt_file = post_dir / "hero-prompt.txt"
 
         if not draft_file.exists():
             log_error(f"Draft not found: {draft_file}")
@@ -331,8 +333,23 @@ class FluxImageGenerator:
 
         log_info(f"Generating hero for: {title}")
 
-        # Build prompt with content analysis
-        prompt = build_hero_prompt(title, content)
+        # Check for custom prompt file FIRST
+        if custom_prompt_file.exists():
+            custom_content = custom_prompt_file.read_text(encoding='utf-8')
+            # Extract just the prompt (everything before ALT TEXT or STYLE markers)
+            prompt_lines = []
+            for line in custom_content.split('\n'):
+                line_upper = line.upper().strip()
+                if line_upper.startswith('ALT TEXT') or line_upper.startswith('STYLE:') or line_upper.startswith('PALETTE:') or line_upper.startswith('MOOD:'):
+                    break
+                prompt_lines.append(line)
+            prompt = '\n'.join(prompt_lines).strip()
+            log_info(f"Using CUSTOM prompt from hero-prompt.txt")
+        else:
+            # Build prompt with content analysis
+            prompt = build_hero_prompt(title, content)
+            log_info(f"Using AUTO-GENERATED prompt (no hero-prompt.txt found)")
+
         log_info(f"Detected topic: {analyze_topic(title, content)}")
 
         return self.generate(prompt, str(output_path))

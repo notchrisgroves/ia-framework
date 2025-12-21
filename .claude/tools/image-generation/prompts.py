@@ -3,7 +3,16 @@
 Smart Prompt Generation for FLUX Image Generation
 
 Provides content analysis and variety in image prompts based on topic detection.
-Prevents style lock-in by offering varied color palettes, scenes, and compositions.
+FALLBACK ONLY - For best results, create a custom hero-prompt.txt file.
+
+BRAND STYLE REQUIREMENTS (MANDATORY):
+All hero images MUST include:
+- "90s anime style with detailed linework" - Core art style
+- "cyberpunk aesthetic" - Neon lighting, tech atmosphere
+- Deep purple and electric blue (or similar neon palette)
+- "Dramatic lighting" with atmospheric fog
+
+See: skills/writer/reference/BRAND-GUIDE.md for examples
 
 Usage:
     from prompts import build_prompt, analyze_topic
@@ -105,20 +114,20 @@ TOPIC_STYLES: Dict[str, Dict[str, List[str]]] = {
     },
     "framework": {
         "palettes": [
-            "multi-color modular blocks",
-            "blue and gold architectural",
-            "green and purple component colors",
-            "cyan interconnected elements",
-            "warm amber with cool blue accents"
+            "deep purple and electric blue with neon accents",
+            "cyan and magenta cyberpunk glow",
+            "amber and teal contrasting neon",
+            "electric green matrix-style with purple highlights",
+            "neon pink and blue synthwave"
         ],
         "scenes": [
-            "modular system with orbiting components",
-            "architectural blueprint come to life",
-            "interconnected building blocks",
-            "workflow diagram as 3D environment",
-            "system overview with labeled modules"
+            "floating hexagonal modules orbiting a central figure in a void",
+            "massive glowing terminal with cascading data streams",
+            "library of floating knowledge containers in darkness",
+            "switchboard operator routing glowing data to personas",
+            "architect orchestrating interconnected systems"
         ],
-        "moods": ["structured", "elegant", "modular", "organized", "cohesive"]
+        "moods": ["mysterious", "powerful", "orchestrated", "vast", "illuminated"]
     },
     "career": {
         "palettes": [
@@ -157,20 +166,19 @@ TOPIC_STYLES: Dict[str, Dict[str, List[str]]] = {
 }
 
 TECHNIQUES: List[str] = [
-    "detailed digital art with cinematic lighting",
-    "clean vector-inspired illustration",
-    "atmospheric with volumetric lighting",
-    "holographic elements and wireframe overlays",
-    "particle effects and data visualization",
-    "anime-inspired with sharp details",
+    "90s anime style with detailed linework, cyberpunk aesthetic, dramatic lighting",
+    "90s anime style, cyberpunk neon aesthetic, atmospheric fog and dramatic shadows",
+    "detailed anime illustration, cyberpunk setting, dramatic lighting illuminating fog",
+    "90s anime style with detailed character expressions, cyberpunk neon glow",
+    "anime style with detailed linework, cyberpunk aesthetic, dramatic atmospheric lighting",
 ]
 
 COMPOSITIONS: List[str] = [
-    "wide establishing shot",
-    "medium shot with clear focal point",
-    "close-up portrait composition",
-    "orbital/overview perspective",
-    "dynamic diagonal composition",
+    "dramatic wide shot with lone figure",
+    "medium shot with glowing elements as focal point",
+    "cinematic composition with depth layers",
+    "atmospheric scene with fog and neon lighting",
+    "dynamic composition with cascading light",
 ]
 
 # =============================================================================

@@ -15,7 +15,8 @@ RESET='\033[0m'
 echo -e "${CYAN}🔍 Checking for hardcoded counts...${RESET}"
 
 # Get list of staged files (only check documentation files)
-STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(md|yml|yaml)$' || true)
+# Exclude blog/ directory - blog content may legitimately discuss counts (e.g., "50 tools" in MCP analysis)
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(md|yml|yaml)$' | grep -v '^blog/' || true)
 
 if [ -z "$STAGED_FILES" ]; then
     echo -e "${GREEN}✓ No documentation files modified, skipping count validation${RESET}"

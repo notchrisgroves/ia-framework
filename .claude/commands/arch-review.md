@@ -247,6 +247,30 @@ output/engagements/arch-reviews/{project}-{YYYY-MM}/
 
 ---
 
+## Metadata Tracking
+
+**Create `metadata.json` at engagement start:**
+
+```json
+{
+  "project": "{project}",
+  "started_at": "YYYY-MM-DDTHH:MM:SS",
+  "system_type": "web-app|cloud|microservices|mobile|iot|enterprise-network",
+  "threat_modeling": "stride|pasta|attack-trees|all",
+  "compliance": [],
+  "phase": "context|decomposition|threat-modeling|analysis|reporting|complete",
+  "findings": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "threats_identified": 0
+}
+```
+
+---
+
 ## Examples
 
 ### Web Application STRIDE Review
