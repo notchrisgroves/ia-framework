@@ -106,9 +106,10 @@ export interface CreatePostOptions {
   excerpt?: string;
   slug?: string;
   visibility?: 'public' | 'members' | 'paid';
-  sendEmailWhenPublished?: boolean;  // NEW: Control email sending
-  emailOnly?: boolean;  // NEW: Email-only posts (digests)
-  publishedAt?: string;  // NEW: For scheduled posts (ISO 8601 format)
+  sendEmailWhenPublished?: boolean;  // Control email sending
+  emailOnly?: boolean;  // Email-only posts (digests)
+  publishedAt?: string;  // For scheduled posts (ISO 8601 format)
+  newsletter?: string;  // Newsletter slug (required for email sends)
 }
 
 export interface CreatePostResult {
@@ -192,7 +193,8 @@ export async function createPost(options: CreatePostOptions): Promise<CreatePost
       visibility = 'public',
       sendEmailWhenPublished = false,  // DEFAULT: No email for regular posts
       emailOnly = false,
-      publishedAt
+      publishedAt,
+      newsletter
     } = options;
 
     // Prepare post data
@@ -244,32 +246,80 @@ export async function createPost(options: CreatePostOptions): Promise<CreatePost
       postData.email_only = true;
     }
 
+    // CRITICAL: Newsletter association (required for email sends)
+    // Ghost needs to know WHICH newsletter to send to
+    // Use newsletter slug directly as Ghost v5 expects
+    if (sendEmailWhenPublished && newsletter) {
+      postData.newsletter = newsletter;
+    }
+
     if (publishedAt) {
       postData.published_at = publishedAt;
     }
 
-    // Create post using Ghost Admin API
-    // NOTE: For HTML content, we need to pass {source: 'html'} option
-    const createdPost = await ghostAdmin.posts.add(
-      postData,
-      contentType === 'markdown' || contentType === 'html'
-        ? { source: 'html' }
-        : undefined
-    );
+    // CRITICAL: Email newsletter posts require TWO-STEP process
+    // Ghost API requires: 1) Create as draft  2) Edit to publish with newsletter query param
+    // See: https://forum.ghost.org/t/create-post-and-send-via-email-using-admin-api/35529
+
+    let finalPost;
+
+    if (sendEmailWhenPublished && newsletter) {
+      // Step 1: Create as DRAFT first (remove status from postData)
+      const draftData = { ...postData };
+      delete draftData.status;
+      delete draftData.published_at;
+      delete draftData.send_email_when_published;
+
+      const draftPost = await ghostAdmin.posts.add(
+        draftData,
+        contentType === 'markdown' || contentType === 'html'
+          ? { source: 'html' }
+          : undefined
+      );
+
+      // Step 2: Edit to schedule/publish with newsletter query param
+      const editData: any = {
+        id: draftPost.id,
+        updated_at: draftPost.updated_at,
+        status: status,
+        email_only: emailOnly
+      };
+
+      if (publishedAt) {
+        editData.published_at = publishedAt;
+      }
+
+      finalPost = await ghostAdmin.posts.edit(
+        editData,
+        {
+          source: 'html',
+          newsletter: newsletter,      // Query param for newsletter
+          email_segment: 'all'         // Send to all subscribers
+        }
+      );
+    } else {
+      // Regular post (no email) - single-step creation
+      finalPost = await ghostAdmin.posts.add(
+        postData,
+        contentType === 'markdown' || contentType === 'html'
+          ? { source: 'html' }
+          : undefined
+      );
+    }
 
     // Build editor URL for drafts
-    const editorUrl = status === 'draft'
-      ? `${GHOST_API_URL}/ghost/#/editor/post/${createdPost.id}`
-      : createdPost.url || `${GHOST_API_URL}/${createdPost.slug}/`;
+    const editorUrl = finalPost.status === 'draft'
+      ? `${GHOST_API_URL}/ghost/#/editor/post/${finalPost.id}`
+      : finalPost.url || `${GHOST_API_URL}/${finalPost.slug}/`;
 
     return {
       success: true,
       post: {
-        id: createdPost.id!,
-        title: createdPost.title,
-        slug: createdPost.slug!,
-        status: createdPost.status!,
-        url: createdPost.url || `${GHOST_API_URL}/${createdPost.slug}/`,
+        id: finalPost.id!,
+        title: finalPost.title,
+        slug: finalPost.slug!,
+        status: finalPost.status!,
+        url: finalPost.url || `${GHOST_API_URL}/${finalPost.slug}/`,
         editorUrl
       }
     };

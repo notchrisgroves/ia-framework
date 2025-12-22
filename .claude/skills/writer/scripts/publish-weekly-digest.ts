@@ -67,7 +67,10 @@ async function main() {
   const digestSlug = frontmatter.match(/slug:\s*"(.+)"/)?.[1] || slug;
   const excerpt = frontmatter.match(/excerpt:\s*"(.+)"/)?.[1] || '';
   const tagsMatch = frontmatter.match(/tags:\s*\[(.+)\]/)?.[1] || '';
-  const tags = tagsMatch.split(',').map((t: string) => t.trim().replace(/"/g, ''));
+  // Convert tags to lowercase-hyphenated format (e.g., "Weekly Digest" → "weekly-digest")
+  const tags = tagsMatch.split(',').map((t: string) =>
+    t.trim().replace(/"/g, '').toLowerCase().replace(/\s+/g, '-')
+  );
 
   console.log('📄 Digest Details:');
   console.log('- Title:', title);
@@ -136,7 +139,9 @@ async function main() {
     // CRITICAL: Email-only configuration (digest does NOT appear on site)
     sendEmailWhenPublished: true,  // ← Sends newsletter email
     emailOnly: true,  // ← Does NOT appear on blog feed
-    publishedAt
+    publishedAt,
+    // CRITICAL: Must specify which newsletter to send to
+    newsletter: 'default-newsletter'  // ← "Intelligence Adjacent" newsletter
   });
 
   if (result.success && result.post) {
