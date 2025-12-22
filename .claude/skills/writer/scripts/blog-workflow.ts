@@ -7,6 +7,7 @@
  *
  * Commands:
  *   init <slug>          Create new post with correct structure
+ *   qa <slug>            Run dual-model QA review (Haiku + Grok)
  *   publish <slug>       Publish post to Ghost
  *   tweet <slug>         Generate social summary
  *   image-prompt <slug>  Generate content-aware Grok prompt
@@ -29,7 +30,8 @@ const envPath = resolve(process.cwd(), '.env');
 config({ path: envPath });
 
 // Constants
-const BLOG_ROOT = resolve(process.cwd(), 'blog');
+const FRAMEWORK_ROOT = process.cwd();
+const BLOG_ROOT = resolve(FRAMEWORK_ROOT, 'blog');
 const STATUS_FILE = join(BLOG_ROOT, 'STATUS.md');
 
 // Types
@@ -511,7 +513,8 @@ async function cmdPublish(slug: string): Promise<void> {
 
     const updateData: any = {
       title: frontmatter.title,
-      html: body, // Will need markdown conversion
+      content: body,  // Raw markdown - will be converted by updatePost
+      contentType: 'markdown',  // Triggers markdown → HTML conversion
       excerpt: frontmatter.excerpt,
     };
 
@@ -587,51 +590,46 @@ async function cmdPublish(slug: string): Promise<void> {
 
 /**
  * Command: tweet
- * Generate social summary template
+ * Generate AI-powered social summary using Grok via OpenRouter
+ * Follows HOOK → VALUE → CTA formula for viral engagement
  */
 async function cmdTweet(slug: string): Promise<void> {
-  console.log(`\n🐦 Generating social summary template: ${slug}\n`);
+  console.log(`\n🐦 Generating AI-powered tweet: ${slug}\n`);
 
   await validatePostStructure(slug);
 
   const postDir = join(BLOG_ROOT, slug);
   const draftPath = join(postDir, 'draft.md');
-  const draftContent = await fs.readFile(draftPath, 'utf-8');
-  const { frontmatter, body } = parseMarkdown(draftContent);
   const metadata = await readMetadata(slug);
 
-  // Extract first paragraph as potential hook
-  const firstParagraph = body.split('\n\n').find(p => p.trim() && !p.startsWith('#'));
-  const excerpt = frontmatter.excerpt || firstParagraph?.substring(0, 200) || '';
+  // Build URL from metadata or slug
+  const url = metadata.ghost?.url || `https://notchrisgroves.com/${slug.replace(/^\d{4}-\d{2}-\d{2}-/, '')}/`;
 
-  // Generate template for user to fill in
-  const template = `Social Media Summary - ${frontmatter.title}
+  // Call Python script for AI-powered generation
+  const scriptPath = join(FRAMEWORK_ROOT, 'tools', 'openrouter', 'generate_tweet.py');
 
-[HOOK - What you built/discovered]
-${excerpt}
+  console.log(`Calling Grok for tweet generation...`);
+  console.log(`Draft: ${draftPath}`);
+  console.log(`URL: ${url}\n`);
 
-[KEY INSIGHT - Why it matters]
-[Fill in: What problem does this solve? Why should readers care?]
+  const { execSync } = await import('child_process');
 
-[OUTCOME - What it enables]
-[Fill in: What can readers do with this? What does it unlock?]
-
-[URL]
-${metadata.ghost?.url || 'https://notchrisgroves.com/[post-slug]/'}
-
-[OPTIONAL: Thread potential]
-- Thread topic 1: [e.g., Deep dive into implementation]
-- Thread topic 2: [e.g., Common pitfalls to avoid]
-- Thread topic 3: [e.g., Future enhancements]
-
----
-NOTE: No character limit - write full compelling summary.
-Truncate for X/Twitter as needed.
-`;
-
-  // Save to tweet.txt
-  const tweetPath = join(postDir, 'tweet.txt');
-  await fs.writeFile(tweetPath, template, 'utf-8');
+  try {
+    const result = execSync(
+      `python "${scriptPath}" "${draftPath}" "${url}"`,
+      {
+        encoding: 'utf-8',
+        cwd: FRAMEWORK_ROOT,
+        timeout: 120000  // 2 minute timeout
+      }
+    );
+    console.log(result);
+  } catch (error: any) {
+    console.error(`\n❌ Tweet generation failed:`);
+    console.error(error.message);
+    console.error(`\nFallback: Create tweet.txt manually with HOOK → VALUE → CTA structure.`);
+    return;
+  }
 
   // Update metadata
   if (!metadata.tweet) metadata.tweet = { generated: false, posted: false };
@@ -639,9 +637,69 @@ Truncate for X/Twitter as needed.
   await writeMetadata(slug, metadata);
   await updateStatusTable();
 
-  console.log(`\n✅ Social summary template generated!`);
-  console.log(`📄 Saved to: blog/${slug}/tweet.txt\n`);
-  console.log(`Edit the template to fill in your hook, insights, and outcomes.\n`);
+  console.log(`\n✅ AI-powered tweet generated!`);
+  console.log(`📄 Saved to: blog/${slug}/tweet.md`);
+  console.log(`\nReview and adjust as needed. Includes thread potential and alt hooks.\n`);
+}
+
+/**
+ * Command: qa
+ * Run Grok adversarial QA review via OpenRouter
+ * Sonnet structured review should be done natively by Claude Code first
+ *
+ * Usage: qa <slug> [sonnet_rating]
+ * Example: qa 2025-12-20-post-title 4
+ */
+async function cmdQa(slug: string, sonnetRating: string = '0'): Promise<void> {
+  console.log(`\n🔍 Running Grok adversarial QA review: ${slug}\n`);
+
+  await validatePostStructure(slug);
+
+  const postDir = join(BLOG_ROOT, slug);
+  const draftPath = join(postDir, 'draft.md');
+  const rating = parseInt(sonnetRating) || 0;
+
+  // Call Python script for Grok review only
+  const scriptPath = join(FRAMEWORK_ROOT, 'tools', 'openrouter', 'dual_qa_review.py');
+
+  console.log(`Draft: ${draftPath}`);
+  console.log(`Sonnet Rating (native): ${rating}/5`);
+  console.log(`Output: ${postDir}/qa-review.json\n`);
+
+  const { execSync } = await import('child_process');
+
+  try {
+    const result = execSync(
+      `python "${scriptPath}" "${draftPath}" ${rating}`,
+      {
+        encoding: 'utf-8',
+        cwd: FRAMEWORK_ROOT,
+        timeout: 180000  // 3 minute timeout
+      }
+    );
+    console.log(result);
+  } catch (error: any) {
+    console.error(`\n❌ QA review failed:`);
+    console.error(error.message);
+    console.error(`\nManual fallback: Run QA review manually per 03-QA.md`);
+    process.exit(1);
+  }
+
+  // Check if gate passed
+  const qaPath = join(postDir, 'qa-review.json');
+  if (existsSync(qaPath)) {
+    const qaContent = await fs.readFile(qaPath, 'utf-8');
+    const qaResult = JSON.parse(qaContent);
+
+    if (!qaResult.gate_passed) {
+      console.log(`\n⚠️  QA gate failed. Review feedback and revise before publishing.`);
+      console.log(`   Average rating: ${qaResult.ratings?.average}/5 (needs ≥4.0)\n`);
+      process.exit(1);
+    }
+
+    console.log(`\n✅ QA gate passed! Rating: ${qaResult.ratings?.average}/5`);
+    console.log(`📄 Full review: blog/${slug}/qa-review.json\n`);
+  }
 }
 
 /**
@@ -750,6 +808,7 @@ async function main() {
     console.error('❌ Error: Command required\n');
     console.error('Usage:');
     console.error('  blog-workflow.ts init <slug>');
+    console.error('  blog-workflow.ts qa <slug>');
     console.error('  blog-workflow.ts publish <slug>');
     console.error('  blog-workflow.ts tweet <slug>');
     console.error('  blog-workflow.ts image-prompt <slug>');
@@ -769,6 +828,11 @@ async function main() {
       case 'publish':
         if (!slug) throw new Error('Slug required for publish command');
         await cmdPublish(slug);
+        break;
+
+      case 'qa':
+        if (!slug) throw new Error('Slug required for qa command');
+        await cmdQa(slug, args[2] || '0');  // Optional sonnet_rating
         break;
 
       case 'tweet':

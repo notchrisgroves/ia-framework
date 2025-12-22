@@ -15,15 +15,14 @@ Generate images using Black Forest Labs FLUX models via OpenRouter API with dyna
 
 ## Quick Start
 
-```bash
-# Generate image with prompt
-/generate-image "cyberpunk security analyst at terminal" -o output/images/analyst.png
-
-# Check API and model availability
-/generate-image --check
+```
+/generate-image create a cyberpunk security analyst at a terminal
+/generate-image check if the API is working
 ```
 
-**Note:** For blog post hero images, use the blog workflow (Stage 3: VISUAL ASSETS) which automatically generates topic-aware heroes from draft content.
+The workflow will ask where to save the image if needed.
+
+**Note:** For blog post hero images, use the blog workflow which automatically generates topic-aware heroes from draft content.
 
 ---
 
@@ -42,20 +41,18 @@ Generate images using Black Forest Labs FLUX models via OpenRouter API with dyna
 
 ---
 
-## Options
+## What You Can Ask
 
-| Option | Description | Example |
-|--------|-------------|---------|
-| `prompt` | Text prompt for generation | `"zero trust architecture"` |
-| `-o, --output` | Output file path (required) | `-o output/images/image.png` |
-| `--check` | Verify API connectivity | |
-| `--timeout` | Request timeout seconds | `--timeout 300` |
+Just describe what you need:
 
-**Internal options (used by blog workflow):**
-| Option | Description |
-|--------|-------------|
-| `--hero SLUG` | Generate hero for blog post (analyzes content) |
-| `--analyze TITLE` | Analyze title for topic detection (no generation) |
+```
+/generate-image create a zero trust architecture visualization
+/generate-image generate a hero image for the security testing blog post
+/generate-image check the API connection
+/generate-image analyze what topic "Building Zero Trust Networks" would be
+```
+
+The workflow handles the technical details (output paths, timeouts, etc.) automatically.
 
 ---
 
@@ -97,16 +94,14 @@ RESEARCH → WRITING → VISUAL ASSETS → QA_REVIEW → PUBLISHING
 
 ## Output Structure
 
+Generated images are saved with a companion prompt file:
+
 ```
-# Specified via -o flag
 output/images/my-image.png    # Generated image
 output/images/my-image.txt    # Prompt used (for regeneration)
 ```
 
-**Example:**
-```bash
-/generate-image "zero trust architecture" -o output/images/zero-trust.png
-```
+The workflow asks where to save if you don't specify a location.
 
 ---
 
@@ -171,11 +166,11 @@ This ensures the tool always uses the best available model without hardcoding mo
 
 **Issue: "No allowed providers available"**
 - Check OpenRouter dashboard for provider status
-- Run `/generate-image --check` to verify connectivity
+- Ask to check the API connection to verify connectivity
 
 **Issue: "Request timed out"**
 - FLUX generation takes 30-120 seconds
-- Use `--timeout 300` for larger images
+- The workflow handles extended timeouts automatically for larger images
 
 **Issue: Repetitive styles**
 - Working as designed - variety comes from random pool selection
@@ -185,15 +180,30 @@ This ensures the tool always uses the best available model without hardcoding mo
 
 ## Examples
 
-```bash
-# Concept visualization
-/generate-image "human directing multiple AI agents in harmony" -o output/images/collab.png
+### Concept Visualization
+```
+/generate-image create an image of a human directing multiple AI agents working in harmony
 
-# Security-themed image
-/generate-image "zero trust network with encrypted tunnels" -o output/images/zero-trust.png
+→ Where should I save this image?
+User: output/images/collab.png
+→ Generating via FLUX...
+✅ Image saved to output/images/collab.png
+```
 
-# Check API before generating
-/generate-image --check
+### Security-Themed
+```
+/generate-image visualize a zero trust network with encrypted tunnels
+
+→ Generating with security-themed styling...
+✅ Image saved to output/images/zero-trust.png
+```
+
+### API Health Check
+```
+/generate-image check if the image generation is working
+
+✅ OpenRouter API connected
+✅ FLUX model available: black-forest-labs/flux-1.1-pro
 ```
 
 ---

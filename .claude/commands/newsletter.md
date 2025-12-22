@@ -25,32 +25,16 @@ Detects week → Fetches posts → Generates digest → Schedules Monday 8:00 AM
 
 ## Usage
 
-### Options
+Just tell the AI what you need:
 
 ```
---week YYYY-MM-DD    Custom week ending date (default: current week)
---dry-run            Preview without scheduling
---send-now           Immediate publication (skip Monday schedule)
---help               Show help message
-```
-
-### Examples
-
-```bash
-# Current week digest
 /newsletter
-
-# Preview only
-/newsletter --dry-run
-
-# Specific week (use Monday date)
-/newsletter --week 2025-11-17
-
-# Publish immediately
-/newsletter --send-now
+/newsletter generate the weekly digest for last week
+/newsletter preview the digest but don't schedule it yet
+/newsletter send it immediately instead of scheduling for Monday
 ```
 
-**Note:** Use **week start date (Monday)** for `--week`, not end date.
+The workflow will ask clarifying questions if needed.
 
 ---
 
@@ -189,7 +173,7 @@ send_email_when_published: true
 
 ### Current Week
 
-```bash
+```
 /newsletter
 
 ✅ Weekly Digest Scheduled!
@@ -198,10 +182,10 @@ send_email_when_published: true
    Editor: https://yourblog.ghost.io/ghost/#/editor/post/[ID]
 ```
 
-### Dry Run Preview
+### Preview Before Scheduling
 
-```bash
-/newsletter --dry-run
+```
+/newsletter just preview it first
 
 🔍 Preview: 4 posts found for Nov 17-23
    Featured: Intelligence Adjacent Framework (public)

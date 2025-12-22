@@ -133,23 +133,42 @@ output/path/to/deliverables/
 
 ## Examples
 
+**IMPORTANT: Conversational Style**
+
+Slash commands use natural language, NOT CLI-style flags. Users describe what they want in plain English, and the workflow asks follow-up questions as needed.
+
+**Correct:**
+```
+/policy I need NIST-based security policies for my small healthcare startup
+/risk-assessment evaluate security for my 50-person SaaS company
+/pentest test our customer portal at portal.example.com
+```
+
+**Incorrect (never use):**
+```
+/policy --framework NIST --organization "Acme" --size small
+/risk-assessment --target "company" --scope full
+```
+
 ### Example 1: Basic Usage
 
 ```
 /command-name
--> Option: value
--> Input: example
+User: "Brief conversational request describing what they need"
 
-Result: Description of output
+→ Workflow prompts for clarification
+→ User provides context
+→ Result: Description of output
 ```
 
-### Example 2: Advanced Usage
+### Example 2: With Context
 
 ```
-/command-name
--> Option: different-value
+/command-name I need [specific outcome] for [context]
 
-Result: Description of alternative output
+→ Workflow proceeds with provided context
+→ Asks follow-up questions as needed
+→ Result: Description of alternative output
 ```
 
 ---

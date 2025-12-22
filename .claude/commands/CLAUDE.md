@@ -169,14 +169,35 @@ python tools/validation/validate-commands.py
 
 ## Command Best Practices
 
+**CRITICAL: Conversational Style (Not CLI)**
+
+Users invoke commands with natural language. The workflow asks follow-up questions as needed. **NEVER use CLI-style flags in examples.**
+
+**Correct examples:**
+```
+/policy I need security policies based on NIST for my small business
+/risk-assessment evaluate our SaaS platform security posture
+/pentest test the customer portal for vulnerabilities
+/blog-post write about zero trust architecture
+```
+
+**WRONG - never use:**
+```
+/policy --framework NIST --organization "Acme" --size small
+/risk-assessment --scope full --target company
+```
+
+The user talks, the AI figures out what to do.
+
 **DO:**
+- ✅ Use conversational examples in all documentation
 - ✅ Provide clear Quick Start example
 - ✅ Show expected outputs
 - ✅ Link to related commands
-- ✅ Include time estimates
 - ✅ Show Agent and Skill routing
 
 **DON'T:**
+- ❌ Use CLI-style flags in slash command examples
 - ❌ Inline entire workflows (reference skill files)
 - ❌ Duplicate content between commands
 - ❌ Use custom frontmatter fields
