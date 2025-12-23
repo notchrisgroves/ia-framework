@@ -27,8 +27,6 @@ This skill provides general legal information based on publicly available source
 
 **For legal advice, consult a licensed attorney in your jurisdiction.**
 
-**See:** `templates/disclaimers.md` for all disclaimer templates
-
 ---
 
 ## 🚨 Critical Rules
@@ -41,7 +39,7 @@ This skill provides general legal information based on publicly available source
 4. **Context Loading** - Read CLAUDE.md → SKILL.md before starting
 5. **Fast Mode Default** - No checkpoints unless Deep Mode explicitly requested
 
-**Quality Standards = Legal Accuracy** - See `reference/verification-workflow.md`
+**Quality Standards = Legal Accuracy** - All citations verified via Grok AI
 
 ---
 
@@ -57,7 +55,7 @@ This skill provides general legal information based on publicly available source
 - "Review this contract for compliance"
 - Document or process compliance validation
 
-**Decision Path:** Compliance Review → [Industry] → `workflows/compliance-review.md`
+**Decision Path:** Compliance Review → [Industry] → See workflow below
 
 **Workflow Steps:**
 1. Identify Requirements (determine applicable laws and regulations)
@@ -74,9 +72,7 @@ This skill provides general legal information based on publicly available source
 - All citations Grok-verified
 - 1-2 hours typical duration
 
-**Workflow:** `workflows/compliance-review.md`
-
-**Example:** `examples/hipaa-pentest-compliance.md`
+**Workflow:** See "Workflow: Compliance Review" section below
 
 ---
 
@@ -88,7 +84,7 @@ This skill provides general legal information based on publicly available source
 - "What are legal risks of this pentest scope?"
 - Activity or engagement legal risk analysis
 
-**Decision Path:** Risk Assessment → [Activity Type] → `workflows/risk-assessment.md`
+**Decision Path:** Risk Assessment → [Activity Type] → See workflow below
 
 **Workflow Steps:**
 1. Context Gathering (jurisdiction, industry, activity type)
@@ -105,9 +101,7 @@ This skill provides general legal information based on publicly available source
 - Risk scoring with mitigation
 - 1-3 hours typical duration
 
-**Workflow:** `workflows/risk-assessment.md`
-
-**Example:** `examples/bug-bounty-authorization.md`
+**Workflow:** See "Workflow: Risk Assessment" section below
 
 ---
 
@@ -119,7 +113,7 @@ This skill provides general legal information based on publicly available source
 - "GDPR vs CCPA comparison"
 - Multi-jurisdiction comparison or analysis
 
-**Decision Path:** Jurisdictional Research → [Jurisdictions] → `workflows/jurisdictional-research.md`
+**Decision Path:** Jurisdictional Research → [Jurisdictions] → See workflow below
 
 **Workflow Steps:**
 1. Jurisdiction Specification (state/country identification)
@@ -136,20 +130,18 @@ This skill provides general legal information based on publicly available source
 - Practical guidance for compliance
 - 1-2 hours typical duration
 
-**Workflow:** `workflows/jurisdictional-research.md`
-
-**Example:** `examples/privacy-law-comparison.md`
+**Workflow:** See "Workflow: Jurisdictional Research" section below
 
 ---
 
 ## Routing Decision Matrix
 
-| User Request | Mode | Workflow | Duration |
-|--------------|------|----------|----------|
-| "Review pentest scope for CFAA compliance" | Compliance Review | `compliance-review.md` | 1-2 hours |
-| "What are legal risks of this bug bounty?" | Risk Assessment | `risk-assessment.md` | 1-3 hours |
-| "GDPR vs CCPA comparison for my SaaS" | Jurisdictional Research | `jurisdictional-research.md` | 1-2 hours |
-| "Does this NDA have enforceable non-compete?" | Risk Assessment | `risk-assessment.md` | 1-2 hours |
+| User Request | Mode | Duration |
+|--------------|------|----------|
+| "Review pentest scope for CFAA compliance" | Compliance Review | 1-2 hours |
+| "What are legal risks of this bug bounty?" | Risk Assessment | 1-3 hours |
+| "GDPR vs CCPA comparison for my SaaS" | Jurisdictional Research | 1-2 hours |
+| "Does this NDA have enforceable non-compete?" | Risk Assessment | 1-2 hours |
 
 ---
 
@@ -204,8 +196,6 @@ This skill provides general legal information based on publicly available source
 - Gap analysis with risk ratings
 - Remediation recommendations
 - Attorney consultation recommendation
-
-**See:** `workflows/compliance-review.md` for complete process
 
 ---
 
@@ -268,8 +258,6 @@ This skill provides general legal information based on publicly available source
 - Document authorization and consent
 - Consult attorney for high-risk activities
 
-**See:** `workflows/risk-assessment.md` for complete process
-
 ---
 
 ## Workflow: Jurisdictional Research (5 Steps)
@@ -323,8 +311,6 @@ This skill provides general legal information based on publicly available source
 - Simplification opportunities
 - Attorney consultation recommendation
 
-**See:** `workflows/jurisdictional-research.md` for complete process
-
 ---
 
 ## Mandatory Citation Verification
@@ -344,8 +330,6 @@ This skill provides general legal information based on publicly available source
 
 **Hallucination Prevention:** NEVER cite non-existent cases or statutes
 
-**See:** `reference/verification-workflow.md` for technical implementation
-
 ---
 
 ## Disclaimer Requirements
@@ -356,8 +340,6 @@ This skill provides general legal information based on publicly available source
 **Response Header:** Every legal response includes jurisdiction and disclaimer
 **Response Footer:** Minimal footer on all outputs
 **End of Engagement:** Comprehensive recommendation to consult attorney
-
-**See:** `templates/disclaimers.md` for all disclaimer templates
 
 ---
 
@@ -389,7 +371,7 @@ This skill provides general legal information based on publicly available source
 - `cases/` - Case law database (all Grok-verified ✅)
 - `templates/` - Scope agreements, contracts, compliance checklists
 
-**See:** `reference/knowledge-base-structure.md` for complete directory organization
+**Structure:** Use Glob/Grep to dynamically discover relevant legal materials
 
 ---
 
@@ -398,8 +380,6 @@ This skill provides general legal information based on publicly available source
 **✅ CAN:** Provide general legal information, identify statutes, find case law (Grok-verified), compare jurisdictions, assess risk, provide checklists
 
 **❌ CANNOT:** Provide legal advice, create attorney-client privilege, guarantee compliance, represent you, file documents, interpret contracts, make legal decisions
-
-**See:** `reference/scope-limitations.md` for complete list
 
 ---
 
@@ -413,14 +393,14 @@ This skill provides general legal information based on publicly available source
 
 ---
 
-## Reference Documentation
+## Key Principles
 
-| Document | Purpose |
-|----------|---------|
-| `verification-workflow.md` | Grok AI citation verification process |
-| `knowledge-base-structure.md` | Legal materials directory organization |
-| `skill-integrations.md` | Integration with security testing, personal development |
-| `disclaimers.md` | All disclaimer templates (session, header, footer) |
+| Principle | Implementation |
+|-----------|----------------|
+| Citation Verification | All legal citations verified via Grok AI |
+| Disclaimer First | Every response includes NOT LEGAL ADVICE disclaimer |
+| Jurisdiction Specific | Always specify applicable jurisdiction |
+| Attorney Recommendation | High-risk matters → recommend licensed attorney |
 
 ---
 
@@ -467,8 +447,6 @@ This skill provides general legal information based on publicly available source
 **Ethical Guidelines:** Honesty (never fabricate), Clarity (disclaim prominently), Humility (recommend attorney), Accuracy (verify all citations), Limitation (acknowledge unknowns)
 
 **Fail-Safes:** Can't verify → Don't present it; Unclear jurisdiction → Ask user; Beyond scope → Recommend attorney; Criminal matter → STRONGLY recommend attorney
-
-**See:** `reference/ethics-standards.md` for complete guidelines
 
 ---
 

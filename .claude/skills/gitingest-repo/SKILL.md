@@ -82,7 +82,7 @@ uv tool install gitingest
 | OWASP Code Review | code-review | Code Review Guide |
 | MITRE ATT&CK | security-advisory | CTI |
 
-**See:** `reference/repository-mappings.md` for complete mapping table
+**Note:** Mapping table above covers primary use cases
 
 ---
 
@@ -157,13 +157,7 @@ gitingest https://github.com/usnistgov/OSCAL \
 **Deliverables:**
 - metadata.json
 
-**Checkpoint:** Metadata created
-
-**Load for this phase:**
-```
-Read skills/gitingest-repo/templates/metadata-template.json
-# Use as template for metadata creation
-```
+**Checkpoint:** Metadata created (use template above)
 
 ---
 
@@ -298,16 +292,13 @@ gitingest https://github.com/OWASP/Top10 \
 
 ---
 
-## Progressive Context Loading
+## Context Loading
 
-**Core Context (Always Loaded):**
-- This SKILL.md file
-
-**Extended Context (Load as Needed):**
-- `methodologies/repository-ingestion.md` - Complete ingestion process
-- `reference/repository-mappings.md` - Repository-to-skill mapping table
-- `workflows/single-repository-ingestion.md` - Step-by-step workflow
-- `templates/metadata-template.json` - Metadata format
+**This SKILL.md is self-contained:**
+- Repository-to-skill mapping table (see above)
+- 4-phase workflow with checkpoints
+- Metadata template (JSON format)
+- Troubleshooting guide
 
 ---
 

@@ -53,16 +53,14 @@ Component Template → Fill in → Drop in location → Auto-discovered
 ## Template Directory Structure
 
 ```
-skills/create-skill/templates/
-├── SKILL-TEMPLATE.md              (Skill structure)
-├── SKILL-MANIFEST-TEMPLATE.yaml   (Skill manifest)
+library/templates/
 ├── AGENT-TEMPLATE.md              (Agent prompt structure)
-├── SERVER-TOOL-TEMPLATE/          (VPS Code API wrapper)
 ├── COMMAND-TEMPLATE.md            (Slash command)
-├── HOOK-TEMPLATE.md               (Event automation)
-├── WORKFLOW-TEMPLATE.md           (Multi-step process)
-├── EVALUATION-TEMPLATE.json       (Skill evaluation)
-└── SESSION-STATE-TEMPLATE.md      (Multi-session checkpoint)
+├── SESSION-STATE-TEMPLATE.md      (Multi-session checkpoint)
+├── SERVER-MANIFEST-TEMPLATE.yaml  (VPS server manifest)
+├── SKILL-MODEL-SELECTION-TEMPLATE.md (Model selection)
+├── TOOL-MANIFEST-TEMPLATE.yaml    (Tool manifest)
+└── compliance/                    (Compliance templates)
 ```
 
 **All templates follow framework standards** - Line limits, progressive disclosure, decision tree routing
@@ -83,11 +81,10 @@ skills/create-skill/templates/
 
 **Follow this workflow:**
 
-### Step 1: Copy Template
+### Step 1: Create Skill Directory
 
 ```bash
-cp skills/create-skill/templates/SKILL-TEMPLATE.md skills/[skill-name]/SKILL.md
-cp skills/create-skill/templates/SKILL-MANIFEST-TEMPLATE.yaml skills/[skill-name]/manifest.yaml
+mkdir -p skills/[skill-name]/{workflows,reference,methodologies,templates}
 ```
 
 ### Step 2: Fill In Metadata
@@ -159,8 +156,6 @@ skills/[skill-name]/
 - eval-002-[mode-2].json
 - eval-003-[integration-test].json
 
-**Use:** `templates/EVALUATION-TEMPLATE.json`
-
 ### Step 6: Drop in Location
 
 ```bash
@@ -168,7 +163,7 @@ skills/[skill-name]/
 # No registration needed
 ```
 
-**See:** `templates/SKILL-TEMPLATE.md` for complete structure
+**See:** Existing skills (e.g., `skills/security-testing/`) for reference structure
 
 ---
 
@@ -179,7 +174,7 @@ skills/[skill-name]/
 ### Step 1: Copy Template
 
 ```bash
-cp skills/create-skill/templates/AGENT-TEMPLATE.md agents/[agent-name].md
+cp library/templates/AGENT-TEMPLATE.md agents/[agent-name].md
 ```
 
 ### Step 2: Fill In Agent Identity
@@ -238,7 +233,7 @@ wc -l agents/[agent-name].md
 # MUST be ≤ 250 lines
 ```
 
-**See:** `templates/AGENT-TEMPLATE.md` for complete structure
+**See:** `library/templates/AGENT-TEMPLATE.md` for complete structure
 
 ---
 
@@ -246,10 +241,10 @@ wc -l agents/[agent-name].md
 
 **VPS Code API wrappers for security tools:**
 
-### Step 1: Copy Template
+### Step 1: Create Server Directory
 
 ```bash
-cp -r skills/create-skill/templates/SERVER-TOOL-TEMPLATE servers/[tool-name]
+mkdir -p servers/[tool-name]/{wrappers,deploy}
 ```
 
 ### Step 2: Fill In Manifest
@@ -304,7 +299,7 @@ services:
       - app-network
 ```
 
-**See:** `templates/SERVER-TOOL-TEMPLATE/` for complete structure
+**See:** Existing servers (e.g., `servers/kali-pentest/`) for reference structure
 
 ---
 
@@ -313,7 +308,7 @@ services:
 ### Step 1: Copy Template
 
 ```bash
-cp skills/create-skill/templates/COMMAND-TEMPLATE.md commands/[command-name].md
+cp library/templates/COMMAND-TEMPLATE.md commands/[command-name].md
 ```
 
 ### Step 2: Fill In Command
@@ -346,7 +341,7 @@ User: /[command-name] [args]
 Agent: [Response]
 ```
 
-**See:** `templates/COMMAND-TEMPLATE.md` for complete structure
+**See:** `library/templates/COMMAND-TEMPLATE.md` for complete structure
 
 ---
 
@@ -393,13 +388,13 @@ Agent: [Response]
 
 ## Testing New Components
 
-**Create evaluations:**
+**Test patterns:**
 
 1. **Skill Evaluations** - Test mode routing, workflow execution
 2. **Agent Evaluations** - Test skill loading, task routing
 3. **Integration Tests** - Test inter-skill communication
 
-**Use:** `templates/EVALUATION-TEMPLATE.json`
+**Method:** Manual testing via Task tool invocation
 
 ---
 
@@ -453,24 +448,24 @@ Agent: [Response]
 
 | Template | Purpose | Location |
 |----------|---------|----------|
-| SKILL-TEMPLATE.md | Skill structure | `templates/` |
-| SKILL-MANIFEST-TEMPLATE.yaml | Skill manifest | `templates/` |
-| AGENT-TEMPLATE.md | Agent prompt | `templates/` |
-| SERVER-TOOL-TEMPLATE/ | VPS Code API wrapper | `templates/` |
-| COMMAND-TEMPLATE.md | Slash command | `templates/` |
-| HOOK-TEMPLATE.md | Event automation | `templates/` |
-| WORKFLOW-TEMPLATE.md | Multi-step process | `templates/` |
-| EVALUATION-TEMPLATE.json | Skill evaluation | `templates/` |
-| SESSION-STATE-TEMPLATE.md | Multi-session checkpoint | `templates/` |
+| AGENT-TEMPLATE.md | Agent prompt | `library/templates/` |
+| COMMAND-TEMPLATE.md | Slash command | `library/templates/` |
+| SESSION-STATE-TEMPLATE.md | Multi-session checkpoint | `library/templates/` |
+| SERVER-MANIFEST-TEMPLATE.yaml | Server manifest | `library/templates/` |
+| SKILL-MODEL-SELECTION-TEMPLATE.md | Model selection | `library/templates/` |
+| TOOL-MANIFEST-TEMPLATE.yaml | Tool manifest | `library/templates/` |
+
+**For skill structure:** Reference existing skills (e.g., `skills/security-testing/`)
 
 ---
 
 ## Examples
 
-**See `examples/` directory for:**
-- example-skill/ - Complete skill implementation
-- example-agent.md - Agent prompt example
-- example-command.md - Slash command example
+**Reference existing implementations:**
+- Skill: `skills/security-testing/` - Complete skill with workflows
+- Agent: `agents/security.md` - Agent prompt example
+- Command: `commands/pentest.md` - Slash command example
+- Server: `servers/kali-pentest/` - VPS wrapper example
 
 ---
 

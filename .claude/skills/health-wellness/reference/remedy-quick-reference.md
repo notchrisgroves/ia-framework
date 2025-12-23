@@ -11,23 +11,23 @@ description: Quick lookup tables for common remedies
 
 ## Boiron Top Remedies
 
-| Remedy | Common Uses | Form | Source |
-|--------|-------------|------|--------|
-| Arnica montana | Bruises, soreness, trauma | Pellets, gel, cream | boironusa.com |
-| Oscillococcinum | Flu symptoms | Pellets | boironusa.com |
-| Calendula | Cuts, scrapes, skin healing | Cream, gel | boironusa.com |
-| Belladonna | Sudden fever, throbbing pain | Pellets | boironusa.com |
-| Bryonia alba | Dry cough, joint pain | Pellets | boironusa.com |
-| Chamomilla | Teething, irritability | Pellets | boironusa.com |
-| Gelsemium | Flu, anticipation anxiety | Pellets | boironusa.com |
-| Ignatia amara | Grief, emotional upset | Pellets | boironusa.com |
-| Nux vomica | Digestive upset, overindulgence | Pellets | boironusa.com |
-| Pulsatilla | Colds, hormonal, emotional | Pellets | boironusa.com |
-| Rhus toxicodendron | Stiffness, restlessness | Pellets | boironusa.com |
-| Sulphur | Skin, itching, detox | Pellets | boironusa.com |
-| Hypericum | Nerve pain, injuries | Pellets, tincture | boironusa.com |
-| Ledum | Puncture wounds, insect bites | Pellets | boironusa.com |
-| Apis mellifica | Swelling, stinging pain, bites | Pellets | boironusa.com |
+| Remedy             | Common Uses                     | Form                | Source        |
+| ------------------ | ------------------------------- | ------------------- | ------------- |
+| Arnica montana     | Bruises, soreness, trauma       | Pellets, gel, cream | boironusa.com |
+| Oscillococcinum    | Flu symptoms                    | Pellets             | boironusa.com |
+| Calendula          | Cuts, scrapes, skin healing     | Cream, gel          | boironusa.com |
+| Belladonna         | Sudden fever, throbbing pain    | Pellets             | boironusa.com |
+| Bryonia alba       | Dry cough, joint pain           | Pellets             | boironusa.com |
+| Chamomilla         | Teething, irritability          | Pellets             | boironusa.com |
+| Gelsemium          | Flu, anticipation anxiety       | Pellets             | boironusa.com |
+| Ignatia amara      | Grief, emotional upset          | Pellets             | boironusa.com |
+| Nux vomica         | Digestive upset, overindulgence | Pellets             | boironusa.com |
+| Pulsatilla         | Colds, hormonal, emotional      | Pellets             | boironusa.com |
+| Rhus toxicodendron | Stiffness, restlessness         | Pellets             | boironusa.com |
+| Sulphur            | Skin, itching, detox            | Pellets             | boironusa.com |
+| Hypericum          | Nerve pain, injuries            | Pellets, tincture   | boironusa.com |
+| Ledum              | Puncture wounds, insect bites   | Pellets             | boironusa.com |
+| Apis mellifica     | Swelling, stinging pain, bites  | Pellets             | boironusa.com |
 
 ---
 

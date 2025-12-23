@@ -111,6 +111,7 @@ description: Brief description of what command does
 
 **Utility:**
 - `/ingest-repo` - GitHub repository ingestion
+- `/framework-update` - Safe framework updates preserving customizations
 
 **Git/Sync (Private):**
 - `/git-sync` - Git workflow automation (stage, commit, push)
