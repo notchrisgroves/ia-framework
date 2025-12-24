@@ -28,6 +28,11 @@ Unified content creation with 3 content types and mandatory QA review. This skil
 3. **Deep Insights Only** - Go deep or don't post (no surface-level aggregation)
 4. **Citations Required** - All claims backed by evidence (OSINT research)
 5. **Tool Discovery** - Check Context7 for code examples, never improvise Ghost publishing
+6. **Single Source of Truth** - `blog/STATUS.md` is the ONLY file for blog tracking and planning
+   - ❌ Never create CONTENT-PLAN.md, CONTENT-ROADMAP.md, or similar files
+   - ✅ Add planned content to STATUS.md "Content Roadmap" section
+   - ✅ Archive assessment goes in STATUS.md "Archive Assessment" section
+   - Auto-generated sections preserved by `blog-workflow.ts refresh`
 
 **Quality Standards = Career Reputation** - See `reference/CONTENT-STANDARDS.md`
 
@@ -501,12 +506,17 @@ osint-research executes dual-source methodology (WebSearch + Grok) for backgroun
 
 ```
 blog/
-├── drafts/{slug}/              (Work in progress)
-│   ├── draft.md
-│   ├── hero.png
-│   └── qa-review.json
-└── published/{slug}/           (Archived)
-    └── final.md
+├── posts/YYYY-MM-DD-title/     (All blog posts - status in metadata.json)
+│   ├── draft.md                (Content)
+│   ├── metadata.json           (status: draft/published/scheduled)
+│   ├── hero.png                (Hero image)
+│   ├── hero-prompt.txt         (Generated prompt)
+│   ├── qa-review.json          (QA results)
+│   └── tweet.txt               (Social summary)
+├── newsletters/                (Weekly digests)
+│   └── weekly-digest-YYYY-MM-DD-DD/
+├── pages/                      (Static pages)
+└── STATUS.md                   (Single source of truth - auto + manual sections)
 
 output/engagements/
 └── {type}/{id}/                (Pentest, vuln-scan, etc.)
@@ -516,6 +526,8 @@ output/engagements/
 docs/{category}/                (Framework docs)
 └── {filename}.md
 ```
+
+**Key principle:** Blog files NEVER move. Status tracked in `metadata.json`, not folder location.
 
 ---
 
@@ -547,7 +559,7 @@ docs/{category}/                (Framework docs)
 
 ---
 
-**Version:** 4.1
-**Last Updated:** 2025-12-19
-**Status:** Decision tree router with QA enforcement
+**Version:** 4.2
+**Last Updated:** 2025-12-24
+**Status:** Decision tree router with QA enforcement, STATUS.md single source of truth
 **Research Tools:** Context7 (code examples) → WebSearch → Perplexity → OpenRouter

@@ -168,8 +168,7 @@ blog/
 │       ├── draft.md
 │       └── metadata.json
 ├── pages/
-├── CONTENT-PLAN.md
-└── STATUS.md
+└── STATUS.md              (Single source of truth for status + planning)
 ```
 
 **❌ NEVER:**
