@@ -46,7 +46,7 @@ The workflow will ask clarifying questions if needed.
 - Consolidate week's posts into single email
 - Drive traffic to site (not inbox spam)
 
-❌ **Don't use if:** Creating individual post → use `/blog-post`
+❌ **Don't use if:** Creating individual post → use `/write`
 
 ---
 
@@ -214,7 +214,7 @@ send_email_when_published: true
 
 ## Related Commands
 
-- `/blog-post` - Create individual blog post
+- `/write` - Create individual content (posts, pages)
 - Writer skill handles technical docs
 
 ---

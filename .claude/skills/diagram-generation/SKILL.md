@@ -67,7 +67,7 @@ Export to PNG/SVG, then upload to Ghost media library.
 3. No export needed
 
 ### Blog Post with Diagrams
-1. Write Mermaid source in `blog/[post]/diagrams/`
+1. Write Mermaid source in `blog/posts/[post]/diagrams/`
 2. Run export: `python scripts/export-diagram.py diagrams/*.mmd -o images/`
 3. Upload PNGs to Ghost
 4. Reference in blog post

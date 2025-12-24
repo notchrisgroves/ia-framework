@@ -373,7 +373,7 @@ What's the contrarian view?
 ### Organized Research Directory
 
 ```
-output/blog/research/{slug}/
+blog/posts/{slug}/
 ├── research-notes.md        # Complete research notes with findings
 ├── sources.txt              # All sources with descriptions
 ├── key-insights.md          # Original analysis and insights

@@ -177,7 +177,7 @@ Output format: {inline/exported}
 
 ## Related Commands
 
-- `/blog-post` - Blog content (uses diagrams)
+- `/write` - Content creation (uses diagrams)
 - `/generate-image` - FLUX hero images
 
 ---

@@ -212,7 +212,7 @@ User: output/images/collab.png
 
 - `skills/diagram-generation/` - Mermaid/PlantUML diagram export
 - `skills/writer/workflows/blog-content.md` - Full blog workflow
-- `commands/blog-post.md` - Blog post creation command
+- `commands/write.md` - Content creation command
 - `tools/research/openrouter/` - Model discovery and API client
 
 ---

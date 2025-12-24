@@ -66,7 +66,7 @@ Example:
 
 **Depth Level:** Standard (comprehensive review)
 
-**Output:** `blog/{slug}/qa-review.json`
+**Output:** `blog/posts/{slug}/qa-review.json`
 
 **Methodology:** Dual-model (Haiku structure + Grok adversarial) with rating system
 
@@ -271,7 +271,7 @@ Example:
 
 ```
 # writer
-blog/{slug}/
+blog/posts/{slug}/
    qa-review.json                     (Rating + findings)
 
 # security-testing

@@ -83,73 +83,52 @@ def generate_tweet(
     # Truncate content for context (keep under token limits)
     content_preview = content[:4000] if len(content) > 4000 else content
 
-    system_prompt = """You are a social media strategist for a technical blog about AI frameworks, cybersecurity, and career development. The brand voice is:
+    system_prompt = """You write viral tweets for a technical blog about AI, cybersecurity, and career development.
 
-VOICE PRINCIPLES:
-- Professional but accessible (smart colleagues over coffee)
-- Humble - show expertise through analysis, not claims
-- Action-oriented - challenge readers to take action
-- Direct and specific - real measurements, not marketing
+EXAMPLE FORMAT:
+```
+Most security advice is backwards.
 
-TWEET STRUCTURE (HOOK → VALUE → CTA):
-1. HOOK (first line): Pattern interrupt. Contrarian take, surprising data, bold claim, or provocative question. This is everything - users decide in 1.7 seconds.
-2. TENSION (1-2 lines): The problem or pain point. What's broken? What do people get wrong?
-3. INSIGHT (1-2 lines): What you discovered/built. The non-obvious finding.
-4. PROOF (optional): Specific numbers, before/after, concrete outcomes.
-5. CTA: Link + engagement invitation.
+You're told to patch everything, monitor everything, document everything. But with limited resources? That's a recipe for burnout and gaps.
 
-EFFECTIVE HOOK FORMULAS:
-- Contrarian: "Most people think [X]. They're wrong."
-- Data drop: "[Surprising statistic]. Here's what that means."
-- Story: "I spent [time] doing [thing]. Here's what I learned."
-- Question: "[Provocative question]?"
-- Hot take: "Unpopular opinion: [bold statement]"
+This 12-week GRC roadmap prioritizes what actually matters—using free NIST/ISO frameworks to build enterprise-grade security on a startup budget.
+
+https://example.com/post-slug/
+#Cybersecurity #GRC #SmallBusiness #Security
+```
+
+HOOK FORMULAS (pick one):
+1. Contrarian: "Most advice about X is wrong/backwards."
+2. Statistic: "73% of developers miss this..."
+3. Problem+Promise: "Struggling with X? Here's what works."
+4. Story hook: "I tried X for 6 months. Here's what happened."
+5. Pattern Interrupt: Start with unexpected statement
 
 RULES:
-- NO emojis (brand standard)
-- NO AI clichés ("Here's the thing...", "But here's what nobody talks about...")
-- NO corporate buzzwords ("leverage", "synergy", "paradigm shift")
-- NO humble-bragging ("Having mastered X over 20 years...")
-- BE specific - real numbers > vague claims
-- SHORT sentences. Whitespace matters.
-- **CRITICAL: ENTIRE TWEET MUST BE UNDER 280 CHARACTERS INCLUDING URL AND HASHTAGS**
-- Count characters carefully. X has a strict 280 char limit.
-- INCLUDE 1-2 relevant hashtags at the end (e.g., #AI #Cybersecurity)"""
+- NO emojis ever
+- NO "Here's the thing" or AI clichés
+- Be specific - numbers beat vague claims
+- Short punchy sentences, not walls of text
+- URL on its own line
+- 3-4 relevant hashtags on the NEXT line below URL"""
 
-    user_prompt = f"""Generate a compelling tweet for this blog post:
+    user_prompt = f"""Write ONE tweet promoting this blog post:
 
 TITLE: {title}
-
 EXCERPT: {excerpt}
-
-CONTENT PREVIEW:
-{content_preview}
-
 URL: {url}
 
-CONTENT TYPE: {content_type}
+Follow the EXAMPLE FORMAT exactly:
+1. Hook line (contrarian, statistic, or pattern interrupt)
+2. Blank line
+3. Value paragraph (2-3 punchy sentences)
+4. Blank line
+5. CTA sentence introducing the link
+6. Blank line
+7. URL on its own line
+8. 3-4 hashtags on the next line
 
-Generate:
-1. MAIN TWEET: Full tweet with HOOK → VALUE → CTA structure. Include the URL at the end. **MUST BE UNDER 280 CHARACTERS TOTAL.**
-
-2. THREAD HOOKS: 3-5 potential thread expansion topics (one line each). These are ideas for turning the tweet into a thread if it performs well.
-
-3. ALT HOOKS: 2-3 alternative opening hooks using different formulas (contrarian, data, question, etc.)
-
-Format your response as:
-
-=== MAIN TWEET ===
-[Full tweet here]
-
-=== THREAD HOOKS ===
-1. [Topic 1]
-2. [Topic 2]
-...
-
-=== ALT HOOKS ===
-1. [Alternative hook 1]
-2. [Alternative hook 2]
-..."""
+Output ONLY the tweet text. No explanations, no markdown code blocks."""
 
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -179,14 +158,11 @@ Format your response as:
         content = result.get("choices", [{}])[0].get("message", {}).get("content", "")
         usage = result.get("usage", {})
 
-        # Parse the structured response
-        parsed = parse_tweet_response(content)
+        # Clean up the response - just the tweet text
+        tweet = content.strip()
 
         return {
-            "tweet": parsed.get("main_tweet", ""),
-            "thread_hooks": parsed.get("thread_hooks", []),
-            "alt_hooks": parsed.get("alt_hooks", []),
-            "raw_response": content,
+            "tweet": tweet,
             "model": MODEL,
             "tokens": usage.get("total_tokens", 0)
         }
@@ -199,83 +175,20 @@ Format your response as:
         return {"error": str(e)}
 
 
-def parse_tweet_response(content: str) -> Dict:
-    """Parse the structured tweet response from Grok."""
-    result = {
-        "main_tweet": "",
-        "thread_hooks": [],
-        "alt_hooks": []
-    }
-
-    sections = content.split("===")
-
-    current_section = None
-    for section in sections:
-        section = section.strip()
-
-        if "MAIN TWEET" in section:
-            current_section = "main"
-        elif "THREAD HOOKS" in section or "THREAD" in section:
-            current_section = "thread"
-        elif "ALT HOOKS" in section or "ALTERNATIVE" in section:
-            current_section = "alt"
-        elif current_section == "main":
-            result["main_tweet"] = section.strip()
-        elif current_section == "thread":
-            lines = [l.strip() for l in section.split("\n") if l.strip()]
-            for line in lines:
-                # Remove numbering
-                clean = line.lstrip("0123456789.-) ").strip()
-                if clean and len(clean) > 10:
-                    result["thread_hooks"].append(clean)
-        elif current_section == "alt":
-            lines = [l.strip() for l in section.split("\n") if l.strip()]
-            for line in lines:
-                clean = line.lstrip("0123456789.-) ").strip()
-                if clean and len(clean) > 10:
-                    result["alt_hooks"].append(clean)
-
-    return result
-
-
 def format_tweet_file(result: Dict, url: str) -> str:
-    """Format the result into tweet.md content with copyable code block."""
-    output = []
+    """Format the result into tweet.md - just the tweet text, nothing else."""
+    tweet = result.get("tweet", "").strip()
 
-    # Header
-    output.append("# Tweet")
-    output.append("")
-    output.append("Copy the content below:")
-    output.append("")
+    # Clean up any residual formatting from the model
+    # Remove markdown artifacts, quotes, or explanatory text
+    tweet = tweet.strip('`"\'')
 
-    # Main tweet in code block for easy copying
-    output.append("```")
-    output.append(result.get("tweet", ""))
-    output.append("```")
-    output.append("")
+    # If model included explanatory text, try to extract just the tweet
+    if "===" in tweet or "Tweet:" in tweet:
+        lines = tweet.split('\n')
+        tweet = '\n'.join(l for l in lines if l.strip() and not l.startswith('===') and not l.startswith('Tweet:'))
 
-    # Thread potential
-    output.append("## Thread Potential")
-    output.append("")
-    for i, hook in enumerate(result.get("thread_hooks", [])[:5], 1):
-        output.append(f"{i}. {hook}")
-    output.append("")
-
-    # Alternative hooks
-    output.append("## Alternative Hooks")
-    output.append("")
-    for i, hook in enumerate(result.get("alt_hooks", [])[:3], 1):
-        output.append(f"{i}. {hook}")
-    output.append("")
-
-    # Metadata
-    output.append("---")
-    output.append("")
-    output.append(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    output.append(f"**Model:** {result.get('model', 'unknown')}")
-    output.append(f"**Tokens:** {result.get('tokens', 0)}")
-
-    return "\n".join(output)
+    return tweet.strip()
 
 
 # CLI interface

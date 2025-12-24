@@ -100,7 +100,7 @@ description: Brief description of what command does
 - `/clifton` - CliftonStrengths coaching
 
 **Content:**
-- `/blog-post` - Blog content creation
+- `/write` - Content creation (blog, docs, reports)
 - `/newsletter` - Weekly newsletter digest generation
 - `/generate-image` - FLUX hero image generation
 - `/diagram` - Diagram generation and export
@@ -179,7 +179,7 @@ Users invoke commands with natural language. The workflow asks follow-up questio
 /policy I need security policies based on NIST for my small business
 /risk-assessment evaluate our SaaS platform security posture
 /pentest test the customer portal for vulnerabilities
-/blog-post write about zero trust architecture
+/write a blog post about zero trust architecture
 ```
 
 **WRONG - never use:**
@@ -215,7 +215,7 @@ Hook: `hooks/detect-commands.py`
 **Example keywords:**
 - "job posting" → Suggests `/job-analysis`
 - "pentest" → Suggests `/pentest`
-- "blog post" → Suggests `/blog-post`
+- "blog post" → Suggests `/write`
 - "resume" → Suggests `/job-analysis`
 
 **Add new mappings in:**
@@ -267,7 +267,7 @@ python tools/evals/test-command.py pentest
 commands/
 ├── CLAUDE.md           (This file - command system overview)
 ├── pentest.md          (Penetration testing)
-├── blog-post.md        (Blog content creation)
+├── write.md            (Content creation)
 ├── job-analysis.md     (Job application analysis)
 ├── ... (15 total commands)
 ```

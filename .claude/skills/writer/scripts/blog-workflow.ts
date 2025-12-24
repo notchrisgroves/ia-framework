@@ -602,8 +602,10 @@ async function cmdTweet(slug: string): Promise<void> {
   const draftPath = join(postDir, 'draft.md');
   const metadata = await readMetadata(slug);
 
-  // Build URL from metadata or slug
-  const url = metadata.ghost?.url || `https://notchrisgroves.com/${slug.replace(/^\d{4}-\d{2}-\d{2}-/, '')}/`;
+  // Build URL from slug (always use slug-based URL, not preview URLs like /p/uuid)
+  // Ghost preview URLs change after publication, so we use the expected final URL
+  const slugPart = metadata.slug || slug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+  const url = `https://notchrisgroves.com/${slugPart}/`;
 
   // Call Python script for AI-powered generation
   const scriptPath = join(FRAMEWORK_ROOT, 'tools', 'openrouter', 'generate_tweet.py');
@@ -638,7 +640,29 @@ async function cmdTweet(slug: string): Promise<void> {
   console.log(`\n✅ AI-powered tweet generated!`);
   console.log(`📄 Saved to: blog/${slug}/tweet.md`);
 
-  // Auto-post to X
+  // Check if post is actually published (not scheduled)
+  const ghostStatus = metadata.ghost?.status;
+  if (ghostStatus === 'scheduled') {
+    const scheduledFor = metadata.ghost?.scheduled_for || metadata.scheduled_for;
+    console.log(`\n⏳ Post is scheduled for: ${scheduledFor}`);
+    console.log(`   Tweet will be posted after publication.`);
+    console.log(`   Run 'tweet ${slug}' again after post goes live.\n`);
+
+    await writeMetadata(slug, metadata);
+    await updateStatusTable();
+    return;
+  }
+
+  if (ghostStatus !== 'published') {
+    console.log(`\n⚠️ Post status: ${ghostStatus || 'draft'}`);
+    console.log(`   Tweet saved but not posted. Publish post first.\n`);
+
+    await writeMetadata(slug, metadata);
+    await updateStatusTable();
+    return;
+  }
+
+  // Auto-post to X (only if published)
   const tweetPath = join(postDir, 'tweet.md');
   const postScriptPath = join(FRAMEWORK_ROOT, 'tools', 'x-api', 'post_tweet.py');
 

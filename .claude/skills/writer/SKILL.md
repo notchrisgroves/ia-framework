@@ -33,6 +33,42 @@ Unified content creation with 3 content types and mandatory QA review. This skil
 
 ---
 
+## Brand Guide Customization
+
+**Your authentic voice is essential for content consistency.**
+
+The writer skill uses a brand guide to maintain voice consistency across all content. This is a **personalized file** that you create:
+
+### Setup
+
+1. **Copy the template:** `cp reference/BRAND-GUIDE-TEMPLATE.md reference/BRAND-GUIDE.md`
+2. **Customize sections:**
+   - **Mission** - Your purpose and who you serve
+   - **Voice & Tone** - How you communicate (personal, technical, instructional)
+   - **Content Standards** - Your rules and anti-patterns
+   - **Visual Assets** - Your aesthetic and color palette
+3. **Save as `BRAND-GUIDE.md`** - The skill uses this file during content creation and QA
+
+### How the Skill Uses Your Brand Guide
+
+| Phase | Usage |
+|-------|-------|
+| **Research** | Identifies topics aligned with your mission |
+| **Writing** | Applies your voice principles and structure templates |
+| **QA Review** | Validates voice consistency, checks for anti-patterns |
+| **Visuals** | Generates imagery matching your aesthetic |
+
+### Why This Matters
+
+- **Consistency** - Every post sounds authentically like you
+- **Efficiency** - No re-explaining your preferences each session
+- **Quality** - QA catches voice drift before publishing
+
+**Template:** `reference/BRAND-GUIDE-TEMPLATE.md`
+**Your customized guide:** `reference/BRAND-GUIDE.md` (gitignored from public repo)
+
+---
+
 ## Model Selection
 
 **Reference:** `library/model-selection-matrix.md` for complete task-to-model mapping

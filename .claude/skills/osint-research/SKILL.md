@@ -129,7 +129,7 @@ Example:
 
 **Mode:** Deep (comprehensive research for original content)
 
-**Output:** `blog/{slug}/research-notes.md`
+**Output:** `blog/posts/{slug}/research-notes.md`
 
 **Methodology:** WebSearch + Grok (adversarial validation) + multi-model research
 
@@ -276,7 +276,7 @@ osint-research executes industry research and compliance framework loading.
   - Expert perspectives (security researchers, vendors)
   - Real-world examples and case studies
 
-**Output:** blog/{slug}/research-notes.md
+**Output:** blog/posts/{slug}/research-notes.md
 
 osint-research executes multi-source methodology (WebSearch + Grok + Context7).
 ```
@@ -381,7 +381,7 @@ output/engagements/advisory/{client}/
       intelligence-summary.md
 
 # writer
-blog/{slug}/
+blog/posts/{slug}/
    research-notes.md
    sources.txt
    key-insights.md

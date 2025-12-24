@@ -11,7 +11,7 @@ Export diagrams from Mermaid source to PNG/SVG for Ghost blog posts.
 Create `.mmd` files in your blog post directory:
 
 ```
-blog/my-post/
+blog/posts/my-post/
 ├── content.md           # Blog post content
 └── diagrams/
     ├── architecture.mmd # Diagram source
@@ -21,7 +21,7 @@ blog/my-post/
 ### 2. Export to PNG
 
 ```bash
-cd blog/my-post
+cd blog/posts/my-post
 
 # Export all diagrams
 python ~/.claude/skills/diagram-generation/scripts/export-diagram.py \
@@ -94,7 +94,7 @@ The `/blog-post` command can auto-detect and export diagrams:
 ### Directory Structure
 
 ```
-blog/ia-framework-intro/
+blog/posts/ia-framework-intro/
 ├── content.md
 ├── diagrams/
 │   └── framework-overview.mmd

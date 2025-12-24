@@ -16,7 +16,7 @@
 
 **Caller:** writer
 **Review Type:** peer-review
-**Review Target:** output/blog/drafts/{slug}/draft.md
+**Review Target:** blog/posts/{slug}/draft.md
 **Depth Level:** standard
 **Requirements:**
   - Technical accuracy verification
@@ -25,7 +25,7 @@
   - SEO and readability
   - Rating requirement: ≥4 to publish
 
-**Output:** output/blog/drafts/{slug}/qa-review.json
+**Output:** blog/posts/{slug}/qa-review.json
 
 qa-review executes dual-model methodology and returns rating + findings.
 ```
