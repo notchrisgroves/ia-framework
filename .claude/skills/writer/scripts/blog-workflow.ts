@@ -246,7 +246,7 @@ async function updateStatusTable(): Promise<void> {
     const date = post.slug.substring(0, 10);
     const title = post.title || post.slug;
     const ghostLink = post.ghost?.url ? `[View](${post.ghost.url})` : '-';
-    const updated = post.updated_at.substring(0, 16).replace('T', ' ');
+    const updated = post.updated_at?.substring(0, 16).replace('T', ' ') || '-';
     const category = post.category || '-';
 
     content += `| ${date} | ${title} | ${post.status} | ${post.visibility} | ${category} | ${ghostLink} | ${updated} |\n`;
@@ -282,7 +282,7 @@ async function updateStatusTable(): Promise<void> {
     content += `|------|-------|------------|--------------|--|\n`;
     for (const post of drafts) {
       const date = post.slug.substring(0, 10);
-      const updated = post.updated_at.substring(0, 16).replace('T', ' ');
+      const updated = post.updated_at?.substring(0, 16).replace('T', ' ') || '-';
       content += `| ${date} | ${post.title} | ${post.visibility} | ${updated} |\n`;
     }
   } else {
@@ -298,7 +298,7 @@ async function updateStatusTable(): Promise<void> {
     content += `|------|-------|----------|\n`;
     for (const post of archived) {
       const date = post.slug.substring(0, 10);
-      content += `| ${date} | ${post.title} | ${post.updated_at.substring(0, 10)} |\n`;
+      content += `| ${date} | ${post.title} | ${post.updated_at?.substring(0, 10) || '-'} |\n`;
     }
   } else {
     content += `None.\n`;
