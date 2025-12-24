@@ -112,8 +112,9 @@ RULES:
 - NO humble-bragging ("Having mastered X over 20 years...")
 - BE specific - real numbers > vague claims
 - SHORT sentences. Whitespace matters.
-- Under 280 chars for main hook line ideally
-- INCLUDE 2-4 relevant hashtags at the end (e.g., #AI #Cybersecurity #DevOps #LLM #MCP)"""
+- **CRITICAL: ENTIRE TWEET MUST BE UNDER 280 CHARACTERS INCLUDING URL AND HASHTAGS**
+- Count characters carefully. X has a strict 280 char limit.
+- INCLUDE 1-2 relevant hashtags at the end (e.g., #AI #Cybersecurity)"""
 
     user_prompt = f"""Generate a compelling tweet for this blog post:
 
@@ -129,7 +130,7 @@ URL: {url}
 CONTENT TYPE: {content_type}
 
 Generate:
-1. MAIN TWEET: Full tweet with HOOK → VALUE → CTA structure. Include the URL at the end.
+1. MAIN TWEET: Full tweet with HOOK → VALUE → CTA structure. Include the URL at the end. **MUST BE UNDER 280 CHARACTERS TOTAL.**
 
 2. THREAD HOOKS: 3-5 potential thread expansion topics (one line each). These are ideas for turning the tweet into a thread if it performs well.
 

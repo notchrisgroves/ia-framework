@@ -248,7 +248,7 @@ python tools/evals/test-command.py pentest
 ## Output Locations
 
 **Commands use workspace-relative paths:**
-- Blog content: `output/blog/`
+- Blog content: `blog/`
 - Career materials: `output/career/`
 - Security engagements: `output/engagements/`
 - Research: `output/research/`

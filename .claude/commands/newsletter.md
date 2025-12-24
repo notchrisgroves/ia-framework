@@ -9,7 +9,7 @@ Automatically generate and schedule weekly newsletter digest from published post
 
 **Agent:** writer
 **Skill:** writer
-**Output:** `output/blog/drafts/weekly-digest-YYYY-MM-DD-DD/`
+**Output:** `blog/newsletters/weekly-digest-YYYY-MM-DD-DD/`
 
 ---
 
@@ -57,7 +57,7 @@ The workflow will ask clarifying questions if needed.
    - Generate slug: `weekly-digest-YYYY-MM-DD-DD`
 
 2. **Post Collection**
-   - Search `output/blog/published/YYYYMMDD-*`
+   - Search `blog/posts/YYYY-MM-*` with metadata.json status: "published"
    - Filter posts in date range
 
 3. **Digest Assembly**
@@ -95,11 +95,11 @@ Context:
 Instructions:
 Execute writer SKILL.md newsletter workflow:
 1. Detect/calculate week range
-2. Fetch published posts in range
+2. Fetch published posts from blog/posts/ (check metadata.json status: "published")
 3. Generate digest (featured + additional)
 4. Schedule Ghost EMAIL ONLY post (Monday 8:00 AM)
 
-Output: output/blog/drafts/weekly-digest-YYYY-MM-DD-DD/
+Output: blog/newsletters/weekly-digest-YYYY-MM-DD-DD/
 `
 })
 ```
@@ -114,7 +114,7 @@ Output: output/blog/drafts/weekly-digest-YYYY-MM-DD-DD/
 ## Output Structure
 
 ```
-output/blog/drafts/weekly-digest-YYYY-MM-DD-DD/
+blog/newsletters/weekly-digest-YYYY-MM-DD-DD/
 ├── draft.md
 ├── metadata.json
 └── schedule-info.txt
@@ -190,7 +190,7 @@ send_email_when_published: true
 🔍 Preview: 4 posts found for Nov 17-23
    Featured: Intelligence Adjacent Framework (public)
    Additional: 3 member posts
-   Would save to: output/blog/drafts/weekly-digest-2025-11-17-23/
+   Would save to: blog/newsletters/weekly-digest-2025-11-17-23/
 ```
 
 ---
@@ -198,8 +198,8 @@ send_email_when_published: true
 ## Troubleshooting
 
 **No posts found:**
-- Check directory naming: `YYYYMMDD-slug`, not `YYYY-MM-DD-slug`
-- Verify posts in `output/blog/published/`
+- Check directory naming: `YYYY-MM-DD-slug` format
+- Verify posts in `blog/posts/` have metadata.json with status: "published"
 
 **Ghost API 401:**
 - Regenerate API key: Ghost Admin → Settings → Integrations

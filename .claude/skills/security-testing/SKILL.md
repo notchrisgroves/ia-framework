@@ -17,7 +17,7 @@ Unified security testing with 3 testing modes and 7 domain-specific methodologie
 
 **Before starting ANY engagement:**
 
-1. **EXPLORE-PLAN-CODE-COMMIT Enforced** - No testing without approved plan
+1. **EXPLORE-PLAN-CODE-QA-COMMIT Enforced** - No testing without approved plan
 2. **Scope Verification Mandatory** - Check scope before EVERY test
 3. **Authorization Required** - Never test without written permission
 4. **Real Examples Only** - Evidence-based findings, no fabrication
@@ -305,7 +305,7 @@ Unified security testing with 3 testing modes and 7 domain-specific methodologie
 
 ## Penetration Testing Workflow
 
-**EXPLORE-PLAN-CODE-COMMIT (4 Phases):**
+**EXPLORE-PLAN-CODE-QA-COMMIT (5 Phases):**
 
 ### Phase 1: EXPLORE (No Testing)
 - Read SCOPE.md, parse authorization + in-scope assets
@@ -363,11 +363,22 @@ osint-research executes WebSearch + passive OSINT tools (NOT penetration testing
 
 **Template:** `templates/FINDING-TEMPLATE.md`
 
-**Gate:** ✅ All test cases executed → Proceed to COMMIT
+**Gate:** ✅ All test cases executed → Proceed to QA
 
 ---
 
-### Phase 4: COMMIT (Close-Loop Toggle)
+### Phase 4: QA (Findings Validation)
+- Validate every finding for completeness
+- Verify CVSS scores and CWE classifications
+- Check evidence sufficiency
+- Confirm scope compliance per finding
+- Create qa-review.json
+
+**Gate:** ✅ All findings validated → Proceed to COMMIT
+
+---
+
+### Phase 5: COMMIT (Close-Loop Toggle)
 
 **Decision Point After Findings Discovered:**
 

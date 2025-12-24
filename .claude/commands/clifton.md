@@ -1,11 +1,11 @@
 ---
 name: clifton
-description: CliftonStrengths coaching with theme analysis, blindspot identification, and development recommendations
+description: CliftonStrengths coaching with individual analysis, team comparison, and development recommendations
 ---
 
 # /clifton - CliftonStrengths Coaching
 
-Deep analysis of your CliftonStrengths themes with brutally honest blindspot identification and development recommendations.
+Deep analysis of CliftonStrengths themes with brutally honest blindspot identification, team comparison, and development recommendations.
 
 **Agent:** advisor
 **Skill:** career (strengths-development mode)
@@ -15,9 +15,23 @@ Deep analysis of your CliftonStrengths themes with brutally honest blindspot ide
 
 ## Quick Start
 
+**Individual Analysis:**
 ```
 /clifton
 ```
+
+**Team Comparison:**
+```
+/clifton compare our team strengths
+```
+
+---
+
+## Two Modes
+
+### Individual Mode (Default)
+
+Analyze a single person's CliftonStrengths profile.
 
 **Prerequisites:** CliftonStrengths report at `input/career/cliftonstrengths-all34.pdf`
 
@@ -26,58 +40,87 @@ Deep analysis of your CliftonStrengths themes with brutally honest blindspot ide
 /clifton My top 5: Strategic, Learner, Analytical, Achiever, Ideation
 ```
 
+**Output:**
+- `STRENGTHS-ANALYSIS.md` - Full theme breakdown
+- `BLINDSPOT-REPORT.md` - Brutally honest limitations
+- `DEVELOPMENT-PLAN.md` - Name/Claim/Aim recommendations
+
+---
+
+### Team Mode
+
+Compare multiple profiles and identify partnerships and gaps.
+
+**Provide multiple profiles:**
+```
+/clifton compare team:
+- Alice: Strategic, Learner, Achiever, Input, Ideation
+- Bob: Connectedness, Achiever, Belief, Responsibility, Developer
+- Carol: Command, Activator, Woo, Competition, Self-Assurance
+```
+
+**Or use team folder:**
+Place multiple PDF reports in `input/career/team/`
+
+**Output:**
+- `TEAM-GRID.md` - Visual team composition by domain
+- `DOMAIN-ANALYSIS.md` - Coverage gaps and balance
+- `PARTNERSHIP-MAP.md` - Complementary partnerships
+- `TEAM-DEVELOPMENT.md` - Collective recommendations
+
 ---
 
 ## When to Use
 
 **Use /clifton when:**
-- Want deep analysis of CliftonStrengths themes
+- Want deep analysis of CliftonStrengths themes (individual or team)
 - Need honest blindspot identification
 - Exploring theme tensions and contradictions
-- Want development recommendations (Name it, Claim it, Aim it)
 - Understanding domain gaps
+- Building team composition strategy
+- Finding complementary partnerships
 
 **Don't use if:**
-- Need job application help → `/job-analysis`
-- Want learning roadmap → `/mentorship`
-- Don't have CliftonStrengths report
+- Need job application help (use `/job-analysis`)
+- Want learning roadmap (use `/mentorship`)
+- Don't have CliftonStrengths data
 
 ---
 
-## What CliftonStrengths Measures
+## The Four Domains
 
-**Four Domains:**
-- **Executing** - Get things done (Achiever, Responsibility, Focus)
-- **Influencing** - Take charge, speak up (Command, Communication, Woo)
-- **Relationship Building** - Hold teams together (Empathy, Harmony, Includer)
-- **Strategic Thinking** - Focus on possibilities (Strategic, Analytical, Ideation)
+| Domain | Color | Themes | Question Answered |
+|--------|-------|--------|-------------------|
+| **Executing** | Purple | Achiever, Arranger, Belief, Consistency, Deliberative, Discipline, Focus, Responsibility, Restorative | How do you make things happen? |
+| **Influencing** | Orange | Activator, Command, Communication, Competition, Maximizer, Self-Assurance, Significance, Woo | How do you influence others? |
+| **Relationship** | Blue | Adaptability, Connectedness, Developer, Empathy, Harmony, Includer, Individualization, Positivity, Relator | How do you build relationships? |
+| **Strategic** | Green | Analytical, Context, Futuristic, Ideation, Input, Intellection, Learner, Strategic | How do you analyze information? |
 
-**34 Talent Themes** ranked from dominant (#1) to lesser (#34)
+**Note:** Influencing is statistically the RAREST domain (appears in only 15% of Top 5s)
 
 ---
 
-## Workflow Phases
+## Individual Workflow
 
 ### Phase 1: Parse Strengths Data
-- Top 5 or Full 34 themes
-- Domain distribution analysis
+- Theme rankings (Top 5 or Full 34)
+- Domain distribution
 - Signature theme identification
 
 ### Phase 2: Dominant Pattern Analysis
 - #1 + #2 theme interaction
-- How they amplify each other
-- Natural behavior patterns
+- Unique behavioral signature
+- Career implications
 
 ### Phase 3: Theme Tensions
 - Contradicting themes (e.g., Deliberative + Activator)
-- Overuse patterns (when strength becomes weakness)
-- Situational conflicts
+- Overuse patterns
+- Missing domains
 
 ### Phase 4: Blindspot Analysis (Brutally Honest)
 - Bottom 5 themes (if Full 34)
-- Domain gaps (missing areas)
+- Domain gaps
 - Limitations to acknowledge
-- Blind spots others see
 
 ### Phase 5: Development Recommendations
 - **Name it** - Understand your themes
@@ -86,66 +129,42 @@ Deep analysis of your CliftonStrengths themes with brutally honest blindspot ide
 
 ---
 
-## Web Search Integration
+## Team Workflow
 
-**For current information:**
-- Latest Gallup research on themes
-- Career applications by strength
-- Theme combination insights
-- Industry fit analysis
-- Leadership development resources
+### Phase T1: Collect Team Profiles
+- Gather all team members' Top 5 or Full 34
+- Create master theme list
 
-**Search sources:**
-- Gallup Strengths Center
-- CliftonStrengths community insights
-- Theme-specific development resources
-- Career fit research
+### Phase T2: Generate Team Grid
+- Visual representation by domain
+- Who has what themes
 
----
+### Phase T3: Domain Distribution
+- Coverage analysis
+- Gap identification
+- Balance assessment
 
-## Agent Routing
+### Phase T4: Theme Frequency
+- Most common themes on team
+- Missing themes across team
 
-```typescript
-Task({
-  subagent_type: "advisor",
-  model: "sonnet",
-  prompt: `
-Mode: strengths
-Skill: career
-Workflow: strengths-development
+### Phase T5: Partnership Recommendations
+- Complementary pairs
+- Who should work together
+- Tension points to watch
 
-CliftonStrengths Report: {auto-detected or provided}
-
-Instructions:
-1. Parse themes (Top 5 or Full 34)
-2. Analyze dominant pattern (#1 + #2)
-3. Identify theme tensions
-4. Provide BRUTALLY HONEST blindspot analysis
-5. Development recommendations
-
-Output: output/career/strengths-analysis/{YYYY-MM-DD}/
-`
-})
-```
-
----
-
-## Output Structure
-
-```
-output/career/strengths-analysis/{YYYY-MM-DD}/
-├── STRENGTHS-ANALYSIS.md     # Full theme analysis
-├── BLINDSPOT-REPORT.md       # Honest limitations
-└── DEVELOPMENT-PLAN.md       # Name/Claim/Aim recommendations
-```
+### Phase T6: Team Development
+- Gap mitigation strategies
+- Hiring recommendations
+- Team rituals for balance
 
 ---
 
 ## Examples
 
-### Top 5 Analysis
+### Individual - Top 5 Only
 ```
-/clifton Strategic, Learner, Analytical, Achiever, Ideation
+/clifton My top 5: Strategic, Learner, Analytical, Achiever, Ideation
 
 → Domain: Heavy Strategic Thinking (4/5)
 → Pattern: Analysis paralysis risk (Analytical + Strategic)
@@ -153,23 +172,47 @@ output/career/strengths-analysis/{YYYY-MM-DD}/
 → Development: Partner with Relator/Harmony types
 ```
 
-### Full 34 Analysis
+### Individual - Full 34
 ```
-/clifton [Full report provided]
+/clifton (with PDF report provided)
 
-→ Top 5 deep dive
+→ Top 5 deep dive with personalized insights
 → Bottom 5 limitations (e.g., #34 Woo = networking challenge)
-→ Theme tensions (Deliberative vs Activator)
+→ Theme tensions identified
 → Domain gaps with mitigation strategies
 ```
+
+### Team Comparison
+```
+/clifton compare team:
+- Product Manager: Strategic, Ideation, Learner, Futuristic, Input
+- Tech Lead: Achiever, Responsibility, Analytical, Discipline, Focus
+- Designer: Empathy, Individualization, Developer, Positivity, Adaptability
+
+→ Team Grid generated
+→ Strong: Strategic (PM), Executing (Tech), Relationship (Designer)
+→ Gap: Zero Influencing themes across team
+→ Recommendation: Add someone with Communication/Woo for stakeholder management
+```
+
+---
+
+## Output Format
+
+All outputs are clean professional Markdown:
+- Tables for structured data
+- Horizontal rules between sections
+- Clear visual hierarchy
+- ASCII charts for domain distribution
+- Resource links included
 
 ---
 
 ## Honest Feedback Principle
 
 This analysis is intentionally **brutally honest**:
-- We identify real limitations, not just strengths
-- Bottom themes matter - they're natural weaknesses
+- Real limitations identified, not just strengths
+- Bottom themes matter (natural weaknesses)
 - Theme tensions create real friction
 - Overused strengths become liabilities
 - Domain gaps affect team dynamics
@@ -178,13 +221,26 @@ This analysis is intentionally **brutally honest**:
 
 ---
 
+## Additional Resources
+
+### Official Gallup
+- [CliftonStrengths Assessment](https://www.gallup.com/cliftonstrengths/)
+- [34 Theme Definitions](https://www.gallup.com/cliftonstrengths/en/253715/34-cliftonstrengths-themes.aspx)
+- [Find a Certified Coach](https://www.gallupstrengthscenter.com/)
+
+### Team Resources
+- [Team Strengths](https://www.gallup.com/cliftonstrengths/en/254039/team.aspx)
+- [Strengths-Based Leadership](https://www.gallup.com/workplace/266822/strengths-based-leadership.aspx)
+
+---
+
 ## Related Commands
 
-- `/job-analysis` - Uses strengths for role fit (NOT interview prep)
+- `/job-analysis` - Uses strengths for role fit assessment
 - `/mentorship` - Skill development planning
 
 ---
 
-**Version:** 1.0
-**Last Updated:** 2025-12-19
+**Version:** 2.0
+**Last Updated:** 2025-12-23
 **Framework:** Intelligence Adjacent (IA)

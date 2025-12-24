@@ -31,8 +31,8 @@ config({ path: envPath });
 
 // Constants
 const FRAMEWORK_ROOT = process.cwd();
-const BLOG_ROOT = resolve(FRAMEWORK_ROOT, 'blog');
-const STATUS_FILE = join(BLOG_ROOT, 'STATUS.md');
+const BLOG_ROOT = resolve(FRAMEWORK_ROOT, 'blog', 'posts');
+const STATUS_FILE = resolve(FRAMEWORK_ROOT, 'blog', 'STATUS.md');
 
 // Types
 type PostStatus = 'draft' | 'published' | 'scheduled' | 'archived';
@@ -631,15 +631,54 @@ async function cmdTweet(slug: string): Promise<void> {
     return;
   }
 
-  // Update metadata
+  // Update metadata - tweet generated
   if (!metadata.tweet) metadata.tweet = { generated: false, posted: false };
   metadata.tweet.generated = true;
-  await writeMetadata(slug, metadata);
-  await updateStatusTable();
 
   console.log(`\n✅ AI-powered tweet generated!`);
   console.log(`📄 Saved to: blog/${slug}/tweet.md`);
-  console.log(`\nReview and adjust as needed. Includes thread potential and alt hooks.\n`);
+
+  // Auto-post to X
+  const tweetPath = join(postDir, 'tweet.md');
+  const postScriptPath = join(FRAMEWORK_ROOT, 'tools', 'x-api', 'post_tweet.py');
+
+  console.log(`\n🐦 Posting to X...`);
+
+  try {
+    const postResult = execSync(
+      `python "${postScriptPath}" "${tweetPath}"`,
+      {
+        encoding: 'utf-8',
+        cwd: FRAMEWORK_ROOT,
+        timeout: 30000  // 30 second timeout
+      }
+    );
+
+    // Parse JSON response from last line
+    const lines = postResult.trim().split('\n');
+    const jsonLine = lines[lines.length - 1];
+    const tweetResult = JSON.parse(jsonLine);
+
+    if (tweetResult.success) {
+      metadata.tweet.posted = true;
+      metadata.tweet.posted_at = new Date().toISOString();
+      metadata.tweet.url = tweetResult.url;
+      metadata.tweet.id = tweetResult.id;
+
+      console.log(`✅ Posted to X!`);
+      console.log(`🔗 ${tweetResult.url}\n`);
+    } else {
+      console.error(`\n⚠️ X posting failed: ${tweetResult.error}`);
+      console.log(`Tweet saved to: blog/${slug}/tweet.md (post manually)\n`);
+    }
+  } catch (error: any) {
+    console.error(`\n⚠️ X posting failed:`);
+    console.error(error.message);
+    console.log(`Tweet saved to: blog/${slug}/tweet.md (post manually)\n`);
+  }
+
+  await writeMetadata(slug, metadata);
+  await updateStatusTable();
 }
 
 /**

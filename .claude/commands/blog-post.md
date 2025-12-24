@@ -9,7 +9,7 @@ Create Intelligence Adjacent blog posts with prompt-chained workflow enforcement
 
 **Agent:** writer
 **Skill:** writer
-**Output:** `blog/YYYY-MM-DD-title/`
+**Output:** `blog/posts/YYYY-MM-DD-title/`
 
 ---
 
@@ -88,7 +88,7 @@ bun run skills/writer/scripts/blog-workflow.ts init YYYY-MM-DD-title
 ```
 
 **Creates:**
-- `blog/YYYY-MM-DD-title/` directory
+- `blog/posts/YYYY-MM-DD-title/` directory
 - `draft.md` with template and frontmatter
 - `metadata.json` with initial status
 - Updates `blog/STATUS.md`
@@ -102,7 +102,7 @@ bun run skills/writer/scripts/blog-workflow.ts init 2025-12-17-blog-workflow-aut
 
 ### Step 2: Write Draft
 
-**Edit:** `blog/YYYY-MM-DD-title/draft.md`
+**Edit:** `blog/posts/YYYY-MM-DD-title/draft.md`
 
 **Frontmatter (MANDATORY):**
 ```yaml
@@ -135,7 +135,7 @@ category: "framework"  # framework | security | research | tools
 
 **Hero image generation (FLUX via OpenRouter):**
 ```bash
-python tools/image-generation/generate_image.py --hero blog/YYYY-MM-DD-title
+python tools/image-generation/generate_image.py --hero blog/posts/YYYY-MM-DD-title
 ```
 
 **What happens:**
@@ -150,8 +150,8 @@ python tools/image-generation/generate_image.py --hero blog/YYYY-MM-DD-title
 5. Saves `hero.png` and `hero.txt` (prompt used)
 
 **Creates:**
-- `blog/YYYY-MM-DD-title/hero.png` - Generated hero image
-- `blog/YYYY-MM-DD-title/hero.txt` - Prompt used (for regeneration)
+- `blog/posts/YYYY-MM-DD-title/hero.png` - Generated hero image
+- `blog/posts/YYYY-MM-DD-title/hero.txt` - Prompt used (for regeneration)
 
 **Diagram export (if diagrams/ folder exists):**
 ```bash

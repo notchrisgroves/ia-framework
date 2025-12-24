@@ -2,9 +2,11 @@
 
 **Auto-generated tool inventory for agent awareness**
 
-**Last Updated:** 2025-12-17
+**Last Updated:** 2025-12-24
 
 **Purpose:** This catalog provides agents with awareness of ALL available tools across the framework - both framework-core utilities and skill-specific tools.
+
+**Tool Sources:** See [TOOL-SOURCES.md](TOOL-SOURCES.md) for official GitHub repositories and documentation links for all security tools.
 
 **Usage:**
 - Agents read this during startup for tool awareness

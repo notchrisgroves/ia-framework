@@ -142,29 +142,39 @@ The framework has clear locations for different document types. Following these 
 
 ### Rule 3: Blog-Specific Rules (Most Common Case)
 
-**Blog content uses FLAT STRUCTURE (no folder movement):**
+**Blog content uses NESTED STRUCTURE:**
 
 | Content Type | Location | Examples |
 |---|---|---|
-| **All Blog Files** | `blog/YYYY-MM-DD-title/` | Posts, research, images, metadata |
+| **Posts** | `blog/posts/YYYY-MM-DD-title/` | Posts, research, images, metadata |
+| **Newsletters** | `blog/newsletters/weekly-digest-YYYY-MM-DD-DD/` | Weekly digests |
+| **Pages** | `blog/pages/` | Static pages |
 
 **Key Principle:** Files NEVER move between folders. Status tracked in `metadata.json`, not folder location.
 
 **Structure:**
 ```
-blog/2025-12-17-post-title/
-├── draft.md              (user writes)
-├── metadata.json         (status: "draft" → "published")
-├── research-notes.md     (OSINT research if needed)
-├── hero.png              (user uploads)
-├── hero-prompt.txt       (generated)
-└── tweet.txt             (generated)
+blog/
+├── posts/
+│   └── 2025-12-17-post-title/
+│       ├── draft.md              (user writes)
+│       ├── metadata.json         (status: "draft" → "published")
+│       ├── research-notes.md     (OSINT research if needed)
+│       ├── hero.png              (user uploads)
+│       ├── hero-prompt.txt       (generated)
+│       └── tweet.txt             (generated)
+├── newsletters/
+│   └── weekly-digest-2025-12-16-22/
+│       ├── draft.md
+│       └── metadata.json
+├── pages/
+├── CONTENT-PLAN.md
+└── STATUS.md
 ```
 
 **❌ NEVER:**
 - Put blog content in `scratchpad/` (files may be deleted, won't be version controlled)
-- Put blog content in `output/blog/` (deprecated location)
-- Create `blog/drafts/` or `blog/published/` subfolders (old workflow, deprecated)
+- Put blog content in `output/blog/` (deprecated location - INVERTED path)
 - Move files between folders to change status (use metadata.json instead)
 
 ### Rule 4: When to Move From Scratchpad
@@ -305,8 +315,11 @@ Creating a file?
   ├─ Is it design/planning BEFORE implementation?
   │   └─ YES → plans/YYYY-MM-DD-description.md
   │
-  ├─ Is it blog content (posts, research, images)?
-  │   └─ YES → blog/YYYY-MM-DD-title/
+  ├─ Is it a blog post (posts, research, images)?
+  │   └─ YES → blog/posts/YYYY-MM-DD-title/
+  │
+  ├─ Is it a newsletter digest?
+  │   └─ YES → blog/newsletters/weekly-digest-YYYY-MM-DD-DD/
   │
   ├─ Is it client engagement work?
   │   └─ YES → output/engagements/[type]/[id]/

@@ -21,6 +21,7 @@
 | update-session-state.py | PostToolUse | Updates session tracking |
 | rebuild-tool-registry.py | PostToolUse | Rebuilds tool registry on changes |
 | validate-tool-structure.py | PreToolUse | Validates tool structure |
+| audit-pentest-commands.py | PostToolUse:Bash | Logs commands during pentest engagements |
 
 **Pre-commit hooks:** `hooks/pre-commit/*.sh` - Git validation before commits
 

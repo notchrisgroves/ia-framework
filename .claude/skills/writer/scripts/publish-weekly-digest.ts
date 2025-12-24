@@ -39,13 +39,13 @@ async function main() {
 
   console.log(`[+] ${dryRun ? 'Previewing' : 'Publishing'} weekly digest to Ghost...\n`);
 
-  // Read the draft markdown file from output/blog/drafts/
-  const draftPath = resolve(process.cwd(), 'output', 'blog', 'drafts', slug, 'draft.md');
+  // Read the draft markdown file from blog/
+  const draftPath = resolve(process.cwd(), 'blog', slug, 'draft.md');
 
   if (!existsSync(draftPath)) {
     console.error(`❌ Error: Draft file not found at ${draftPath}`);
     console.error('');
-    console.error('Expected location: output/blog/drafts/<slug>/draft.md');
+    console.error('Expected location: blog/<slug>/draft.md');
     process.exit(1);
   }
 
