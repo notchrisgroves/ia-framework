@@ -62,7 +62,7 @@
 | /security-advice | security-advisory | ✅ Public | Ad-hoc security guidance |
 | /compliance | legal | ✅ Public | Legal compliance review |
 | /policy | security-advisory | ✅ Public | Multi-framework policy generation |
-| /blog-post | writer | ✅ Public | Blog content creation |
+| /write | writer | ✅ Public | Content creation (blog, docs, reports) |
 | /newsletter | writer | ✅ Public | Weekly digest |
 | /generate-image | writer | ✅ Public | FLUX hero images |
 | /diagram | diagram-generation | ✅ Public | Diagram generation and export |

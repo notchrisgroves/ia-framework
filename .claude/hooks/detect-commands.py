@@ -35,8 +35,9 @@ KEYWORD_MAP = {
     "/vuln-scan": [
         "vulnerability scan", "automated scan", "security scan", "vuln scan"
     ],
-    "/blog-post": [
-        "blog post", "article", "write about", "publish", "blog content"
+    "/write": [
+        "blog post", "article", "write about", "publish", "blog content",
+        "write a post", "create content"
     ],
     "/newsletter": [
         "newsletter", "weekly digest", "content digest", "email newsletter"
@@ -64,7 +65,7 @@ COMMAND_DESCRIPTIONS = {
     "/interview-prep": "Interview preparation for scheduled interviews",
     "/pentest": "Security testing with Director/Mentor/Demo modes",
     "/vuln-scan": "Automated vulnerability scanning",
-    "/blog-post": "Create blog post with tri-model OSINT research",
+    "/write": "Content creation (blog, docs, reports) with prompt-chained workflow",
     "/newsletter": "Automated weekly digest generation",
     "/risk-assessment": "Formal cybersecurity risk assessment",
     "/code-review": "Security-focused code review",

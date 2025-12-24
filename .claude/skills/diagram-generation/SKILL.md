@@ -132,7 +132,7 @@ flowchart TB
 ### Sequence Diagram
 ```mermaid
 sequenceDiagram
-    User->>Claude: /blog-post
+    User->>Claude: /write
     Claude->>Skill: Load writer skill
     Skill->>Ghost: Publish post
     Ghost-->>User: URL
@@ -162,7 +162,7 @@ flowchart TB
 
 ## Integration with Blog Workflow
 
-The `/blog-post` command can auto-export diagrams:
+The `/write` command can auto-export diagrams:
 
 1. Create diagrams in post directory
 2. Blog workflow detects `.mmd` files

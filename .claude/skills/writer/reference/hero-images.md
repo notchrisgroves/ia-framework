@@ -146,7 +146,7 @@ Human collaborating with AI systems, orchestration not replacement, determined m
 
 **Commands:**
 - `commands/generate-image.md` - Standalone image generation command
-- `commands/blog-post.md` - Full blog workflow with visual assets
+- `commands/write.md` - Full blog workflow with visual assets
 
 **Workflows:**
 - `workflows/blog-content.md` - Stage 3: VISUAL ASSETS

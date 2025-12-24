@@ -460,7 +460,7 @@ publishedAt: "2025-12-19T12:00:00.000Z"
 
 2. Update `metadata.json` with Ghost IDs
 
-3. `STATUS.md` auto-updates on next /blog-post run
+3. `STATUS.md` auto-updates on next /write run
 
 ---
 

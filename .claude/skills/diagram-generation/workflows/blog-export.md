@@ -40,7 +40,7 @@ Option A: **Manual upload**
 - Copy URLs for use in post
 
 Option B: **Via Ghost API** (if configured)
-- Use `/blog-post` command which auto-handles uploads
+- Use `/write` command which auto-handles uploads
 
 ### 4. Reference in Blog Post
 
@@ -77,12 +77,12 @@ Option B: **Via Ghost API** (if configured)
 
 ---
 
-## Integration with /blog-post
+## Integration with /write
 
-The `/blog-post` command can auto-detect and export diagrams:
+The `/write` command can auto-detect and export diagrams:
 
 1. Create diagrams in `diagrams/` subdirectory
-2. Run `/blog-post`
+2. Run `/write`
 3. Command detects `.mmd` files
 4. Exports to `images/`
 5. Uploads to Ghost with post

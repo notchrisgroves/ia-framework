@@ -23,7 +23,7 @@ last_updated: 2025-12-18
 **Discovery (2025-12-18):**
 - FILE-LOCATION-STANDARDS.md said: `output/blog/[drafts|published|docs]/` (WRONG)
 - skills/writer/SKILL.md referenced: BOTH `blog/` and `output/blog/` (INCONSISTENT)
-- /blog-post command used: `blog/YYYY-MM-DD-title/` (CORRECT)
+- /write command used: `blog/posts/YYYY-MM-DD-title/` (CORRECT)
 - Only 1 location pattern enforced by hooks (INCOMPLETE)
 
 **Root Cause:** Documentation created without enforcement = immediate staleness
@@ -77,7 +77,7 @@ blog/YYYY-MM-DD-title/
 - `docs/FILE-LOCATION-STANDARDS.md` - Updated blog location rules
 - `skills/writer/SKILL.md` - Fixed OSINT delegation output path, QA review path, newsletter collection
 - `agents/writer.md` - Updated file organization reference
-- `commands/blog-post.md` - Already correct (reference implementation)
+- `commands/write.md` - Already correct (reference implementation)
 
 **Pattern:** Searched for ALL `output/blog` references, fixed active files, skipped historical sessions/plans
 
@@ -254,7 +254,7 @@ blog/2025-12-17-post/  (files never move)
 - Blog content is versioned framework content (not engagement output)
 - `output/` is for client work and temporary results
 - `/blog/` is permanent, published content
-- Consistent with command structure (`/blog-post`)
+- Consistent with command structure (`/write`)
 
 ### Decision 3: Research in Same Directory
 
@@ -321,7 +321,7 @@ output/blog/research/post-title/research-notes.md  (DEPRECATED)
 - `docs/README-MAINTENANCE-DESIGN.md` - Documentation standards
 
 **Workflows:**
-- `commands/blog-post.md` - Complete blog workflow
+- `commands/write.md` - Complete blog workflow
 - `skills/writer/SKILL.md` - Writer skill with blog content mode
 - `hooks/pre-commit/README.md` - Hook documentation
 
