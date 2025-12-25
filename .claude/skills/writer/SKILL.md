@@ -11,8 +11,6 @@ Unified content creation with 3 content types and mandatory QA review. This skil
 
 **Core Philosophy:** Quality over quantity. Deep insights only. No surface-level content. QA review rating ≥4 required before publishing.
 
-**Merged Features:** technical-writing + report-generation consolidated into single skill
-
 ---
 
 ## 🚨 Critical Rules
@@ -172,23 +170,15 @@ The writer skill uses a brand guide to maintain voice consistency across all con
 
 ### Content Type 4: Weekly Newsletter
 
-**Detection Keywords:**
-- User: "newsletter", "weekly digest", "send digest", "schedule newsletter"
+**Detection Keywords:** "newsletter", "weekly digest", "send digest", "schedule newsletter"
 
-**Decision Path:** Newsletter → [Week Detection] → `workflows/newsletter-digest.md`
-
-**Purpose:**
-- Automated weekly digest of published blog posts
-- Email-only post (does NOT appear on site)
-- Scheduled for Monday 8:00 AM delivery
-- Curated summary prevents inbox fatigue
+**Decision Path:** Newsletter → `workflows/newsletter-digest.md`
 
 **Characteristics:**
-- Collects posts from `blog/` with `status: "published"` in metadata.json for date range
-- Featured article + additional articles with tier notation (*, **)
-- Slug format: `weekly-digest-YYYY-MM-DD-DD` (week start-end)
-- Ghost `emailOnly: true` + `sendEmailWhenPublished: true`
-- No QA review (automated curation)
+- Automated weekly digest of published posts (email-only, NOT on site)
+- Collects `status: "published"` posts from date range, featured + tier notation
+- Slug: `weekly-digest-YYYY-MM-DD-DD` | Ghost: `emailOnly: true`
+- Scheduled Monday 8:00 AM | No QA review (automated)
 
 **Workflow:** `workflows/newsletter-digest.md`
 
@@ -261,6 +251,8 @@ The writer skill uses a brand guide to maintain voice consistency across all con
 ### Phase 3: QA_REVIEW (MANDATORY)
 
 **⛔ CANNOT SKIP - Rating = 5/5 required**
+
+**Why mandatory:** Prevents low-quality publication, catches errors, ensures citations, protects reputation.
 
 **Process:**
 1. **Check for hardcoded counts FIRST** (blocking issue)
@@ -447,58 +439,21 @@ bun run tools/ghost-admin.ts publish \
 - Expert perspectives (security researchers, vendor insights)
 - Real-world examples and case studies
 
-**How to delegate:**
-
-```markdown
-Load osint-research skill for background research.
-
-**Caller:** writer
-**Mode:** deep (comprehensive research for original content)
-
-**Research Plan:**
-- Industry trends and emerging technologies
-- Competitor analysis and coverage gaps
-- Subject matter background and historical context
-- Expert perspectives and thought leadership
-- Real-world examples and case studies
-
-**Output:** blog/{slug}/research-notes.md
-
-osint-research executes dual-source methodology (WebSearch + Grok) for background intelligence.
+**Delegation pattern:**
+```
+Caller: writer | Mode: deep | Output: blog/{slug}/research-notes.md
+Research Plan: [topics from list above]
 ```
 
-**Result:** Research notes, source citations, and key insights ready for writing phase
+osint-research executes dual-source methodology (WebSearch + Grok), returns research notes with citations.
 
-**See:** `workflows/blog-content.md` Stage 1 for complete research protocol
+**See:** `workflows/blog-content.md` Stage 1 for complete protocol
 
 ---
 
 ## Reference Documentation
 
-| Document | Purpose |
-|----------|---------|
-| `CONTENT-STANDARDS.md` | Quality standards, editorial guidelines |
-| `RESEARCH-PROTOCOL.md` | Multi-source OSINT methodology |
-| `QA-REVIEW-PROTOCOL.md` | QA review (rating ≥4) |
-| `GHOST-PUBLISHING-GUIDE.md` | Ghost CMS integration |
-| `DIATAXIS-FRAMEWORK.md` | Technical documentation framework |
-| `CONTENT-GUARDIAN.md` | No hardcoded counts enforcement |
-
----
-
-## QA Review Enforcement
-
-**Why QA Review?**
-- Prevents low-quality content publication
-- Catches factual errors before publishing
-- Ensures complete citations
-- Maintains professional reputation
-
-**Process:** `reference/QA-REVIEW-PROTOCOL.md`
-
-**Tool:** OpenRouter with dynamic Grok model
-
-**Gate:** Rating <5 = Cannot proceed to publishing (5/5 required)
+**In `reference/`:** `CONTENT-STANDARDS.md` (quality) | `RESEARCH-PROTOCOL.md` (OSINT) | `QA-REVIEW-PROTOCOL.md` (QA) | `GHOST-PUBLISHING-GUIDE.md` (Ghost) | `DIATAXIS-FRAMEWORK.md` (docs) | `CONTENT-GUARDIAN.md` (counts)
 
 ---
 
@@ -533,33 +488,13 @@ docs/{category}/                (Framework docs)
 
 ## Common Scenarios
 
-**Blog Post:** "Write about hierarchical context loading"
-→ Blog Post → Deep research → `blog-content.md` → QA ✅ → 4-6 hours
-
-**Technical Docs:** "Document skill migration"
-→ How-To → `technical-docs.md` → QA ❌ → 2-3 hours
-
-**Security Report:** "Generate pentest report"
-→ PTES → `security-reports.md` → QA ❌ → 1-2 hours
-
-**Explanation:** "Explain decision tree architecture"
-→ Explanation → `technical-docs.md` → QA ❌ → 1-2 hours
+| Request | Route | QA |
+|---------|-------|-----|
+| "Write about context loading" | Blog → `blog-content.md` | ✅ 4-6h |
+| "Document skill migration" | How-To → `technical-docs.md` | ❌ 2-3h |
+| "Generate pentest report" | PTES → `security-reports.md` | ❌ 1-2h |
 
 ---
 
-## Version History
-
-**v1.0.0 (2025-12-19)** - Fresh framework rebuild
-- Unified skill (merged technical-writing + report-generation)
-- Decision tree router (3 content types)
-- QA review enforcement (rating ≥4 for blog posts)
-- Ghost CMS tool integration
-- Diátaxis framework compliance
-- PTES/OWASP/NIST standards
-
----
-
-**Version:** 4.2
-**Last Updated:** 2025-12-24
-**Status:** Decision tree router with QA enforcement, STATUS.md single source of truth
-**Research Tools:** Context7 (code examples) → WebSearch → Perplexity → OpenRouter
+**Version:** 4.2 | **Updated:** 2025-12-24 | **Status:** Decision tree router, QA enforcement, STATUS.md single source of truth
+**History:** v1.0.0 (2025-12-19) unified skill from technical-writing + report-generation

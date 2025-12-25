@@ -445,7 +445,7 @@ See `CONTRIBUTING.md` for development guidelines, coding standards, and validati
 
 1. **Pre-Commit Hook** (`.git/hooks/pre-commit`):
    - **BLOCKS commits** that violate documentation standards
-   - Validates ALL documentation files (README.md, CLAUDE.md, agents/CLAUDE.md, skills/CLAUDE.md, commands/CLAUDE.md)
+   - Validates ALL documentation files (README.md, CLAUDE.md, agents/README.md, skills/README.md, commands/README.md)
    - Checks all 7 constitutional rules
    - Exit code 1 = Commit blocked, must fix violations
 

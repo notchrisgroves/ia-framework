@@ -46,9 +46,9 @@ FRAMEWORK_ROOT = Path(__file__).parent.parent.parent
 DOCS_TO_VALIDATE = [
     "README.md",
     "CLAUDE.md",
-    "agents/CLAUDE.md",
-    "skills/CLAUDE.md",
-    "commands/CLAUDE.md"
+    "agents/README.md",
+    "skills/README.md",
+    "commands/README.md"
 ]
 
 # Files exempt from validation (historical documents)

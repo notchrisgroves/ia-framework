@@ -190,7 +190,7 @@ wc -l agents/*.md
 ```
 136 agents/advisor.md    ✅ <150
 147 agents/security.md   ✅ <150
-115 agents/CLAUDE.md     ✅ <150
+115 agents/README.md     ✅ <150
 149 agents/legal.md      ✅ <150
 150 agents/writer.md     ⚠️  At limit (optimize recommended)
 ```

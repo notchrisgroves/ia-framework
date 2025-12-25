@@ -1,3 +1,10 @@
+---
+name: diagram-generation
+description: Generate and export diagrams from text definitions for GitHub README and blog posts
+version: 1.0
+last_updated: 2025-12-24
+---
+
 # Diagram Generation Skill
 
 **Purpose:** Generate and export diagrams from text definitions for GitHub README and blog posts.
