@@ -44,6 +44,37 @@ See `docs/hierarchical-context-loading.md`
 
 ---
 
+## Parallel Task Orchestration
+
+**When to Parallelize:** 3+ independent tasks detected (no dependencies between them)
+
+**Detection Criteria:**
+- Tasks map to different agents/skills
+- No sequential dependencies ("then", "after", "once done")
+- Each task produces independent output
+
+**Orchestration Protocol:**
+1. Create manifest: `sessions/parallel-{timestamp}.json`
+2. Spawn subagents with output paths:
+   ```
+   Task(subagent_type="agent", run_in_background=true,
+        prompt="[Task]. Write results to sessions/parallel-{id}-task-N.md using PARALLEL-TASK-OUTPUT-TEMPLATE format")
+   ```
+3. Continue with foreground work or monitor via TaskOutput
+4. Collect results from `sessions/parallel-{id}-task-*.md`
+5. **QA Validation:** Invoke qa-review skill for each task (use model selection matrix)
+6. Merge validated results and present unified summary
+
+**Subagent Requirements:**
+- MUST write to specified `sessions/` path
+- MUST use `library/templates/PARALLEL-TASK-OUTPUT-TEMPLATE.md` format
+- MUST include `[TASK:complete]` marker when done
+- CANNOT spawn additional subagents
+
+**Quality:** Parallel does not mean lower standards. Each subagent follows full workflow.
+
+---
+
 ## Critical Requirements
 
 ### Tool Discovery
@@ -168,6 +199,6 @@ See `docs/README-MAINTENANCE-DESIGN.md`
 
 ---
 
-**Version:** 1.0.0
-**Last Updated:** 2025-12-19
+**Version:** 1.1.0
+**Last Updated:** 2025-12-24
 **Framework:** Intelligence Adjacent (IA)

@@ -2,9 +2,9 @@
 type: agent
 name: security
 description: "[security:sonnet] Unified security agent for testing (pentest, vuln-scan, segmentation) and advisory (risk assessment, code review, compliance). Auto-detects engagement type and routes to appropriate workflow."
-version: 4.0
+version: 4.1
 classification: public
-last_updated: 2025-12-11
+last_updated: 2025-12-24
 model: sonnet
 color: green
 permissions:
@@ -18,6 +18,10 @@ permissions:
     - "WebFetch(*)"
     - "WebSearch(*)"
     - "TodoWrite(*)"
+async:
+  parallel_safe: true
+  background: [explore, scan, code-review, dependency-audit, threat-intel, architecture-review]
+  foreground: [plan, code, commit, interview]
 ---
 
 # Security Agent
@@ -142,6 +146,4 @@ permissions:
 
 ---
 
-**Version:** 1.0.0
-**Last Updated:** 2025-12-11
-**Status:** Decision tree routing architecture
+**Version:** 4.1 | **Updated:** 2025-12-24 | **Status:** Decision tree + async support

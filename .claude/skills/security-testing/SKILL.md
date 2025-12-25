@@ -1,6 +1,25 @@
 ---
 name: security-testing
 description: Penetration testing, vulnerability scanning, and network segmentation testing with domain-specific methodologies. Use for security assessments.
+async:
+  safe: true
+  parallel_safe: true
+  phases:
+    background:
+      - explore          # Reconnaissance, scope parsing, attack surface mapping
+      - scan             # Automated vulnerability scanning (vuln-scan mode)
+      - qa               # Findings validation, CVSS verification
+    foreground:
+      - plan             # Requires user approval gate
+      - code             # Active exploitation needs real-time decisions
+      - commit           # Close-loop toggle requires user choice
+  typical_duration:
+    vuln_scan: 15-60min
+    pentest_explore: 30-90min
+    full_engagement: 4-8hrs
+  background_invocation: |
+    Task(subagent_type="security", run_in_background=true,
+         prompt="/vuln-scan target OR /pentest --phase=explore")
 ---
 
 # Security Testing Skill
