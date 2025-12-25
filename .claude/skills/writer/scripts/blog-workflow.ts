@@ -573,6 +573,18 @@ async function cmdPublish(slug: string): Promise<void> {
     console.log(`\n✅ Post scheduled successfully!`);
     console.log(`📅 Scheduled for: ${new Date(scheduledFor).toLocaleString()}`);
     console.log(`📝 Editor: ${metadata.ghost.editor_url}\n`);
+
+    // FORCED CHECK for scheduled posts too
+    console.log(`\n` + `=`.repeat(60));
+    console.log(`⚠️  REQUIRED: Verify STATUS.md manual sections are current`);
+    console.log(`=`.repeat(60));
+    console.log(`\n📋 Manual sections to review:`);
+    console.log(`   - Archive Assessment (if drafts completed/deleted)`);
+    console.log(`   - Content Roadmap (if priorities changed)`);
+    console.log(`   - Series Groupings (if post is part of series)`);
+    console.log(`   - By Category counts`);
+    console.log(`\n📁 File: blog/STATUS.md`);
+    console.log(`🔄 Auto-refresh already ran (updates post tables only)\n`);
   } else {
     // Publish immediately
     console.log('Publishing post...');
@@ -599,6 +611,18 @@ async function cmdPublish(slug: string): Promise<void> {
     console.log(`🔗 URL: ${publishResult.post.url}`);
     console.log(`📝 Editor: ${metadata.ghost.editor_url}\n`);
   }
+
+  // FORCED CHECK: Remind agent to verify STATUS.md manual sections
+  console.log(`\n` + `=`.repeat(60));
+  console.log(`⚠️  REQUIRED: Verify STATUS.md manual sections are current`);
+  console.log(`=`.repeat(60));
+  console.log(`\n📋 Manual sections to review:`);
+  console.log(`   - Archive Assessment (if drafts completed/deleted)`);
+  console.log(`   - Content Roadmap (if priorities changed)`);
+  console.log(`   - Series Groupings (if post is part of series)`);
+  console.log(`   - By Category counts`);
+  console.log(`\n📁 File: blog/STATUS.md`);
+  console.log(`🔄 Auto-refresh already ran (updates post tables only)\n`);
 }
 
 /**

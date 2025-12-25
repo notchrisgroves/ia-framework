@@ -60,10 +60,69 @@ category: "framework"  # framework | security | research | tools
 ---
 ```
 
-**Visibility Rules:**
-- `public` - Framework announcements, general content
-- `members` - In-depth analysis, research
-- `paid` - Premium content (rare)
+**Visibility Classification (AUTOMATED):**
+
+Apply this decision tree to determine visibility:
+
+```
+IF title contains ["Deep Dive", "Building", "Creating", "Implementing",
+                   "Extending", "Custom", "Internals", "Tutorial"]
+   OR category == "implementation"
+   → visibility: "paid"
+
+ELSE IF title contains ["Guide", "Setup", "Hardening", "Methodology",
+                        "Foundations", "Lab", "Professional", "Infrastructure"]
+   OR category in ["security", "infrastructure"]
+   → visibility: "members"
+
+ELSE IF title contains ["Architecture", "Overview", "Introduction", "Analysis",
+                        "Comparison", "Announcement", "Reality Check", "Companion"]
+   OR category in ["commentary", "announcement", "framework", "tools"]
+   → visibility: "public"
+
+ELSE → visibility: "members" (safe default)
+```
+
+**Tier Definitions:**
+| Tier | Purpose | Who Sees It |
+|------|---------|-------------|
+| `public` | What & Why (concepts, analysis, announcements) | Everyone |
+| `members` | How to Use (methodology, setup guides) | Free subscribers |
+| `paid` | How to Build/Extend (implementation, customization) | Paid members |
+
+**Override (when classification doesn't fit):**
+```yaml
+visibility: "public"
+visibility_override: true
+visibility_reason: "Launch promotion - temporary free access"
+```
+
+---
+
+## Step 2b: Add Membership CTA Footer
+
+**MANDATORY - Add before Sources section:**
+
+```markdown
+---
+
+*The Intelligence Adjacent framework is free and open source. If this helped you, consider [joining as a Lurker](https://yourblog.ghost.io/#/portal/signup) (free) for methodology guides, or [becoming a Contributor](https://yourblog.ghost.io/#/portal/signup) ($5/mo) for implementation deep dives and to support continued development.*
+
+---
+```
+
+**This CTA is REQUIRED on all posts.** Do not skip.
+
+**CTA Variations (choose based on post type):**
+
+For PUBLIC posts (concepts/analysis):
+> *Want to put this into practice? Lurkers get methodology guides. Contributors get implementation deep dives.*
+
+For MEMBERS posts (methodology):
+> *Ready to customize the framework? Contributors get deep dives on building custom skills and extending workflows.*
+
+For PAID posts (implementation):
+> *Thanks for supporting the mission. Your contribution funds continued development of the framework.*
 
 ---
 
